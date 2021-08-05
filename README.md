@@ -34,10 +34,10 @@
 ## Uploading your work
 
 1. Move to the project folder in terminal / command prompt
-2. git push everything
+2. git add everything
     
     ```
-    C:\Users\ACER\Documents\codes\bizBangkit> git push .
+    C:\Users\ACER\Documents\codes\bizBangkit> git add .
     ```
     
 3. commit and write your message (try to be clear on the message in case need to revert it...)
@@ -77,6 +77,3 @@
     1. Create a new branch
     2. Create a new [pull request](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
     3. Merge it
-
-
--- something new
