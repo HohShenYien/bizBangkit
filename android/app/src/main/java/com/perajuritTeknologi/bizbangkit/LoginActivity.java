@@ -5,11 +5,11 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("ShenYien_test", "entered Main");
+        Log.d("ShenYien_test", "entered Login");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_launch);
+        setContentView(R.layout.activity_login);
     }
 }

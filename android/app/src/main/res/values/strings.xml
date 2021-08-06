@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BizBangkit</string>
+    <string name="welcome_message">Every great journey starts with a single step</string>
 </resources>
