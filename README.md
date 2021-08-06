@@ -1,9 +1,5 @@
 # bizBangkit
 
-<<<<<<< HEAD
-
-asdfasdfasdf
-=======
 ## Initialize the workspace
 
 1. open terminal / command prompt
@@ -38,10 +34,10 @@ asdfasdfasdf
 ## Uploading your work
 
 1. Move to the project folder in terminal / command prompt
-2. git push everything
+2. git add everything
     
     ```
-    C:\Users\ACER\Documents\codes\bizBangkit> git push .
+    C:\Users\ACER\Documents\codes\bizBangkit> git add .
     ```
     
 3. commit and write your message (try to be clear on the message in case need to revert it...)
@@ -82,6 +78,3 @@ asdfasdfasdf
     2. Create a new [pull request](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
     3. Merge it
 
-
--- something new
->>>>>>> 56e8622efe24753d2d83e8e9921290ca8839b7ef
