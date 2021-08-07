@@ -23,10 +23,8 @@ public class StartActivity extends AppCompatActivity {
     private void redirect() {
         Intent intent;
         if (LocalStorage.isLoggedIn(this)) {
-            Log.d("ShenYien_test", "logged in");
             intent = new Intent(getApplicationContext(), MainActivity.class);
         } else {
-            Log.d("ShenYien_test", "Not logged in");
             intent = new Intent(getApplicationContext(), LoginActivity.class);
         }
         startActivity(intent);
@@ -40,4 +38,5 @@ public class StartActivity extends AppCompatActivity {
             }
         }, 1500);
     }
+
 }

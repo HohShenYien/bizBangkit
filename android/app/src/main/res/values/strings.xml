@@ -1,4 +1,20 @@
 <resources>
     <string name="app_name">BizBangkit</string>
     <string name="welcome_message">Every great journey starts with a single step</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="bot_nav_business">Business</string>
+    <string name="bot_nav_discuss">Discuss</string>
+    <string name="bot_nav_home">Home</string>
+    <string name="bot_nav_discover">Discover</string>
+    <string name="bot_nav_profile">Profile</string>
 </resources>

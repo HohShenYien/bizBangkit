@@ -1,12 +1,40 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.Bridge">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/backgroundTint</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/fontColorPrimary</item>
         <item name="backgroundTint">@color/backgroundTint</item>
         <item name="backgroundColor">@color/backgroundColor</item>
+        <!--<item name="android:textColorPrimary">#FFFFFF</item>-->
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ToolbarColor" parent="AppTheme">
+        <item name="android:textColorSecondary">#FFFFFF</item>
+    </style>
+
+    <style name="BottomNavigation" parent="Platform.MaterialComponents.Light">
+        <item name="android:textColorSecondary">#4169E1</item>
+    </style>
+
+    <style name="Warning" parent="MaterialAlertDialog.MaterialComponents.Title.Text.CenterStacked">
+        <item name="backgroundTint">@color/warning</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TitleBarWhite" parent="AppTheme">
+        <item name="android:textColorPrimary">@color/fontColorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/backgroundTint</item>
+    </style>
+
 </resources>

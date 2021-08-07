@@ -5,6 +5,7 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="fontColorPrimary">#ffffff</color>
     <color name="backgroundTint">#0000CD</color>
-    <color name="backgroundColor">#fff</color>
+    <color name="backgroundColor">#ffffff</color>
     <color name="linkColor">#4169E1</color>
+    <color name="warning">#FA8072</color>
 </resources>
