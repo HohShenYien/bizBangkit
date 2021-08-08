@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"
-                    android:theme="@style/AppTheme.NoActionBar">
+                    android:theme="@style/mainStyle">
         </activity>
         <activity android:name=".LoginActivity"
             android:theme="@style/TitleBarWhite"
