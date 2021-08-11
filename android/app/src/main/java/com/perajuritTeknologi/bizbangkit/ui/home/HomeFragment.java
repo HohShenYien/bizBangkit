@@ -13,11 +13,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.perajuritTeknologi.bizbangkit.R;
+import com.perajuritTeknologi.bizbangkit.event.TabChanged;
 import com.perajuritTeknologi.bizbangkit.page.BusinessPage;
 import com.perajuritTeknologi.bizbangkit.page.DiscoverPage;
 import com.perajuritTeknologi.bizbangkit.page.DiscussPage;
 import com.perajuritTeknologi.bizbangkit.page.HomePage;
 import com.perajuritTeknologi.bizbangkit.page.ProfilePage;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class HomeFragment extends Fragment {
     private View root;
@@ -58,21 +61,27 @@ public class HomeFragment extends Fragment {
             switch (item.getItemId()) {
                 case R.id.bot_nav_business:
                     selectedFragment = new BusinessPage();
+                    EventBus.getDefault().post(new TabChanged(getString(R.string.bot_nav_business)));
                     break;
                 case R.id.bot_nav_discover:
                     selectedFragment = new DiscoverPage();
+                    EventBus.getDefault().post(new TabChanged(getString(R.string.bot_nav_discover)));
                     break;
                 case R.id.bot_nav_discuss:
                     selectedFragment = new DiscussPage();
+                    EventBus.getDefault().post(new TabChanged(getString(R.string.bot_nav_discuss)));
                     break;
                 case R.id.bot_nav_home:
                     selectedFragment = new HomePage();
+                    EventBus.getDefault().post(new TabChanged(getString(R.string.bot_nav_home)));
                     break;
                 case R.id.bot_nav_profile:
                     selectedFragment = new ProfilePage();
+                    EventBus.getDefault().post(new TabChanged(getString(R.string.bot_nav_profile)));
                     break;
                 default:
                     selectedFragment = new HomePage();
+                    EventBus.getDefault().post(new TabChanged(getString(R.string.bot_nav_home)));
             }
             transaction.replace(R.id.fragment_container,
                     selectedFragment).commit();

@@ -8,4 +8,5 @@
     <color name="backgroundColor">#ffffff</color>
     <color name="linkColor">#4169E1</color>
     <color name="warning">#FA8072</color>
+    <color name="nice_green">#00FA9A</color>
 </resources>

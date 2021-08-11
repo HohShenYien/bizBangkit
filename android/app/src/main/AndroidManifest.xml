@@ -10,9 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".RegistrationAccountActivity1"
-            android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".StartActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,17 +19,17 @@
             </intent-filter>
 
         </activity>
+        <activity android:name=".MainActivity"
+                    android:theme="@style/mainStyle">
+        </activity>
+        <activity android:name=".LoginActivity"
+            android:theme="@style/TitleBarWhite"
+            android:noHistory="true"/>
+
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".LoginActivity"
-            android:noHistory="true"
-            android:theme="@style/TitleBarWhite" />
-        <activity
-            android:name=".StartActivity"
+            android:name=".RegistrationAccountActivity1"
             android:exported="true"
-            android:theme="@style/TitleBarWhite"/>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".RegistrationAccountActivity2"
             android:exported="true"

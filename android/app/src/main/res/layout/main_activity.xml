@@ -11,6 +11,7 @@
     tools:ignore="HardcodedText"
     tools:context=".MainActivity"
     tools:openDrawer="start">
+
     <include
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
@@ -26,7 +27,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/navigation_drawer"
-        app:headerLayout="@layout/nav_header_main"/>
+        app:headerLayout="@layout/nav_header_main"
+        />
 
 </androidx.drawerlayout.widget.DrawerLayout>
 

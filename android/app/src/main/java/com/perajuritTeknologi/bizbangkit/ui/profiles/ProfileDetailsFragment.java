@@ -1,4 +1,4 @@
-package com.perajuritTeknologi.bizbangkit.ui.gallery;
+package com.perajuritTeknologi.bizbangkit.ui.profiles;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,13 +10,12 @@ import androidx.fragment.app.Fragment;
 
 import com.perajuritTeknologi.bizbangkit.R;
 
-public class GalleryFragment extends Fragment {
+public class ProfileDetailsFragment extends Fragment {
     private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        root = inflater.inflate(R.layout.fragment_gallery, container, false);
+        root = inflater.inflate(R.layout.fragment_profile_general, container, false);
         return root;
     }
 }

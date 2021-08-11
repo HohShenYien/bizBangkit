@@ -37,4 +37,14 @@
         <item name="android:colorPrimaryDark">@color/backgroundTint</item>
     </style>
 
+    <style name="mainStyle" parent="AppTheme.NoActionBar">
+        <item name="backgroundColor">#E6E6E6</item>
+    </style>
+
+    <style name="BackgroundWhite">
+        <item name="backgroundColor">#FFFFFF</item>
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimaryDark">#FFFFFF</item>
+    </style>
+
 </resources>

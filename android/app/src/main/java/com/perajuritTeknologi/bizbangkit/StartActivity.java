@@ -16,13 +16,14 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Utils.fullScreenMode(this);
         setContentView(R.layout.activity_launch);
+        LocalStorage.setUpSharedPreferences(this);
         // let the user see the front page for a while before moving on XD
         delayRun();
     }
 
     private void redirect() {
         Intent intent;
-        if (LocalStorage.isLoggedIn(this)) {
+        if (LocalStorage.isLoggedIn()) {
             intent = new Intent(getApplicationContext(), MainActivity.class);
         } else {
             intent = new Intent(getApplicationContext(), LoginActivity.class);

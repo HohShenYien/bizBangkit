@@ -60,8 +60,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void storeCredentials(DataStructure.UserCredentials credentials) {
-        LocalStorage.setToken(this, credentials.token);
-        LocalStorage.setID(this, credentials.userId);
+        LocalStorage.setToken(credentials.token);
+        LocalStorage.setID(credentials.userId);
     }
 
     private void redirectToMainPage() {
