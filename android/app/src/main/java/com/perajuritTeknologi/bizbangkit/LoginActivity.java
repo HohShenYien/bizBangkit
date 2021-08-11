@@ -15,7 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText email, password;
-    private TextView warningTxt;
+    private TextView warningTxt, registerNewAcc;
     private Button loginBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         setUpComponents();
         setLoginClicked();
+        setRegisterNewAccClicked();
         setInputEnterSubmit();
     }
 
@@ -31,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.etPassword);
         loginBtn = findViewById(R.id.buttonLogin);
         warningTxt = findViewById(R.id.warningTxt);
+        registerNewAcc = findViewById(R.id.textView4);
     }
 
     private void setLoginClicked() {
@@ -75,5 +77,16 @@ public class LoginActivity extends AppCompatActivity {
             }
             return false;
         });
+    }
+
+    private void setRegisterNewAccClicked() {
+        registerNewAcc.setOnClickListener(v -> {
+            redirectToRegisterPage();
+        });
+    }
+
+    private void redirectToRegisterPage() {
+        Intent intent = new Intent(getApplicationContext(), RegistrationAccountActivity1.class);
+        startActivity(intent);
     }
 }
