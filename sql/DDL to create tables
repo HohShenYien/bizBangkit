@@ -17,7 +17,7 @@ Table USER_T as U {
   user_fulladdress varchar[255] [null]  //users address
   user_created_at timestamp //date and time the account was registered
   user_tos_status char[1] //TOS flag for MODERATION DEPT
-  user_aboutme varchar[255] //About me section of user profile
+  user_aboutme varchar[255] [null] //About me section of user profile
   user_fpath_profilepic varchar[255] //filepath to the users profile picture
 }
 
