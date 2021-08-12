@@ -1,6 +1,5 @@
 package com.perajuritTeknologi.bizbangkit.ui.discover;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,17 +13,17 @@ import com.perajuritTeknologi.bizbangkit.R;
 
 import java.util.ArrayList;
 
-public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHolder> {
+public class BusinessCardAdapter extends RecyclerView.Adapter<BusinessCardAdapter.ViewHolder> {
     private ArrayList<DataStructure.SimpleBusiness> businesses;
 
-    public BusinessAdapter(ArrayList<DataStructure.SimpleBusiness> inputList) {
+    public BusinessCardAdapter(ArrayList<DataStructure.SimpleBusiness> inputList) {
         businesses = inputList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_discover_cardlayout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.discover_card_layout, parent, false);
 
         return new ViewHolder(view);
     }

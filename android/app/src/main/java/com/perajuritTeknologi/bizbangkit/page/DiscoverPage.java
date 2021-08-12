@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.ActionMenuView;
@@ -21,8 +22,9 @@ import com.perajuritTeknologi.bizbangkit.ui.discover.ListStyleFragment;
 
 public class DiscoverPage extends Fragment {
     private View root;
-    private MaterialButton filterBtn, changeViewBtn;
+    private MaterialButton filterBtn;
     private FragmentContainerView fragmentContainer;
+    private ImageButton changeViewBtn;
     private boolean isCardView;
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
@@ -59,6 +61,7 @@ public class DiscoverPage extends Fragment {
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.discover_fragment_container,
                 cardFragment).commit();
+        changeViewBtn.setImageResource(R.drawable.list_ic);
     }
 
     private void setUpFragmentManager() {
@@ -71,8 +74,10 @@ public class DiscoverPage extends Fragment {
             Fragment newFragment;
             if (isCardView) {
                 newFragment = new ListStyleFragment();
+                changeViewBtn.setImageResource(R.drawable.ic_red_card);
             } else {
                 newFragment = new CardStyleFragment();
+                changeViewBtn.setImageResource(R.drawable.list_ic);
             }
             isCardView = !isCardView;
             transaction.replace(R.id.discover_fragment_container,
