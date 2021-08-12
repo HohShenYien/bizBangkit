@@ -1,0 +1,16 @@
+//-- DDL Queries for user registration and login
+
+//-- Field column index
+//column 1: user_id (auto-increment) [int limit: 8] || column  9: user_email  [varchar limit: 255]
+//column 2: user_fullname [varchar limit: 255]      || column 10: user_gender [char limit: 1] - M or F  				
+//column 3: user_ic_no [int limit: 12]              || column 11: user_fulladdress [varchar limit: 255]
+//column 4: user_username [varchar limit: 255]      || column 12: user_created_at  [timestamp]
+//column 5: user_password [varchar limit: 12]       || column 13: user_tos_status  [char limit: 1] - A is Active, B is Banned
+//column 6: user_authkey [varchar limit: 32]        || column 14: user_aboutme [varchar limit: 255]
+//column 7: user_dob [date]                         || column 15: user_fpath_profilepic [varchar limit: 255]
+//column 8: user_phone [int limit: 10]
+
+
+//Register new user 
+INSERT INTO USER_T as U (U.user_fullname, U.user_ic_no, U.user_username, U.user_password, U.user_authkey, U.user_dob, U.user_phone, U.user_email, U.user_gender, U.user_created_at, U.user_tos_status, U.user_fpath_profilepic) 
+VALUES ( 'Ahmad Kamil', '111111223333', 'Kamil100', 'AKamil123%', 'INSERT authkey here', '2001-08-20', '0161234567', 'a.kamil10@gmail.com', 'M', '2021-08-12 23:57:12.120174 UTC', 'A', 'C:\file\user\defaultpic.jpg')
