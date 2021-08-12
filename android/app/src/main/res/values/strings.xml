@@ -23,8 +23,13 @@
 
     <string name="profile_about">About Me</string>
 
+    <string-array name="discover_spinner">
+        <item>Hot Recently</item>
+        <item>Latest</item>
+        <item>Top Businesses</item>
+    </string-array>
+
     <string-array name="genders_array">
         <item>M</item>
         <item>F</item>
     </string-array>
-</resources>

@@ -7,6 +7,13 @@ public class DataStructure {
         public String token;
     }
 
+    public static class SimpleBusiness {
+        public String businessName;
+        public int phase;
+        public String description;
+        public int businessId;
+    }
+
     public static class UserProfileDetails {
         public String name;
         public String nric;

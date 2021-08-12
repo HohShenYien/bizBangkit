@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardBackgroundColor="@color/nice_green"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
+        <TextView
+            android:id="@+id/discover_business_card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Burger Shop"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:id="@+id/discover_business_card_img"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="40dp"
+            android:src="@drawable/logo"
+            />
+
+        <TextView
+            android:id="@+id/discover_business_card_description"
+            android:layout_width="351dp"
+            android:layout_height="wrap_content"
+            android:text="I have good burgers"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
