@@ -22,4 +22,12 @@
     <string name="log_out_message">Log out successfully!</string>
 
     <string name="profile_about">About Me</string>
+
+    <string-array name="discover_spinner">
+        <item>Hot Recently</item>
+        <item>Latest</item>
+        <item>Top Businesses</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
