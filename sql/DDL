@@ -7,6 +7,7 @@ Table USER_T as U {
   user_id int[8] [pk, increment] //primary key: [auto-increment] - user unique id
   user_fullname varchar[255] //full name
   user_ic_no int[12] //ic number
+  user_username varchar[255] //users display name
   user_password varchar[12] //users password
   user_authkey varchar[32] //users authentication key
   user_dob date //users date of birth
