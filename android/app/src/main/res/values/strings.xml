@@ -22,4 +22,9 @@
     <string name="log_out_message">Log out successfully!</string>
 
     <string name="profile_about">About Me</string>
+
+    <string-array name="genders_array">
+        <item>M</item>
+        <item>F</item>
+    </string-array>
 </resources>
