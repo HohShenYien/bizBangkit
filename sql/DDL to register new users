@@ -12,6 +12,5 @@
 
 
 //Register new user 
-//TODO How to add the authentication key
-INSERT INTO USER_T as U (U.user_fullname, U.user_ic_no, U.user_username, U.user_password, U.user_authkey, U.user_dob, U.user_phone, U.user_email, U.user_gender, U.user_fulladdress, U.user_created_at, U.user_tos_status, U.user_aboutme, U.user_fpath_profilepic) 
-VALUES ( 'Ahmad Kamil', '111111223333', 'Kamil100', 'AKamil123%', 'N/A?', '2001-08-20', '0161234567', 'a.kamil10@gmail.com', 'M', '10, Jalan Maarof, Bangsar, 58800, Kuala Lumpur', '2021-08-12 23:57:12.120174 UTC', 'A', 'Budding Entrepreneur', 'C:\file\user\userid1\profilepic.jpg')
+INSERT INTO USER_T as U (U.user_fullname, U.user_ic_no, U.user_username, U.user_password, U.user_authkey, U.user_dob, U.user_phone, U.user_email, U.user_gender, U.user_created_at, U.user_tos_status, U.user_fpath_profilepic) 
+VALUES ( 'Ahmad Kamil', '111111223333', 'Kamil100', 'AKamil123%', 'INSERT authkey here', '2001-08-20', '0161234567', 'a.kamil10@gmail.com', 'M', '2021-08-12 23:57:12.120174 UTC', 'A', 'C:\file\user\defaultpic.jpg')
