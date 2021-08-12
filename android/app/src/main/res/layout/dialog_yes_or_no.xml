@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/registerGoLoginCardView"
+    android:layout_width="300sp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/dialogYesOrNoText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Asking a question?"
+                android:textSize="15sp"
+                android:layout_marginTop="15sp"
+                android:layout_marginBottom="15sp"
+                android:layout_marginStart="10sp"
+                android:layout_marginEnd="10sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/dialogYesButton"
+                android:layout_width="150sp"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                style="?attr/borderlessButtonStyle"/>
+
+            <Button
+                android:id="@+id/dialogNoButton"
+                android:layout_width="150sp"
+                android:layout_height="wrap_content"
+                android:text="No"
+                style="?attr/borderlessButtonStyle"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

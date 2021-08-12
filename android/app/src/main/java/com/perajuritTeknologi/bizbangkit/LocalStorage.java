@@ -2,8 +2,14 @@ package com.perajuritTeknologi.bizbangkit;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Locale;
 
 public class LocalStorage {
     private static final String TOKEN_NAME = "token";
@@ -46,6 +52,32 @@ public class LocalStorage {
         editor.remove(ID_TOKEN);
         editor.remove(LOGIN_TOKEN);
         editor.commit();
+    }
+
+    public static void saveCurrentTextChange(AppCompatActivity activity, EditText editText, String mainKey, String sideKey) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(mainKey, Context.MODE_PRIVATE);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(sideKey, editText.getText().toString());
+                editor.apply();
+            }
+        });
+    }
+
+    public static void setChangedText(AppCompatActivity activity, EditText editText, String mainKey, String sideKey) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(mainKey, Context.MODE_PRIVATE);
+        String n = sharedPreferences.getString(sideKey, null);
+        if (n != null) {
+            editText.setText(n);
+        }
     }
 
     // --------- Error classes

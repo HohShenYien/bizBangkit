@@ -1,0 +1,181 @@
+//// -- LEVEL 1
+//// -- Tables and References
+// Creating tables
+
+//Main table to track the users profile details
+Table USER_T as U {
+  user_id int[8] [pk, increment] //primary key: [auto-increment] - user unique id
+  user_fullname varchar[255] //full name
+  user_ic_no int[12] //ic number
+  user_username varchar[255] //users display name
+  user_password varchar[12] //users password
+  user_authkey varchar[32] //users authentication key
+  user_dob date //users date of birth
+  user_phone int[10] //users phone number
+  user_email varchar[255] //users email address
+  user_gender char[1] //users gender M or F
+  user_fulladdress varchar[255] [null]  //users address
+  user_created_at timestamp //date and time the account was registered
+  user_tos_status char[1] //TOS flag for MODERATION DEPT
+  user_aboutme varchar[255] //About me section of user profile
+  user_fpath_profilepic varchar[255] //filepath to the users profile picture
+}
+
+//Main table to track user withdrawal and deposit from/to bank account.
+Table USER_WALLET_T as W {
+  user_wallet_no int[8] [pk,increment] //primary key 1: [auto-increment] - wallet unique id
+  user_id int[8] //primary key 2: references USER_T
+  wallet_available_cash int[12] //current available cash in wallet
+  wallet_spent_cash int[12] //total cash spent on shares 
+  wallet_earned_cash int[12] //total cash earned from shares 
+  wallet_total_deposit int[12] //total cash deposited from bank account
+  wallet_total_withdraw int[12] //total cash sent to bank account
+  user_bank_acc_no int[12] [null] //users bank account number
+ }
+
+//Main table to track the business proposals
+Table BUSINESS_T as B {
+  bus_id int[8] [pk, increment] //primary key: [auto-increment] - business proposal unique id
+  bus_name varchar[255] //name of the business
+  bus_type varchar[255] //food, artisan, repair shop etc.
+  bus_valuation int[6] //The estimated value of the business at the start of phase 3
+  bus_total_emp int[2] //Total number of employees planned for the business
+  bus_current_emp int[2] //Current employees working in the business (phase 3/4)
+  bus_phone int[10] //business contact number
+  bus_email varchar[255] //business email
+  bus_ssm_id varchar[255] //business SSM registration id
+  bus_lic_no int[10] //business small licence permit number
+  bus_bank_acc int[12] //business bank account number
+  bus_start_date date // Will show the start date - phase 3 start
+  bus_end_date date // Will show the end date  - phase 4 end
+  bus_tos_status char[1] //TOS flag for MODERATION DEPT
+  bus_ops_start_time time //start of business daily operation
+  bus_ops_end_time time //end of business daily operation
+  bus_day varchar[255] //business days of operation (e.g. MON - FRI)
+  bus_reg_address varchar[255] //Address of business registration
+  bus_loc_address_city varchar[255] //Location of the business
+  bus_fpath_logo varchar[255] //filepath to the business logo
+}
+
+Table USER_TRANSACT_T as T {
+    user_id int[8] [pk] //composite primary key 1: references USER_T
+    bus_id int[8] [pk] //composite primary key 2: references BUS_SHARE_T
+    utransact_no int[8] [pk, increment] //primary key: tansacation unique id number
+    utransact_datetime timestamp //date and time of the transaction
+    utransact_amt int[12] //cash amount of the transaction
+    utransact_type char[3] //buy share[BUY] or sell share[SEL]
+    utransact_status char[1] //"processing", "on_hold", "canceled" or "confirmed"
+ }
+
+//Composite table to track users share information
+Table USER_SHARE_T as USR {
+    bus_id int[8] [pk] //composite primary key 1: references BUS_SHARE_T
+    user_id int[8] [pk] //composite primary key 2: references USER_T
+    share_percent int[3] //percentage of shares exchanged - 8% or 5%
+    share_buy_value int[12] //share value at "buy share"
+    share_buy_datetime timestamp //date and time at "buy share"
+    share_sell_value int[12] //share value at "sell share"
+    share_sell_datetime timestamp //date and time at "sell share"
+}
+
+//composite table to track business share buy/sale to users (3NF dependancy)
+Table BUS_SHARE_T as BSR {
+  bus_id int[8] [pk] //primary key: unique identifier of 
+  bus_share_total_investor int[1] //Track total number of investors allowed for this proposal
+  bus_share_approve_limit int[1] //track investor limit for this phase (e.g. 1 for phase 1, 6 for phase 2 etc.)
+  bus_share_current_investor int[1] //number of current investors funding this proposal
+  bus_share_phase int[1] //phase of proposal [0-4] 0 means not posted yet for bidding
+  bus_share_maturity_date datetime [null] //assigned only to signal end of phase 3 or 4
+  bus_share_total_divestor int[1] //number of investors pulled out after phase 3 or 4
+}
+
+//composite table to track the business proposal owners
+Table BUSINESS_OWNER_T as BO {
+  bus_id int[8] [pk] //primary key 1: references BUSINESS_T
+  user_id int[8] [pk] //primary key 2: references USER_T
+  share_alloc_qty int[2] //Allocated share for each owner of the business being proposed
+}
+
+//composite table to track the feedback from users to the business proposal page.
+Table BUS_FEEDBACK_T as BF {
+  bus_id int[8] [pk] //primary key 1: references BUSINESS_T
+  user_id int[8] [pk] //primary key 2: references USER_T
+  feedback_content varchar[255] //content of feedback from users of the business proposal
+  feedback_datetime timestamp // date and time the feedback was given
+  feedback_tos_flag char[1] //TOS flag for MODERATION DEPT
+}
+
+//Composite table to update each transaction withdrawal/deposit of the businesses
+Table BUS_TRANSACT_T as BST {
+  rep_transact_id int[8] [pk, increment] //primary key: unique identifier of this transaction
+  bus_id int[8] //foreign key: references BUSINESS_T
+  rep_transact_datetime timestamp //date and time of the transaction
+  rep_transact_decription varchar[255] //description of the transaction (both income and withdrawal)
+  rep_transact_tos_flag char[1] //TOS flag for MODERATION DEPT
+  rep_transact_fpath_updatepic varchar[255] //filepath to the evidence of the purchase 
+}
+
+//Composite table to track income/expenditure of business proposals.
+Table BUS_REPORT_T as BR {
+  bus_id int[8] [pk] //primary key 1: references BUSINESS_T
+  rep_transact_id int[8] [pk] //primary key 2: references BUS_TRANSACT_T
+  rep_total_fund int[12] //total raised funds
+  rep_current_fund int[12] //current funds still in account
+  rep_total_spent int[12] //total funds spent on business
+  rep_total_income int[12] //total income from business
+}
+
+//Composite table to track forum posts.
+Table FORUM_POST_T as FP {
+  forum_post_id int[8] [pk, increment] //primary key: forum post unique id
+  forum_post_title varchar[255] //title of post
+  forum_post_content varchar[255] //content of post
+  forum_post_datetime timestamp //date and time the post was made
+  forum_post_status char[1] //current status of this post (locked/active/archived)
+  forum_post_tos_flag char[1] //TOS flag for MODERATION DEPT
+  forum_post_totalpoint int[10] //Total number (upvotes+downvotes) points for this post
+  forum_post_minuspoint int[10] //Total downvotes for this post
+  user_id int[8] //foreign key: references USER_T
+}
+
+//Composite table to track forum replies.
+Table FORUM_REPLY_T as FR {
+  reply_id int[8] [pk, increment] //primary key: forum reply unique id
+  forum_reply_content varchar[255] //content of reply
+  forum_reply_datetime timestamp //date and time the reply was made
+  forum_reply_status char[1] //current status of this reply (locked/active/archived)
+  forum_reply_tos_flag char[1] //TOS flag for MODERATION DEPT
+  forum_reply_totalpoint int //Total number (upvotes+downvotes) points for this reply
+  forum_reply_minuspoint int //Total downvotes for this reply
+  forum_post_id int //foreign key 1: references FORUM_POST_T
+  user_id int //foreign key 2: references USER_T
+}
+
+//Composite table to track forum tags.
+Table FORUM_TAG_T as FT {
+  forum_post_id int [pk] //composite primary key: references FORUM_POST_T
+  forum_tag_name varchar[255] //tags attached to this post
+}
+
+// Creating references
+// You can also define relaionship separately
+// > many-to-one; < one-to-many; - one-to-one
+
+Ref: U.user_id - W.user_id //Each user must have one wallet
+Ref: T.user_id > U.user_id //Many tansactions must point to one user
+Ref: T.bus_id > B.bus_id //Many transactions must point to one business
+Ref: USR.bus_id - B.bus_id //Many shares must point to one business
+Ref: USR.user_id - U.user_id //Each share must point to one user
+Ref: BSR.bus_id > B.bus_id //Many shares must point to one business
+Ref: U.user_id > BO.user_id //Many users can own one business
+Ref: BO.bus_id > B.bus_id //Many business shares must point to one business
+Ref: U.user_id > BF.user_id //Many users can give feedback to each business
+Ref: BF.bus_id > B.bus_id //Many feedbacks can be given to one business
+Ref: BST.bus_id > B.bus_id //Many transactions must point to one business
+Ref: BR.bus_id > B.bus_id //Many reports must point to one business
+Ref: BST.rep_transact_id > BR.rep_transact_id //Many transactions must point to one report
+Ref: FP.user_id - U.user_id //one forum post must point to one user
+Ref: FR.user_id - U.user_id //one forum reply must point to one user
+Ref: FR.user_id > FP.user_id //Many users can reply to one forum post
+Ref: FR.forum_post_id > FP.forum_post_id //each reply must point to one forum post
+Ref: FT.forum_post_id > FP.forum_post_id //many tags can apply to one forum post
