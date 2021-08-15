@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.util.AttributeSet;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -34,6 +35,7 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.IOException;
 
@@ -45,7 +47,7 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
     private Button signUpButton;
     private LinearProgressIndicator pageLeft, pageRight;
     private ActivityResultLauncher<String[]> choosePicture;
-    private DataStructure.UserProfileDetails userDetails = new DataStructure.UserProfileDetails("name", "1", "1", "username", "email", "password");
+    private DataStructure.UserProfileDetails userDetails = new DataStructure.UserProfileDetails("name", "1", "1", "M", "pic",  "username", "email", "password");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +68,16 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
                         ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(result, "r");
                         FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
                         bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), getBitmapRotation(fileDescriptor), true);
+                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), DataConversion.getBitmapRotation(fileDescriptor), true);
                         parcelFileDescriptor.close();
                         viewProfilePic.setImageBitmap(bitmap);
+
+                        String str = DataConversion.BitmapToBase64String(bitmap);
+                        userDetails.profilePicture = str;
+                        SharedPreferences sharedPreferences = getSharedPreferences("registerUserP2", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("profilePic", str);
+                        editor.apply();
                     } catch (IOException e) {
                         Log.e("Hello", "There");
                     }
@@ -82,6 +91,7 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
         userDetails.name = intent.getStringExtra("name");
         userDetails.nric = intent.getStringExtra("nric");
         userDetails.phoneNumber = intent.getStringExtra("phone");
+        userDetails.gender = intent.getStringExtra("gender");
     }
 
     private void setUpComponents() {
@@ -104,6 +114,13 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
     private void setAllChangedText() {
         //SharedPreferences sharedPreferences = getSharedPreferences("registerUserP1", Context.MODE_PRIVATE);
         //sharedPreferences.edit().clear().apply();
+        SharedPreferences sharedPreferences = getSharedPreferences("registerUserP2", Context.MODE_PRIVATE);
+        String n = sharedPreferences.getString("profilePic", null);
+        if (n != null) {
+            Bitmap bitmap = DataConversion.Base64StringToBitmap(n);
+            viewProfilePic.setImageBitmap(bitmap);
+        }
+
         LocalStorage.setChangedText(this, username, "registerUserP2", "username");
         LocalStorage.setChangedText(this, email, "registerUserP2", "email");
         LocalStorage.setChangedText(this, password1, "registerUserP2", "password1");
@@ -119,25 +136,6 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
 
     public void onAddProfilePictureClicked(View v) {
         choosePicture.launch(new String[]{"image/*"});
-    }
-
-    private Matrix getBitmapRotation(FileDescriptor fileDescriptor) {
-        int degree = 0;
-        ExifInterface exif = null;
-        try {
-            exif = new ExifInterface(fileDescriptor);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
-        if (orientation != -1) {
-            if (orientation == ExifInterface.ORIENTATION_ROTATE_90) degree = 90;
-            else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) degree = 180;
-            else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) degree = 270;
-        }
-        Matrix matrix = new Matrix();
-        matrix.postRotate(degree);
-        return matrix;
     }
 
     private void onBackClicked() {

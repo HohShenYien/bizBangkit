@@ -8,17 +8,22 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -29,12 +34,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.Buffer;
 
-public class RegistrationAccountActivity1 extends AppCompatActivity {
+public class RegistrationAccountActivity1 extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private EditText name, nric1, nric2, nric3, phoneNum1, phoneNum2;
     private TextView warningInfo, login, tncGoBrowser, tncDetail;
+    private Spinner gender;
+    private ArrayAdapter<CharSequence> adapter;
     private CheckBox tncAgree;
     private Button continueButton;
     private LinearProgressIndicator pageLeft, pageRight;
+    private DataStructure.UserProfileDetails userDetails = new DataStructure.UserProfileDetails("name", "1", "1", "g", "pic",  "username", "email", "password");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +69,7 @@ public class RegistrationAccountActivity1 extends AppCompatActivity {
         login = findViewById(R.id.loginFromRegister);
         tncGoBrowser = findViewById(R.id.registerTnCBrowser);
         tncDetail = findViewById(R.id.registerTnCDetail);
+        gender = findViewById(R.id.registerGenderSpinner);
         tncAgree = findViewById(R.id.registerTnCCheckbox);
         continueButton = findViewById(R.id.registerContinueButton);
         pageLeft = findViewById(R.id.registrationProgress1);
@@ -68,6 +77,11 @@ public class RegistrationAccountActivity1 extends AppCompatActivity {
 
         pageLeft.setProgress(100, true);
         pageRight.setProgress(0);
+
+        adapter = ArrayAdapter.createFromResource(this, R.array.genders_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gender.setAdapter(adapter);
+        gender.setOnItemSelectedListener(this);
     }
 
     private void setTncDetail() {
@@ -125,6 +139,12 @@ public class RegistrationAccountActivity1 extends AppCompatActivity {
     private void setAllChangedText() {
         //SharedPreferences sharedPreferences = getSharedPreferences("registerUserP1", Context.MODE_PRIVATE);
         //sharedPreferences.edit().clear().apply();
+        SharedPreferences sharedPreferences = getSharedPreferences("registerUserP1", Context.MODE_PRIVATE);
+        String n = sharedPreferences.getString("gender", null);
+        if (n != null) {
+            int pos = adapter.getPosition(n);
+            gender.setSelection(pos, true);
+        }
         LocalStorage.setChangedText(this, name, "registerUserP1", "name");
         LocalStorage.setChangedText(this, nric1, "registerUserP1", "nric1");
         LocalStorage.setChangedText(this, nric2, "registerUserP1", "nric2");
@@ -141,6 +161,19 @@ public class RegistrationAccountActivity1 extends AppCompatActivity {
         LocalStorage.saveCurrentTextChange(this, phoneNum1, "registerUserP1", "phoneNum1");
         LocalStorage.saveCurrentTextChange(this, phoneNum2, "registerUserP1", "phoneNum2");
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+        String str = adapterView.getItemAtPosition(pos).toString();
+        userDetails.gender = str;
+        SharedPreferences sharedPreferences = getSharedPreferences("registerUserP1", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("gender", str);
+        editor.apply();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) { }
 
     private void onLoginClicked() {
         login.setOnClickListener(view -> {
@@ -211,6 +244,7 @@ public class RegistrationAccountActivity1 extends AppCompatActivity {
         intent.putExtra("name", name.getText().toString());
         intent.putExtra("nric", (nric1.getText().toString() + nric2.getText().toString() + nric3.getText().toString()));
         intent.putExtra("phone", (("60" + phoneNum1.getText().toString() + phoneNum2.getText().toString())));
+        intent.putExtra("gender", userDetails.gender);
         startActivity(intent);
     }
 /*

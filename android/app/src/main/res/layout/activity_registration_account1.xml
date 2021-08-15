@@ -306,6 +306,31 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
+            android:id="@+id/uselessGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/registerNRIC1"
+            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintHorizontal_bias="0.83"/>
+
+        <Spinner
+            android:id="@+id/registerGenderSpinner"
+            android:layout_width="90sp"
+            android:layout_height="35sp"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintTop_toBottomOf="@id/uselessGender"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="1" />
+
+        <TextView
             android:id="@+id/uselessTnC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

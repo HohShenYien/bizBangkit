@@ -28,4 +28,8 @@
         <item>Latest</item>
         <item>Top Businesses</item>
     </string-array>
-</resources>
+
+    <string-array name="genders_array">
+        <item>M</item>
+        <item>F</item>
+    </string-array>
