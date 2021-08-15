@@ -14,7 +14,7 @@ import com.perajuritTeknologi.bizbangkit.R;
 import java.util.ArrayList;
 
 public class BusinessCardAdapter extends RecyclerView.Adapter<BusinessCardAdapter.ViewHolder> {
-    private ArrayList<DataStructure.SimpleBusiness> businesses;
+    public ArrayList<DataStructure.SimpleBusiness> businesses;
 
     public BusinessCardAdapter(ArrayList<DataStructure.SimpleBusiness> inputList) {
         businesses = inputList;
