@@ -1,5 +1,6 @@
 package com.perajuritTeknologi.bizbangkit;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -88,5 +89,23 @@ public class LoginActivity extends AppCompatActivity {
     private void redirectToRegisterPage() {
         Intent intent = new Intent(getApplicationContext(), RegistrationAccountActivity1.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Dialog dialog = new Dialog(LoginActivity.this);
+        dialog.setContentView(R.layout.dialog_yes_or_no);
+        dialog.setCancelable(true);
+        TextView exitConfirmationText = dialog.findViewById(R.id.dialogYesOrNoText);
+        exitConfirmationText.setText("Are you sure you want to exit BizBangkit?");
+        Button exitConfirmationYesButton = dialog.findViewById(R.id.dialogYesButton);
+        exitConfirmationYesButton.setOnClickListener(view -> {
+            super.onBackPressed();
+        });
+        Button exitConfirmationNoButton = dialog.findViewById(R.id.dialogNoButton);
+        exitConfirmationNoButton.setOnClickListener(view -> {
+            dialog.cancel();
+        });
+        dialog.show();
     }
 }

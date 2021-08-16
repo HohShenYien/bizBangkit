@@ -1,9 +1,11 @@
 package com.perajuritTeknologi.bizbangkit;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,4 +95,21 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle(event.message);
     }
 
+    @Override
+    public void onBackPressed() {
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.dialog_yes_or_no);
+        dialog.setCancelable(true);
+        TextView exitConfirmationText = dialog.findViewById(R.id.dialogYesOrNoText);
+        exitConfirmationText.setText("Are you sure you want to exit BizBangkit?");
+        Button exitConfirmationYesButton = dialog.findViewById(R.id.dialogYesButton);
+        exitConfirmationYesButton.setOnClickListener(view -> {
+            super.onBackPressed();
+        });
+        Button exitConfirmationNoButton = dialog.findViewById(R.id.dialogNoButton);
+        exitConfirmationNoButton.setOnClickListener(view -> {
+            dialog.cancel();
+        });
+        dialog.show();
+    }
 }
