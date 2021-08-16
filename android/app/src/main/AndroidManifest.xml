@@ -17,24 +17,26 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".MainActivity"
-                    android:theme="@style/mainStyle">
-        </activity>
-        <activity android:name=".LoginActivity"
-            android:theme="@style/TitleBarWhite"
-            android:noHistory="true"/>
-
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/mainStyle" />
+        <activity
+            android:name=".LoginActivity"
+            android:noHistory="true"
+            android:theme="@style/TitleBarWhite" />
         <activity
             android:name=".RegistrationAccountActivity1"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RegistrationAccountActivity2"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.business.NewBusinessActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
-
 
 </manifest>

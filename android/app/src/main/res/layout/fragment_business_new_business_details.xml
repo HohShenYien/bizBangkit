@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:paddingTop="20dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/uselessBusinessDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BUSINESS DETAILS"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.02"/>
+
+        <TextView
+            android:id="@+id/uselessCommencementDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Commencement date of business"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/uselessBusinessDetails"
+            app:layout_constraintVertical_bias="0.05"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <TextView
+            android:id="@+id/uselessDateDash1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/registerCommencementYear"
+            app:layout_constraintTop_toBottomOf="@id/uselessCommencementDate"
+            app:layout_constraintVertical_bias="0.01"
+            app:layout_constraintHorizontal_bias="0.01"/>
+
+        <TextView
+            android:id="@+id/uselessDateDash2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/registerCommencementMonth"
+            app:layout_constraintTop_toBottomOf="@id/uselessCommencementDate"
+            app:layout_constraintVertical_bias="0.01"
+            app:layout_constraintHorizontal_bias="0.01"/>
+
+        <Spinner
+            android:id="@+id/registerCommencementYear"
+            android:layout_width="100sp"
+            android:layout_height="35sp"
+            app:layout_constraintTop_toBottomOf="@id/uselessCommencementDate"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintVertical_bias="0" />
+
+        <Spinner
+            android:id="@+id/registerCommencementMonth"
+            android:layout_width="90sp"
+            android:layout_height="35sp"
+            app:layout_constraintTop_toBottomOf="@id/uselessCommencementDate"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/uselessDateDash1"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintHorizontal_bias="0.01"
+            app:layout_constraintVertical_bias="0" />
+
+        <Spinner
+            android:id="@+id/registerCommencementDay"
+            android:layout_width="90sp"
+            android:layout_height="35sp"
+            app:layout_constraintTop_toBottomOf="@id/uselessCommencementDate"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/uselessDateDash2"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintHorizontal_bias="0.01"
+            app:layout_constraintVertical_bias="0" />
+
+        <TextView
+            android:id="@+id/uselessPrincipalPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Principal place of business"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/registerCommencementYear"
+            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registerPrincipalPlace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineR"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/uselessPrincipalPlace"
+            app:layout_constraintVertical_bias="0"
+            app:hintEnabled="false">
+
+            <EditText
+                android:id="@+id/editTextRegisterPrincipalPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Enter full address here"
+                android:textColor="@color/design_default_color_on_secondary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/uselessBranchAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address of the branch of business (if any)"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/registerPrincipalPlace"
+            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <LinearLayout
+            android:id="@+id/businessBranchAddressLinearLayout"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/uselessBranchAddress"
+            app:layout_constraintStart_toEndOf="@id/guidelineL"
+            app:layout_constraintEnd_toStartOf="@id/guidelineR"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1. "
+                    android:textColor="@android:color/black"
+                    android:textSize="17sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="250sp"
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false" >
+
+                    <EditText
+                        android:id="@+id/editTextRegisterBranchAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Enter branch address here" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/registerBranchAddressTrashCan"
+                    android:layout_width="25sp"
+                    android:layout_height="25sp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/trash_can" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/registerAddBranchAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/cardview_light_background"
+            app:layout_constraintStart_toEndOf="@id/guidelineL"
+            app:layout_constraintEnd_toStartOf="@id/guidelineR"
+            app:layout_constraintTop_toBottomOf="@id/businessBranchAddressLinearLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:fabSize="mini"
+            android:clickable="true"
+            android:focusable="true"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
+        <TextView
+            android:id="@+id/uselessPartnerNric"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NRIC Number of partner(s)"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/registerAddBranchAddress"
+            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <TextView
+            android:id="@+id/uselessPartnerNricWarning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="* Partner must have his/her account registered on BizBangkit\n   beforehand"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/uselessPartnerNric"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <LinearLayout
+            android:id="@+id/businessPartnerNricLinearLayout"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/uselessPartnerNricWarning"
+            app:layout_constraintStart_toEndOf="@id/guidelineL"
+            app:layout_constraintEnd_toStartOf="@id/guidelineR"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1. "
+                    android:textColor="@android:color/black"
+                    android:textSize="17sp" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/registerPartnerNRIC1"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:id="@+id/editTextRegisterPartnerNRIC1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="XXXXXX"
+                        android:textAlignment="center"
+                        android:maxLength="6"
+                        android:inputType="number"
+                        android:textColor="@color/design_default_color_on_secondary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/uselessPartnerNRICDash1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/registerPartnerNRIC2"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:id="@+id/editTextRegisterPartnerNRIC2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="XX"
+                        android:textAlignment="center"
+                        android:maxLength="2"
+                        android:inputType="number"
+                        android:textColor="@color/design_default_color_on_secondary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/uselessPartnerNRICDash2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toEndOf="@id/registerPartnerNRIC2" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/registerPartnerNRIC3"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:id="@+id/editTextRegisterPartnerNRIC3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="XXXX"
+                        android:textAlignment="center"
+                        android:maxLength="4"
+                        android:inputType="number"
+                        android:textColor="@color/design_default_color_on_secondary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/registerPartnerNricTrashCan"
+                    android:layout_width="25sp"
+                    android:layout_height="25sp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/trash_can" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/registerAddPartnerNric"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/cardview_light_background"
+            app:layout_constraintStart_toEndOf="@id/guidelineL"
+            app:layout_constraintEnd_toStartOf="@id/guidelineR"
+            app:layout_constraintTop_toBottomOf="@id/businessPartnerNricLinearLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:fabSize="mini"
+            android:clickable="true"
+            android:focusable="true"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
+        <TextView
+            android:id="@+id/uselessBusinessCarriedOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type of business carried out"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/registerAddPartnerNric"
+            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <Spinner
+            android:id="@+id/registerBusinessCarriedOut"
+            android:layout_width="280sp"
+            android:layout_height="40sp"
+            app:layout_constraintTop_toBottomOf="@id/uselessBusinessCarriedOut"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintVertical_bias="0" />
+
+        <Button
+            android:id="@+id/businessNewBusinessDetailsNextButton"
+            android:layout_width="130dp"
+            android:layout_height="55dp"
+            android:text="Next  \>"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="23sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registerBusinessCarriedOut"
+            app:layout_constraintVertical_bias="0.35" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.core.widget.NestedScrollView>

@@ -14,7 +14,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -42,7 +41,7 @@ public class RegistrationAccountActivity1 extends AppCompatActivity implements A
     private CheckBox tncAgree;
     private Button continueButton;
     private LinearProgressIndicator pageLeft, pageRight;
-    private DataStructure.UserProfileDetails userDetails = new DataStructure.UserProfileDetails("name", "1", "1", "g", "pic",  "username", "email", "password");
+    private DataStructure.UserProfileDetails userDetails = new DataStructure.UserProfileDetails();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -246,6 +245,7 @@ public class RegistrationAccountActivity1 extends AppCompatActivity implements A
         intent.putExtra("phone", (("60" + phoneNum1.getText().toString() + phoneNum2.getText().toString())));
         intent.putExtra("gender", userDetails.gender);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
     }
 /*
     public final DataStructure.UserProfileDetails getUserDetails() {

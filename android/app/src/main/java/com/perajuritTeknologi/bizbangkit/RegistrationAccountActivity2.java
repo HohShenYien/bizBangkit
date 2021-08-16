@@ -47,7 +47,7 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
     private Button signUpButton;
     private LinearProgressIndicator pageLeft, pageRight;
     private ActivityResultLauncher<String[]> choosePicture;
-    private DataStructure.UserProfileDetails userDetails = new DataStructure.UserProfileDetails("name", "1", "1", "M", "pic",  "username", "email", "password");
+    private DataStructure.UserProfileDetails userDetails = new DataStructure.UserProfileDetails();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
                         editor.putString("profilePic", str);
                         editor.apply();
                     } catch (IOException e) {
-                        Log.e("Hello", "There");
+                        Log.e("RuiJun", "Registration add profile picture error");
                     }
                 }
             }
@@ -107,7 +107,9 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
         pageLeft = findViewById(R.id.registrationProgress1);
         pageRight = findViewById(R.id.registrationProgress2);
 
-        pageLeft.setProgress(0);
+        pageLeft.setProgress(100);
+        pageLeft.setIndicatorDirection(LinearProgressIndicator.INDICATOR_DIRECTION_RIGHT_TO_LEFT);
+        pageLeft.setProgress(0, true);
         pageRight.setProgress(100, true);
     }
 
@@ -142,6 +144,7 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
         back.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), RegistrationAccountActivity1.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
         });
     }
 

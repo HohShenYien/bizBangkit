@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:paddingTop="20dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/uselessProposalTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="It is time for a proposal"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.02"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <TextView
+            android:id="@+id/uselessProposalInfo"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:text="Any information you would like to tell your possible investors regarding your business"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/uselessProposalTitle"
+            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registerProposalText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineR"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/uselessProposalInfo"
+            app:layout_constraintVertical_bias="0"
+            app:hintEnabled="false">
+
+            <EditText
+                android:id="@+id/editTextRegisterProposalText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60sp"
+                android:ems="10"
+                android:autofillHints="name"
+                android:hint="Enter any related information here"
+                android:textColor="@color/design_default_color_on_secondary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/uselessPitchBusiness"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:text="Pitch your business"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/registerProposalText"
+            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <TextView
+            android:id="@+id/uselessPitchInfo"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:text="Provide a short but informative explanation of your business"
+            android:textColor="@color/backgroundTint"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/uselessPitchBusiness"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/businessVideoCardView"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:layout_constraintTop_toBottomOf="@id/uselessPitchInfo"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.05"
+            app:layout_constraintHorizontal_bias="0.05"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="20sp"
+            app:cardBackgroundColor="@color/pastel_orange" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Take a video"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:textAlignment="center"
+                android:layout_marginTop="10sp" />
+
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20sp"
+                android:src="@drawable/camera"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/businessUploadCardView"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:layout_constraintTop_toBottomOf="@id/uselessPitchInfo"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.05"
+            app:layout_constraintHorizontal_bias="0.95"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="20sp"
+            app:cardBackgroundColor="@color/pastel_purple" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Upload from device"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:textAlignment="center"
+                android:layout_marginTop="5sp" />
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20sp"
+                android:src="@drawable/upload"/>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/businessVideoFile"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:text="video file here"
+            android:textColor="@color/linkColor"
+            app:layout_constraintTop_toBottomOf="@id/businessVideoCardView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintEnd_toStartOf="@id/guidelineR"
+            app:layout_constraintVertical_bias="0.03"
+            android:layout_marginStart="5sp" />
+
+        <Button
+            android:id="@+id/businessNewBusinessProposalFinishButton"
+            android:layout_width="130dp"
+            android:layout_height="55dp"
+            android:text="Finish"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="23sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/businessVideoFile"
+            app:layout_constraintVertical_bias="0.35" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.core.widget.NestedScrollView>

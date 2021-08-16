@@ -9,4 +9,7 @@
     <color name="linkColor">#4169E1</color>
     <color name="warning">#FA8072</color>
     <color name="nice_green">#00FA9A</color>
+    <color name="pastel_green">#98F18A</color>
+    <color name="pastel_purple">#A987E3</color>
+    <color name="pastel_orange">#FFBE61</color>
 </resources>

@@ -92,4 +92,5 @@ public class MainActivity extends AppCompatActivity {
     public void onMessageEvent(TabChanged event) {
         toolbar.setTitle(event.message);
     }
+
 }
