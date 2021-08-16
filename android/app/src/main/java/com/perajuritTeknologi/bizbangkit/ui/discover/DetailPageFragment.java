@@ -17,7 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.perajuritTeknologi.bizbangkit.R;
 import com.perajuritTeknologi.bizbangkit.event.EnterBusinessDetail;
 import com.perajuritTeknologi.bizbangkit.event.ReturnToBusinessPage;
-import com.perajuritTeknologi.bizbangkit.page.cmDiscoverPage;
+import com.perajuritTeknologi.bizbangkit.page.DiscoverPage;
 
 import org.greenrobot.eventbus.EventBus;
 

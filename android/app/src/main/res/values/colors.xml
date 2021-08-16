@@ -13,4 +13,8 @@
     <color name="pastel_purple">#A987E3</color>
     <color name="pastel_orange">#FFBE61</color>
     <color name="gold">#FFD700</color>
+    <color name="light_pink">#FAEBEFFF</color>
+    <color name="bright_green">#21E100</color>
+    <color name="light_green">#D3E6D0</color>
+    <color name="light_blue">#FACDDAFF</color>
 </resources>
