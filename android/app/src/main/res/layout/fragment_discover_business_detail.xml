@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/discover_business_top_bar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="6dp">
+
+        <ImageButton
+            android:id="@+id/business_detail_back_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/chevron_left_ic"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_marginEnd="5dp"
+            />
+
+        <TextView
+            android:id="@+id/discover_business_detail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="BizBangkit"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:textColor="@color/fontColorPrimary"/>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Invest"
+            android:textColor="@color/gold"
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="@color/gold"
+            app:rippleColor="@color/gold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/discover_business_detail_layout1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/discover_business_top_bar"
+        app:layout_constraintVertical_bias="0">
+
+        <ImageView
+            android:id="@+id/discover_business_detail_img"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/logo" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/discover_business_detail_phase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phase 1"
+                    android:textSize="20dp" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/discover_business_detail_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.5k / 2k"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:max="100"
+                android:paddingHorizontal="10dp"
+                android:progress="90"
+                android:progressDrawable="@drawable/custom_progress_bar_discover" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/business_detail_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/discover_business_detail_layout1"
+        app:layout_constraintVertical_bias="0" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/business_detail_pager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/business_detail_tab_layout"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
