@@ -1,0 +1,55 @@
+//-- DDL Queries to create new business proposal
+
+//Relevant tables
+//-- Field column index: USER_T
+//column 1: user_id (auto-increment) [int limit: 8] || column  9: user_email  [varchar limit: 255]
+//column 2: user_fullname [varchar limit: 255]      || column 10: user_gender [char limit: 1] - M or F  				
+//column 3: user_ic_no [int limit: 12]              || column 11: user_fulladdress [varchar limit: 255]
+//column 4: user_username [varchar limit: 255]      || column 12: user_created_at  [timestamp]
+//column 5: user_password [varchar limit: 12]       || column 13: user_tos_status  [char limit: 1] - A is Active, B is Banned
+//column 6: user_authkey [varchar limit: 32]        || column 14: user_aboutme [varchar limit: 255]
+//column 7: user_dob [date]                         || column 15: user_fpath_profilepic [varchar limit: 255]
+//column 8: user_phone [int limit: 10]
+
+
+//-- Field column index: BUSINESS_T
+//column  1: bus_id (auto-increment) [int limit: 8] || column  11: bus_bank_acc [int limit: 12]
+//column  2: bus_name [varchar limit: 255]	    || column  12: bus_start_date [date]
+//column  3: bus_type [varchar limit: 255]	    || column  13: bus_end_date [date]
+//column  4: bus_valuation [int limit: 6]	    || column  14: bus_tos_status [char limit: 1] - A is Active, B is Banned
+//column  5: bus_total_emp [int limit: 2]	    || column  15: bus_ops_time [time]
+//column  6: bus_current_emp [int limit: 2]	    || column  16: bus_ops_time [time]
+//column  7: bus_phone [int limit: 10]		    || column  17: bus_day [varchar limit: 255]
+//column  8: bus_email [varchar limit: 255]	    || column  18: bus_reg_address [varchar limit: 255]
+//column  9: bus_ssm_id [varchar limit: 255]	    || column  19: bus_loc_address_city [varchar limit: 255]
+//column 10: bus_lic_no [int limit: 10]		    || column  20: bus_fpath_logo [varchar limit: 255]
+
+
+//-- Field column index: BUSINESS_OWNER_T
+//column  1: bus_id 		[int limit: 8]
+//column  2: user_id 		[int limit: 8]
+//column  3: share_alloc_qty	[int limit: 2]
+
+
+//-- Field column index: BUS_SHARE_T
+//column  1: bus_id			[int limit: 8]
+//column  2: bus_share_total_investor	[int limit: 1]
+//column  3: bus_share_approve_limit	[int limit: 1]
+//column  4: bus_share_current_investor	[int limit: 1]
+//column  5: bus_share_phase		[int limit: 1]
+//column  6: bus_share_maturity_date	[datetime]
+//column  7: bus_share_total_divestor	[int limit: 1]
+
+
+//DML Query: Create new business proposal.
+//Sequence 1:
+INSERT INTO BUSINESS_T as B (B.bus_name, B.bus_type, B.bus_valuation, B.bus_total_emp, B.bus_current_emp, B.bus_phone, B.bus_email, B.bus_ssm_id, B.bus_lic_no, B.bus_bank_acc, B.bus_tos_status, B.bus_ops_start_time, B.bus_ops_end_time, B.bus_day, B.bus_reg_address, B.bus_loc_address_city, B.bus_fpath_logo) 
+VALUES ( 'Burger Zone', 'Food', '40000', '1', '0', '0312345678', 'support@burgrzon.com', 'pendingFI', 'pendingFI', '0123456', 'A', '12:30:00', '19:00:00', 'Mon - Sat', '1, Jalan Delima, 48000 Klang, Selangor', 'PJ OLD TOWN FOOD COURT, Jalan Othman, 46000 Petaling Jaya, Selangor', '.tmp\user\businesslogo.jpg')
+
+//Sequence 2:
+INSERT INTO BUSINESS_OWNER_T as BO (BO.bus_id, BO.user_id, BO.share_alloc_qty)
+VALUES ('<TBD>', '<TBD>', '60')
+
+
+INSERT INTO BUS_SHARE_T as BST ( BST.bus_id, BST.bus_share_total_investor, BST.bus_share_approve_limit, BST.bus_share_current_investor, BST.bus_share_phase, BST.bus_share_total_divestor)
+VALUES ('<TBD>', '7', '1', '0', '1', '0')
