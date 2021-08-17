@@ -46,8 +46,8 @@ Table BUSINESS_T as B {
   bus_ssm_id varchar[255] //business SSM registration id
   bus_lic_no int[10] //business small licence permit number
   bus_bank_acc int[12] //business bank account number
-  bus_start_date date // Will show the start date - phase 3 start
-  bus_end_date date // Will show the end date  - phase 4 end
+  bus_start_date date [null] // Will show the start date - phase 3 start
+  bus_end_date date [null] // Will show the end date  - phase 4 end
   bus_tos_status char[1] //TOS flag for MODERATION DEPT
   bus_ops_start_time time //start of business daily operation
   bus_ops_end_time time //end of business daily operation
