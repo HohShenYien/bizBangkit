@@ -1,0 +1,90 @@
+# user Table in bizBangkit.db
+Table USER_T as U {
+  user_id int[8] [pk, increment] //primary key: [auto-increment] - user unique id
+  user_fullname varchar[255] //full name
+  user_ic_no int[12] //ic number
+  user_username varchar[255] //users display name
+  user_password varchar[12] //users password
+  user_authkey varchar[32] //users authentication key
+  user_dob date //users date of birth
+  user_phone int[10] //users phone number
+  user_email varchar[255] //users email address
+  user_gender char[1] //users gender M or F
+  user_fulladdress varchar[255] [null]  //users address
+  user_created_at timestamp //date and time the account was registered
+  user_tos_status char[1] //TOS flag for MODERATION DEPT
+  user_aboutme varchar[255] [null] //About me section of user profile
+  user_fpath_profilepic varchar[255] //filepath to the users profile picture
+}
+
+# change size of password to 32
+con.execute('''CREATE TABLE USER_T
+            (user_id INT PRIMARY KEY AUTOINCREMENT NOT NULL,
+            user_fullname VARCHAR(255) NOT NULL,
+            user_ic_no INTEGER NOT NULL,
+            user_username VARCHAR(255) NOT NULL,
+            user_password VARCHAR(32) NOT NULL,
+            user_authkey VARCHAR(32),
+            user_dob DATE,
+            user_phone INTEGER,
+            user_email VARCHAR(255) NOT NULL,
+            user_gender CHAR(1),
+            user_fulladdress VARCHAR(255) NULL,
+            user_created_at TIMESTAMP,
+            user_tos_status CHAR(1),
+            user_aboutme VARCHAR(255) NULL,
+            user_fpath_profilepic VARCHAR(255))''')
+
+# change the ic number and full name to proper format
+con.execute("INSERT INTO USER_T (user_id, user_fullname, user_ic_no, user_username, user_password, user_authkey, "
+            "user_dob, user_phone, user_email, user_gender, user_created_at, "
+            "user_tos_status) "
+            "VALUES ( 20091400, 'Ahmad Kamil bin Badrol', 990127060154, 'Kamil100', 'AKamil123%', "
+            "'INSERT authkey here', '2001-08-20', 0161234567, 'a.kamil10@gmail.com', 'M', "
+            "'2021-08-12 23:57:12.120174 UTC', 'A')")
+
+# create BUSINESS_T table in database
+Table BUSINESS_T as B {
+  bus_id int[8] [pk, increment] //primary key: [auto-increment] - business proposal unique id
+  bus_name varchar[255] //name of the business
+  bus_type varchar[255] //food, artisan, repair shop etc.
+  bus_valuation int[6] //The estimated value of the business at the start of phase 3
+  bus_total_emp int[2] //Total number of employees planned for the business
+  bus_current_emp int[2] //Current employees working in the business (phase 3/4)
+  bus_phone int[10] //business contact number
+  bus_email varchar[255] //business email
+  bus_ssm_id varchar[255] //business SSM registration id
+  bus_lic_no int[10] //business small licence permit number
+  bus_bank_acc int[12] //business bank account number
+  bus_start_date date // Will show the start date - phase 3 start
+  bus_end_date date // Will show the end date  - phase 4 end
+  bus_tos_status char[1] //TOS flag for MODERATION DEPT
+  bus_ops_start_time time //start of business daily operation
+  bus_ops_end_time time //end of business daily operation
+  bus_day varchar[255] //business days of operation (e.g. MON - FRI)
+  bus_reg_address varchar[255] //Address of business registration
+  bus_loc_address_city varchar[255] //Location of the business
+  bus_fpath_logo varchar[255] //filepath to the business logo
+}
+
+con.execute('''CREATE TABLE BUSINESS_T
+            (bus_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+            bus_name VARCHAR (255),
+            bus_type VARCHAR (255),
+            bus_valuation INTEGER (6),
+            bus_total_emp INTEGER (2),
+            bus_current_emp INTEGER (2),
+            bus_phone INTEGER (2),
+            bus_email VARCHAR (255),
+            bus_ssm_id VARCHAR (255),
+            bus_lic_no INTEGER (10),
+            bus_bank_acc INTEGER (12),
+            bus_start_date DATE,
+            bus_end_date DATE,
+            bus_tos_status CHAR (1),
+            bus_ops_start_time TIME,
+            bus_ops_end_time TIME,
+            bus_day VARCHAR (255),
+            bus_reg_address VARCHAR (255),
+            bus_loc_address_city VARCHAR (255),
+            bus_fpath_logo VARCHAR (255))''')

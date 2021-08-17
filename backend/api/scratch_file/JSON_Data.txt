@@ -1,0 +1,48 @@
+# JSON Data to register new account:
+{
+    "fullname" : "Laila Adreana",
+    "ic_number" : "050625060039",
+    "username" : "laila_adreana",
+    "password" : "laila0039",
+    "dob" : "2005-06-25",
+    "phone_num" : "0183698521",
+    "email" : "laila.adreana@hotmail.com",
+    "gender" : "F",
+    "profile_pic" : "me.png"
+}
+
+# JSON Data to register a new business proposal:
+{
+    "bus_name" : "Burger Zone",
+    "bus_type" : "Food",
+    "bus_valuation" : "4500",
+    "bus_total_emp" : "1",
+    "bus_current_emp" : "0",
+    "bus_phone" : "0134569874",
+    "bus_email" : "support@burgrzon.com",
+    "bus_ssm_id" : "",
+    "bus_lic_no" : "",
+    "bus_bank_acc" : "405952639874",
+    "bus_ops_start_time" : "12:30:00",
+    "bus_ops_end_time" : "19:00:00",
+    "bus_day" : "Mon - Sat",
+    "bus_reg_address" : "1, Jalan Delima, 48000 Klang, Selangor",
+    "bus_loc_address_city" : "PJ OLD TOWN FOOD COURT, Jalan Othman, 46000 Petaling Jaya, Selangor",
+    "bus_fpath_logo" : "businesslogo.jpg"
+}
+
+# JSON Data to update user profile
+# Compulsory to include all column to ensure no error, if no update is needed just fill it with current data
+{
+    "fullname": "Nurul Qistina",
+    "ic_number": "050625060018",
+    "username": "nurul.qistina",
+    "password": "nrlqisty159",
+    "dob": "2005-06-25",
+    "phone": "0163254789",
+    "email": "qistinanurul@yahoo.com",
+    "gender": "F",
+    "fulladdress": "1, Jalan Mahsuri, Taman Mekar 25200 Kuantan, Pahang",
+    "aboutme": "I am a student in Asia Pacific University",
+    "profile_pic": "me1.jpeg"
+}
