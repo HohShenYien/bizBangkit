@@ -38,6 +38,7 @@ Table BUSINESS_T as B {
   bus_id int[8] [pk, increment] //primary key: [auto-increment] - business proposal unique id
   bus_name varchar[255] //name of the business
   bus_type varchar[255] //food, artisan, repair shop etc.
+  bus_desciption text //description of this business. 
   bus_valuation int[6] //The estimated value of the business at the start of phase 3
   bus_total_emp int[2] //Total number of employees planned for the business
   bus_current_emp int[2] //Current employees working in the business (phase 3/4)
@@ -129,19 +130,20 @@ Table BUS_REPORT_T as BR {
 Table FORUM_POST_T as FP {
   forum_post_id int[8] [pk, increment] //primary key: forum post unique id
   forum_post_title varchar[255] //title of post
-  forum_post_content varchar[255] //content of post
+  forum_post_content text //content of post
   forum_post_datetime timestamp //date and time the post was made
   forum_post_status char[1] //current status of this post (locked/active/archived)
   forum_post_tos_flag char[1] //TOS flag for MODERATION DEPT
   forum_post_totalpoint int[10] //Total number (upvotes+downvotes) points for this post
   forum_post_minuspoint int[10] //Total downvotes for this post
+  forum_post_viewcount int[10] //Total views for this post
   user_id int[8] //foreign key: references USER_T
 }
 
 //Composite table to track forum replies.
 Table FORUM_REPLY_T as FR {
   reply_id int[8] [pk, increment] //primary key: forum reply unique id
-  forum_reply_content varchar[255] //content of reply
+  forum_reply_content text //content of reply
   forum_reply_datetime timestamp //date and time the reply was made
   forum_reply_status char[1] //current status of this reply (locked/active/archived)
   forum_reply_tos_flag char[1] //TOS flag for MODERATION DEPT
@@ -166,7 +168,7 @@ Ref: T.user_id > U.user_id //Many tansactions must point to one user
 Ref: T.bus_id > B.bus_id //Many transactions must point to one business
 Ref: USR.bus_id - B.bus_id //Many shares must point to one business
 Ref: USR.user_id - U.user_id //Each share must point to one user
-Ref: BSR.bus_id > B.bus_id //Many shares must point to one business
+Ref: BSR.bus_id - B.bus_id //Each share count must point to one business id
 Ref: U.user_id > BO.user_id //Many users can own one business
 Ref: BO.bus_id > B.bus_id //Many business shares must point to one business
 Ref: U.user_id > BF.user_id //Many users can give feedback to each business
