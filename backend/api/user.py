@@ -135,7 +135,8 @@ def upload_image():
     file = request.files['file']
 
     if file.filename == '':  # If no file is selected, default picture will be used
-        path = r'C:\Users\rosss\OneDrive\Documents\GitHub\bizBangkit\backend\api\pictures'
+        path = r'C:\Users\rosss\OneDrive\Documents\GitHub\bizBangkit\backend\api\pictures\default.png'
+        file.save(path)
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)  # stores the name of the file uploaded
