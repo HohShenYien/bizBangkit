@@ -38,6 +38,7 @@ Table BUSINESS_T as B {
   bus_id int[8] [pk, increment] //primary key: [auto-increment] - business proposal unique id
   bus_name varchar[255] //name of the business
   bus_type varchar[255] //food, artisan, repair shop etc.
+  bus_desciption text //description of this business. 
   bus_valuation int[6] //The estimated value of the business at the start of phase 3
   bus_total_emp int[2] //Total number of employees planned for the business
   bus_current_emp int[2] //Current employees working in the business (phase 3/4)
