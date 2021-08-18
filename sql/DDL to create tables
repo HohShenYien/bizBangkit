@@ -135,6 +135,7 @@ Table FORUM_POST_T as FP {
   forum_post_tos_flag char[1] //TOS flag for MODERATION DEPT
   forum_post_totalpoint int[10] //Total number (upvotes+downvotes) points for this post
   forum_post_minuspoint int[10] //Total downvotes for this post
+  forum_post_viewcount int[10] //Total views for this post
   user_id int[8] //foreign key: references USER_T
 }
 
