@@ -1,8 +1,11 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Flask, Blueprint, request, jsonify, make_response
 import json
 import sqlite3
-import uuid
 import datetime
+import string
+import secrets
+import os
+from werkzeug.utils import secure_filename
 
 user_bp = Blueprint('user', __name__)
 
@@ -13,6 +16,12 @@ con.commit()
 
 JSON_MIME_TYPE = 'application/json; charset=utf-8'
 currentDateTime = datetime.datetime.now()
+
+# FOR UPLOADING FILE (IMAGE) INTO THE SYSTEM
+app = Flask(__name__)
+UPLOAD_FOLDER = r'C:\Users\rosss\OneDrive\Documents\GitHub\bizBangkit\backend\api\pictures'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 def json_response(data='', status=200, headers=None):
@@ -26,21 +35,24 @@ def json_response(data='', status=200, headers=None):
 # To register new user account in bizBangkit
 @user_bp.route('/register', methods=['GET', 'POST'])
 def register():
+    letter = string.ascii_letters
+    digit = string.digits
+    length = 32
+
     if request.method == 'GET':
         return jsonify({'Error message': 'Wrong method! Send the parameters using POST method instead.'})
     elif request.method == 'POST':
-        user = request.json
+        user = request.form
+        user_id = ''
 
         cur.execute("SELECT * FROM USER_T WHERE user_fullname = ? AND user_ic_no = ? AND user_username = ?",
                     (user['fullname'], user['ic_number'], user['username'], ))
         account = cur.fetchone()
         if account:
             return jsonify({'message': 'Account already exists!'})
-        elif user['profile_pic']:  # If profile picture is uploaded
-            p = user['profile_pic']
-            path = r'C:\Users\rosss\OneDrive\Documents\GitHub\bizBangkit\backend\pictures'
-            path1 = path + '\\' + p
-            authkey = str(uuid.uuid4())
+        else:
+            path1 = upload_image()
+            authkey = ''.join(secrets.choice(letter + digit) for x in range(length))
             cur.execute("""INSERT INTO USER_T (user_id, user_fullname, user_ic_no, user_username, user_password, 
             user_authkey, user_dob, user_phone, user_email, user_gender, user_created_at, user_tos_status, 
             user_fpath_profilepic) 
@@ -48,27 +60,21 @@ def register():
                         (user['fullname'], user['ic_number'], user['username'], user['password'], authkey, user['dob'],
                          user['phone_num'], user['email'], user['gender'], currentDateTime, path1, ))
             con.commit()
-            new_acc = get_user(user['username'])
-        else:  # If profile picture is NOT uploaded
-            path1 = r'C:\Users\rosss\OneDrive\Documents\GitHub\bizBangkit\backend\pictures\defaultpic.png'
-            authkey = str(uuid.uuid4())
-            cur.execute("""INSERT INTO USER_T (user_id, user_fullname, user_ic_no, user_username, user_password, 
-            user_authkey, user_dob, user_phone, user_email, user_gender, user_created_at, user_tos_status, 
-            user_fpath_profilepic) 
-            VALUES ( (SELECT max(user_id) FROM USER_T)+1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'A', ?)""",
-                        (user['fullname'], user['ic_number'], user['username'], user['password'], authkey, user['dob'],
-                         user['phone_num'], user['email'], user['gender'], currentDateTime, path1,))
-            con.commit()
-            new_acc = get_user(user['username'])
+
+            find = cur.execute("SELECT user_id FROM USER_T WHERE user_authkey = ?", (authkey,))
+            for i in find:
+                user_id = i[0]
+
+            new_acc = get_user(user_id)
 
     return new_acc
 
 
 # To view user credentials based on their username
-@user_bp.route('/profile/<username>', methods=['GET'])
-def get_user(username):
+@user_bp.route('/profile/<user_id>', methods=['GET'])
+def get_user(user_id):
     user_profile = {}
-    cur.execute("SELECT * FROM USER_T WHERE user_username = ?", (username, ))
+    cur.execute("SELECT * FROM USER_T WHERE user_id = ?", (user_id, ))
     display = cur.fetchone()
 
     if display:
@@ -92,28 +98,48 @@ def get_user(username):
 # To update user credentials
 @user_bp.route('/update/profile/<user_id>', methods=['PUT'])
 def update_profile(user_id):
-    update = request.json
-    user_name = ''
+    update = request.form
 
     if update['fullname'] or update['ic_number'] or update['username'] or update['password'] or update['dob'] \
-            or update['phone'] or update['email'] or update['gender'] or update['fulladdress'] or update['aboutme'] \
-            or update['profile_pic']:
-
-        p = update['profile_pic']
-        path = r'C:\Users\rosss\OneDrive\Documents\GitHub\bizBangkit\backend\pictures'
-        path1 = path + '\\' + p
+            or update['phone_num'] or update['email'] or update['gender'] or update['fulladdress'] or update['aboutme']:
 
         cur.execute("UPDATE USER_T SET user_fullname = ?, user_ic_no = ?, user_username = ?, user_password = ?, "
                     "user_dob = ?, user_phone = ?, user_email = ?, user_gender = ?, user_fulladdress = ?, "
-                    "user_aboutme = ?, user_fpath_profilepic = ? WHERE user_id =?",
+                    "user_aboutme = ? WHERE user_id = ?",
                     (update['fullname'], update['ic_number'], update['username'], update['password'], update['dob'],
-                     update['phone'], update['email'], update['gender'], update['fulladdress'],
-                     update['aboutme'], path1, user_id,))
+                     update['phone_num'], update['email'], update['gender'], update['fulladdress'],
+                     update['aboutme'], user_id,))
         con.commit()
 
-    find = cur.execute("SELECT user_username FROM USER_T WHERE user_id = ?", (user_id,))
-    for i in find:
-        user_name = i[0]
-    updated = get_user(user_name)
+    updated = get_user(user_id)
 
     return updated
+
+
+# To update user's profile picture only
+@user_bp.route('/update/profile/image/<user_authkey>', methods=['PUT'])
+def update_image(user_authkey):
+    new_image = upload_image()
+
+    cur.execute("UPDATE USER_T SET user_fpath_profilepic= ? WHERE user_authkey = ?", (new_image, user_authkey,))
+    con.commit()
+
+    return jsonify({"Updated profile picture directory": new_image})
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def upload_image():
+    file = request.files['file']
+
+    if file.filename == '':  # If no file is selected, default picture will be used
+        path = r'C:\Users\rosss\OneDrive\Documents\GitHub\bizBangkit\backend\api\pictures'
+
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)  # stores the name of the file uploaded
+        path = (os.path.join(app.config['UPLOAD_FOLDER'], filename))  # save uploaded image under the filename
+        file.save(path)
+
+    return path

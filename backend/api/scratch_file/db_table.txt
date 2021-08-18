@@ -88,3 +88,4 @@ con.execute('''CREATE TABLE BUSINESS_T
             bus_reg_address VARCHAR (255),
             bus_loc_address_city VARCHAR (255),
             bus_fpath_logo VARCHAR (255))''')
+

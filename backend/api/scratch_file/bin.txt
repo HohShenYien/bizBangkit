@@ -1,0 +1,32 @@
+token = jwt.encode({'user': auth.username,
+                                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)},
+                               app.config['SECRET_KEY'])
+
+C:\Users\rosss\Postman/files : valid directory to upload pictures
+
+if 'file' not in request.files:  # check if the POST request has the file part
+    path = r'\pictures\defaultpic.png'
+    cur.execute("UPDATE USER_T SET user_fpath_profilepic = ? WHERE user_authkey = ?", (path, authkey,))
+    con.commit()
+    return jsonify({"Profile picture directory": path})
+
+        p = update['profile_pic']
+        path = r'C:\Users\rosss\OneDrive\Documents\GitHub\bizBangkit\backend\pictures'
+        path1 = path + '\\' + p
+
+        else:  # If profile picture is NOT uploaded
+            path1 = r'\pictures\defaultpic.png'
+            authkey = ''.join(secrets.choice(letter + digit) for x in range(length))
+            cur.execute("""INSERT INTO USER_T (user_id, user_fullname, user_ic_no, user_username, user_password,
+            user_authkey, user_dob, user_phone, user_email, user_gender, user_created_at, user_tos_status,
+            user_fpath_profilepic)
+            VALUES ( (SELECT max(user_id) FROM USER_T)+1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'A', ?)""",
+                        (user['fullname'], user['ic_number'], user['username'], user['password'], authkey, user['dob'],
+                         user['phone_num'], user['email'], user['gender'], currentDateTime, path1,))
+            con.commit()
+
+            find = cur.execute("SELECT user_id FROM USER_T WHERE user_authkey = ?", (authkey,))
+            for i in find:
+                user_id = i[0]
+
+clash of PUT request in update image with POST request in upload image; resulting in NULL value of the image in db

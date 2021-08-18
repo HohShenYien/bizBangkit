@@ -54,21 +54,28 @@ def token_required(f):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     auth = request.authorization
+    user_id = ''
+    authkey = ''
 
     if auth:
+        # auth.username = email AND auth.password = password
         cur.execute("SELECT * FROM USER_T WHERE user_email = ? AND user_password = ?", (auth.username, auth.password, ))
         find = cur.fetchall()
 
         if find:
-            token = jwt.encode({'user': auth.username,
-                                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)},
-                               app.config['SECRET_KEY'])
-            return jsonify({'token': token, 'email': auth.username, 'password': auth.password, })
+            show = cur.execute("SELECT user_id, user_authkey FROM USER_T WHERE user_email = ? AND user_password = ?",
+                               (auth.username, auth.password,))
+            for i in show:
+                user_id = i[0]
+                authkey = i[1]
+
+            return jsonify({'authkey': authkey, 'user_id': user_id})
 
     return make_response('Invalid credentials!', 401,
                          {'WWW-Authenticate': 'Basic realm="Kindly login to access this page"'})
 
 
+# Might delete if unnecessary / irrelevant
 @app.route('/')
 def unprotected():
     return jsonify({'Message': 'Welcome to bizBangkit!'})
