@@ -129,7 +129,7 @@ Table BUS_REPORT_T as BR {
 Table FORUM_POST_T as FP {
   forum_post_id int[8] [pk, increment] //primary key: forum post unique id
   forum_post_title varchar[255] //title of post
-  forum_post_content varchar[255] //content of post
+  forum_post_content text //content of post
   forum_post_datetime timestamp //date and time the post was made
   forum_post_status char[1] //current status of this post (locked/active/archived)
   forum_post_tos_flag char[1] //TOS flag for MODERATION DEPT
@@ -141,7 +141,7 @@ Table FORUM_POST_T as FP {
 //Composite table to track forum replies.
 Table FORUM_REPLY_T as FR {
   reply_id int[8] [pk, increment] //primary key: forum reply unique id
-  forum_reply_content varchar[255] //content of reply
+  forum_reply_content text //content of reply
   forum_reply_datetime timestamp //date and time the reply was made
   forum_reply_status char[1] //current status of this reply (locked/active/archived)
   forum_reply_tos_flag char[1] //TOS flag for MODERATION DEPT
@@ -166,7 +166,7 @@ Ref: T.user_id > U.user_id //Many tansactions must point to one user
 Ref: T.bus_id > B.bus_id //Many transactions must point to one business
 Ref: USR.bus_id - B.bus_id //Many shares must point to one business
 Ref: USR.user_id - U.user_id //Each share must point to one user
-Ref: BSR.bus_id > B.bus_id //Many shares must point to one business
+Ref: BSR.bus_id - B.bus_id //Each share count must point to one business id
 Ref: U.user_id > BO.user_id //Many users can own one business
 Ref: BO.bus_id > B.bus_id //Many business shares must point to one business
 Ref: U.user_id > BF.user_id //Many users can give feedback to each business
