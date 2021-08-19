@@ -155,8 +155,8 @@ Table FORUM_REPLY_T as FR {
 
 //Composite table to track forum tags.
 Table FORUM_TAG_T as FT {
-  forum_post_id int [pk] //composite primary key: references FORUM_POST_T
-  forum_tag_name varchar[255] //tags attached to this post
+  forum_post_id int [pk] //composite primary key 1: references FORUM_POST_T
+  forum_tag_name varchar[255] [pk] //omposite primary key 2:unique tags attached to this post (e.g. 'FOOD', 'CRAFT', 'CHERAS', 'PASAR MALAM' etc.)
 }
 
 // Creating references
