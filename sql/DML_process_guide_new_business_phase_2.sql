@@ -91,12 +91,17 @@ WHERE	( BUS_REPORT_T.bus_id = '<BUSINESS ID>' )
 
 //-- IF ( 	BUS_SHARE_T.bus_share_current_investor == BUS_SHARE_T.bus_share_approve_limit )
 
-//-- 2. UPDATE BUS_SHARE_T with values to proceed to Phase 2. (SQL)
+//-- 2. UPDATE BUSINESS_T with start date (phase 3) and end date (phase 4) (SQL)
 
 UPDATE	BUS_SHARE_T
-SET		bus_share_phase = 3
-
+SET	bus_start_date = <INPUT: "2021-08-12 23:57:12">,
+	bus_end_date = <INPUT: "2022-08-12 23:57:12">
+	
 WHERE	( BUS_SHARE_T.bus_id = '<BUSINESS ID>' )	
 
+//-- 3.  UPDATE BUS_SHARE_T with values to proceed to Phase 3. (SQL) 
+
+UPDATE	BUSINESS_T
+SET	bus_share_phase = 3
 
 //--  END OF PHASE 2
