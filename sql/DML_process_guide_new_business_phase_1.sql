@@ -44,8 +44,8 @@ else 	{ 	//Error: Insufficient wallet balance }
 //-- 5. MINUS payment from user waller amt and ADD to spent cash (SQL)
  
 UPDATE	USER_WALLET_T
-SET		wallet_available_cash = ( "currentBalance" - paymentAmt ),
-		wallet_spent_cash = ( paymentAmt )
+SET	wallet_available_cash = ( "currentBalance" - 'paymentAmt' ),
+	wallet_spent_cash = ( wallet_spent_cash + 'paymentAmt' )
 	 
 WHERE	( USER_WALLET_T.user_id = '<USER ID>' )
 
