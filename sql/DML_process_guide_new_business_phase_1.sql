@@ -89,6 +89,7 @@ WHERE	( BUS_REPORT_T.bus_id = '<BUSINESS ID>' )
 //-- SQL & Python code for process 2:
 
 //-- 1. Check that the share limit is reached (Phase 1 is 1 investor) & SSM and BUSINESS LICENCE Registration is COMPLETE.(Python)
+//-- SPECIAL NOTE: The cost of SSM and Bus Licence is not being factored in this phase for the prototype. It should be added here for the LIVE build.
 
 //-- IF ( 	BUS_SHARE_T.bus_share_current_investor == bus_share_approve_limit && 
 //--      ( BUSINESS_T.bus_ssm_id != 'pending1F' &&
@@ -98,7 +99,6 @@ WHERE	( BUS_REPORT_T.bus_id = '<BUSINESS ID>' )
 
 UPDATE	BUS_SHARE_T
 SET		bus_share_approve_limit = bus_share_total_investor,
-		rep_current_fund = 'paymentAmt' - '<COST OF BUSINESS LICENCES AND SSM REGISTRATION>',
 		bus_share_phase = 2,
 	
 WHERE	( BUS_SHARE_T.bus_id = '<BUSINESS ID>' )
