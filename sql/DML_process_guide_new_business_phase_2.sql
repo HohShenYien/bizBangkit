@@ -94,8 +94,9 @@ WHERE	( BUS_REPORT_T.bus_id = '<BUSINESS ID>' )
 //-- 2. UPDATE BUSINESS_T with start date (phase 3) and end date (phase 4) (SQL)
 
 UPDATE	BUS_SHARE_T
-SET	bus_start_date = <INPUT: "2021-08-12 23:57:12">,
-	bus_end_date = <INPUT: "2022-08-12 23:57:12">
+SET	bus_start_date = <'2021-08-12 23:57:12'>,
+	bus_share_maturity_date = <'2022-02-12 23:57:12'>,
+	bus_end_date = <'2022-08-12 23:57:12'>
 	
 WHERE	( BUS_SHARE_T.bus_id = '<BUSINESS ID>' )	
 
