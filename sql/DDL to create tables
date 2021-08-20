@@ -113,7 +113,9 @@ Table BUS_TRANSACT_T as BST {
   rep_transact_datetime timestamp //date and time of the transaction
   rep_transact_decription varchar[255] //description of the transaction (both income and withdrawal)
   rep_transact_tos_flag char[1] //TOS flag for MODERATION DEPT
-  rep_transact_fpath_updatepic varchar[255] //filepath to the evidence of the purchase 
+  rep_transact_fpath_updatepic varchar[255] //filepath to the evidence of the purchase
+  rep_transact_spend int[12] [null] // amount of money spent for business proposal
+  rep_transact_earn int[12] [null] // amount of money earned from business proposal
 }
 
 //Main table to track income/expenditure of business proposals. Function is similar to users wallet.
