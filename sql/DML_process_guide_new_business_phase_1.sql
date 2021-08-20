@@ -99,7 +99,7 @@ WHERE	( BUS_REPORT_T.bus_id = '<BUSINESS ID>' )
 
 UPDATE	BUS_SHARE_T
 SET		bus_share_approve_limit = bus_share_total_investor,
-		bus_share_phase = 2,
+		bus_share_phase = 2
 	
 WHERE	( BUS_SHARE_T.bus_id = '<BUSINESS ID>' )
 
