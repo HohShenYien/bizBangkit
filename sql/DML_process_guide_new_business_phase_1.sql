@@ -98,7 +98,7 @@ WHERE	( BUS_REPORT_T.bus_id = '<BUSINESS ID>' )
 
 UPDATE	BUS_SHARE_T
 SET		bus_share_approve_limit = bus_share_total_investor,
-		rep_current_fund = 'paymentAmt',
+		rep_current_fund = 'paymentAmt' - '<COST OF BUSINESS LICENCES AND SSM REGISTRATION>',
 		bus_share_phase = 2,
 	
 WHERE	( BUS_SHARE_T.bus_id = '<BUSINESS ID>' )
