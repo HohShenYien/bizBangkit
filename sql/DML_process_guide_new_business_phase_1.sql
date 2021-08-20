@@ -49,15 +49,16 @@ SET	wallet_available_cash = ( "currentBalance" - 'paymentAmt' ),
 	 
 WHERE	( USER_WALLET_T.user_id = '<USER ID>' )
 
-//-- 6. SET transaction history (SQL)
+//-- 6. SET transaction history (SQL) 
+//-- utransact_status ( P is Paid, S is Sold ) 
 
 INSERT INTO USER_TRANSACT_T as T (T.user_id, T.bus_id, T.utransact_datetime, T.utransact_amt, T.utransact_type, T.utransact_status)
-VALUES ('<USER ID>', '<BUSINESS ID>', 'YYYY-MM-DD HH:MM:SS', 'paymentAmt', 'BUY', 'PAID')
+VALUES ('<USER ID>', '<BUSINESS ID>', 'YYYY-MM-DD HH:MM:SS', 'paymentAmt', 'BUY', 'P')
 
 //-- 7. SET SHARE for USER_SHARE_T (SQL)
 
 INSERT INTO USER_SHARE_T as USR (USR.bus_id, USR.user_id, USR.share_percent, USR.share_buy_value, USR.share_buy_datetime)
-VALUES ('<BUSINESS ID>', '<USER ID>', '8', 'paymentAmt', 'YYYY-MM-DD HH:MM:SS.120174 UTC')
+VALUES ('<BUSINESS ID>', '<USER ID>', '8', '<paymentAmt>', 'YYYY-MM-DD HH:MM:SS.120174 UTC')
 
 //-- 8. UPDATE SHARE for BUS_SHARE_T (SQL)	
 
@@ -78,9 +79,8 @@ WHERE	( BUS_REPORT_T.bus_id = '<BUSINESS ID>' )
 //-- **START OF PROCESS 2**
 
 //-- Phase 1 trigger 2: " Business SSM & small business licence registered. "
-//-- IF ( BUS_SHARE_T.bus_share_current_investor == bus_share_approve_limit && 
-//--      BUSINESS_T.bus_ssm_id != 'pending1F'
-//--      BUSINESS_T.bus_lic_no != 'pending1F' )
+//-- IF (  BUS_SHARE_T.bus_share_current_investor == bus_share_approve_limit && 
+//--     ( BUSINESS_T.bus_ssm_id != 'pending1F' && BUSINESS_T.bus_lic_no != 'pending1F' ) )
 
 //-- Results:
 //-- set value(int) to BUS_SHARE_T [bus_share_approve_limit =  bus_share_total_investor]
