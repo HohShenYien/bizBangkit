@@ -116,10 +116,9 @@ Table BUS_TRANSACT_T as BST {
   rep_transact_fpath_updatepic varchar[255] //filepath to the evidence of the purchase 
 }
 
-//Composite table to track income/expenditure of business proposals.
+//Main table to track income/expenditure of business proposals. Function is similar to users wallet.
 Table BUS_REPORT_T as BR {
-  bus_id int[8] [pk] //primary key 1: references BUSINESS_T
-  rep_transact_id int[8] [pk] //primary key 2: references BUS_TRANSACT_T
+  bus_id int[8] [pk] //primary key: references BUSINESS_T
   rep_total_fund int[12] //total raised funds
   rep_current_fund int[12] //current funds still in account
   rep_total_spent int[12] //total funds spent on business
