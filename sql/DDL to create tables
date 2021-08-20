@@ -73,10 +73,10 @@ Table USER_SHARE_T as USR {
     bus_id int[8] [pk] //composite primary key 1: references BUS_SHARE_T
     user_id int[8] [pk] //composite primary key 2: references USER_T
     share_percent int[3] //percentage of shares exchanged - 8% or 5%
-    share_buy_value int[12] //share value at "buy share"
-    share_buy_datetime timestamp //date and time at "buy share"
-    share_sell_value int[12] //share value at "sell share"
-    share_sell_datetime timestamp //date and time at "sell share"
+    share_buy_value int[12] [null] //share value at "buy share"
+    share_buy_datetime timestamp [null] //date and time at "buy share"
+    share_sell_value int[12] [null] //share value at "sell share"
+    share_sell_datetime timestamp [null] //date and time at "sell share"
 }
 
 //composite table to track business share buy/sale to users (3NF dependancy)
