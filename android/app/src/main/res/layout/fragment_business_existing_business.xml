@@ -14,19 +14,20 @@
         <LinearLayout
             android:id="@+id/businessNameLayout"
             android:layout_width="match_parent"
-            android:layout_height="80sp"
-            android:background="@color/light_pink"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="65sp"
+            android:background="@color/light_blue"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="10dp">
             
             <TextView
                 android:id="@+id/businessExistingBusinessName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Bob's Nasi Lemak"
-                android:textSize="30sp"
+                android:textSize="27sp"
+                android:textStyle="bold"
                 android:textColor="@android:color/black"
-                android:textAlignment="center"
-                android:layout_marginTop="18dp" />
+                android:gravity="center"/>
 
         </LinearLayout>
 
@@ -38,9 +39,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.02"
+            app:layout_constraintVertical_bias="0.03"
             app:layout_constraintHorizontal_bias="0.03"
-            android:background="@drawable/rounded_corners">
+            android:background="@drawable/rounded_bordered_layout">
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/businessExistingBusinessProgressIndicator"
@@ -57,7 +58,7 @@
                 android:id="@+id/businessExistingBusinessProgressNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="72dp"
                 android:text="60%"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
@@ -73,27 +74,25 @@
                 android:textColor="@android:color/black"
                 android:layout_marginTop="190dp" />
 
-            <LinearLayout
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/businessExistingBusinessViewInvestors"
+                style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/pastel_green"
+                android:layout_height="42dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="250dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View investors"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/black"
-                    android:padding="3sp"/>
-
-            </LinearLayout>
+                android:layout_marginTop="240dp"
+                android:backgroundTint="@color/light_gray"
+                android:text="View investors"
+                android:textColor="@color/dark_purple"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:rippleColor="@color/dark_purple"
+                app:strokeColor="@color/dark_purple"
+                app:strokeWidth="1.5dp" />
 
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/businessExistingBusinessDetailsRelativeLayout"
             android:layout_width="175sp"
             android:layout_height="310sp"
@@ -101,20 +100,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/businessExistingBusinessProgressRelativeLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.02"
-            app:layout_constraintHorizontal_bias="0.5">
+            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/light_blue"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Proposed since:"
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:textAlignment="center"
@@ -132,18 +131,24 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="160dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:background="@android:color/black"
+                android:layout_marginTop="12sp"
+                android:layout_marginBottom="12sp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/light_blue"
-                android:orientation="vertical"
-                android:layout_marginTop="85dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Phase:"
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:textAlignment="center"
@@ -161,18 +166,24 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="160dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:background="@android:color/black"
+                android:layout_marginTop="12sp"
+                android:layout_marginBottom="12sp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/light_blue"
-                android:orientation="vertical"
-                android:layout_marginTop="170dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Phase ending in:"
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:textAlignment="center"
@@ -190,18 +201,24 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="160dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:background="@android:color/black"
+                android:layout_marginTop="12sp"
+                android:layout_marginBottom="12sp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/light_blue"
-                android:orientation="vertical"
-                android:layout_alignParentBottom="true">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Workers Employed:"
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:textAlignment="center"
@@ -219,131 +236,75 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
 
-        <RelativeLayout
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/businessExistingBusinessDiscussionPage"
             android:layout_width="0sp"
-            android:layout_height="wrap_content"
+            android:layout_height="55sp"
+            android:text="Discussion Page"
+            android:textAllCaps="false"
+            android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/businessExistingBusinessProgressRelativeLayout"
             app:layout_constraintStart_toStartOf="@id/businessExistingBusinessProgressRelativeLayout"
             app:layout_constraintEnd_toEndOf="@id/businessExistingBusinessDetailsRelativeLayout"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_corners"
-            android:backgroundTint="@color/colorPrimary"
-            android:clickable="true"
-            android:focusable="true">
+            android:layout_marginTop="30dp"
+            style="?attr/materialButtonOutlinedStyle"
+            android:backgroundTint="@color/light_pink"
+            app:strokeColor="@color/colorPrimary"
+            app:strokeWidth="2sp"
+            app:rippleColor="@color/pastel_purple" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Discussion page"
-                android:textSize="25sp"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="\>"
-                android:textSize="30sp"
-                android:textColor="@android:color/white"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/businessExistingBusinessPermitLicense"
             android:layout_width="0sp"
-            android:layout_height="wrap_content"
+            android:layout_height="55sp"
+            android:text="Permit / License"
+            android:textAllCaps="false"
+            android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/businessExistingBusinessDiscussionPage"
             app:layout_constraintStart_toStartOf="@id/businessExistingBusinessProgressRelativeLayout"
             app:layout_constraintEnd_toEndOf="@id/businessExistingBusinessDetailsRelativeLayout"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_corners"
-            android:backgroundTint="@color/colorPrimary"
-            android:clickable="true"
-            android:focusable="true">
+            android:layout_marginTop="15dp"
+            style="?attr/materialButtonOutlinedStyle"
+            android:backgroundTint="@color/light_pink"
+            app:strokeColor="@color/colorPrimary"
+            app:strokeWidth="2sp"
+            app:rippleColor="@color/pastel_purple"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Permit/License"
-                android:textSize="25sp"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="\>"
-                android:textSize="30sp"
-                android:textColor="@android:color/white"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/businessExistingBusinessSeekWorkers"
             android:layout_width="0sp"
-            android:layout_height="wrap_content"
+            android:layout_height="55sp"
+            android:text="Seek for workers"
+            android:textAllCaps="false"
+            android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/businessExistingBusinessPermitLicense"
             app:layout_constraintStart_toStartOf="@id/businessExistingBusinessProgressRelativeLayout"
             app:layout_constraintEnd_toEndOf="@id/businessExistingBusinessDetailsRelativeLayout"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_corners"
-            android:backgroundTint="@color/colorPrimary"
-            android:clickable="true"
-            android:focusable="true">
+            android:layout_marginTop="15dp"
+            style="?attr/materialButtonOutlinedStyle"
+            android:backgroundTint="@color/light_pink"
+            app:strokeColor="@color/colorPrimary"
+            app:strokeWidth="2sp"
+            app:rippleColor="@color/pastel_purple"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Seek for workers"
-                android:textSize="25sp"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="\>"
-                android:textSize="30sp"
-                android:textColor="@android:color/white"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/businessExistingBusinessFinancialDetails"
             android:layout_width="0sp"
-            android:layout_height="wrap_content"
+            android:layout_height="55sp"
+            android:text="Financial Details"
+            android:textAllCaps="false"
+            android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/businessExistingBusinessSeekWorkers"
             app:layout_constraintStart_toStartOf="@id/businessExistingBusinessProgressRelativeLayout"
             app:layout_constraintEnd_toEndOf="@id/businessExistingBusinessDetailsRelativeLayout"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_corners"
-            android:backgroundTint="@color/colorPrimary"
-            android:clickable="true"
-            android:focusable="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Financial details"
-                android:textSize="25sp"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="\>"
-                android:textSize="30sp"
-                android:textColor="@android:color/white"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10sp" />
-        </RelativeLayout>
+            android:layout_marginTop="15dp"
+            style="?attr/materialButtonOutlinedStyle"
+            android:backgroundTint="@color/light_pink"
+            app:strokeColor="@color/colorPrimary"
+            app:strokeWidth="2sp"
+            app:rippleColor="@color/pastel_purple"/>
 
 
         <androidx.constraintlayout.widget.Guideline

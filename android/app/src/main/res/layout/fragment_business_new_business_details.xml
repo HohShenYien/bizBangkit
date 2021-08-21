@@ -5,12 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:fitsSystemWindows="true"
-    android:paddingTop="20dp">
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/businessNewBusinessDetailsBackButton"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:src="@drawable/arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:clickable="true"
+            android:focusable="true" />
 
         <TextView
             android:id="@+id/uselessBusinessDetails"
@@ -24,7 +33,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.02"/>
+            app:layout_constraintVertical_bias="0.02"
+            android:paddingTop="20dp"/>
 
         <TextView
             android:id="@+id/uselessCommencementDate"
@@ -41,65 +51,35 @@
             app:layout_constraintHorizontal_bias="0"/>
 
         <TextView
-            android:id="@+id/uselessDateDash1"
+            android:id="@+id/registerCommencementDateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/registerCommencementYear"
-            app:layout_constraintTop_toBottomOf="@id/uselessCommencementDate"
-            app:layout_constraintVertical_bias="0.01"
-            app:layout_constraintHorizontal_bias="0.01"/>
-
-        <TextView
-            android:id="@+id/uselessDateDash2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/registerCommencementMonth"
-            app:layout_constraintTop_toBottomOf="@id/uselessCommencementDate"
-            app:layout_constraintVertical_bias="0.01"
-            app:layout_constraintHorizontal_bias="0.01"/>
-
-        <Spinner
-            android:id="@+id/registerCommencementYear"
-            android:layout_width="100sp"
-            android:layout_height="35sp"
-            app:layout_constraintTop_toBottomOf="@id/uselessCommencementDate"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/uselessCommencementDate"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0.01"
+            android:layout_marginTop="10sp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/registerCommencementDateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Pick Date"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_purple"
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="@color/dark_purple"
+            app:rippleColor="@color/pastel_purple"
+            app:layout_constraintStart_toEndOf="@id/registerCommencementDateText"
             app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintTop_toBottomOf="@id/uselessCommencementDate"
             app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintVertical_bias="0" />
-
-        <Spinner
-            android:id="@+id/registerCommencementMonth"
-            android:layout_width="90sp"
-            android:layout_height="35sp"
-            app:layout_constraintTop_toBottomOf="@id/uselessCommencementDate"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/uselessDateDash1"
-            app:layout_constraintEnd_toEndOf="@id/guidelineR"
-            app:layout_constraintHorizontal_bias="0.01"
-            app:layout_constraintVertical_bias="0" />
-
-        <Spinner
-            android:id="@+id/registerCommencementDay"
-            android:layout_width="90sp"
-            android:layout_height="35sp"
-            app:layout_constraintTop_toBottomOf="@id/uselessCommencementDate"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/uselessDateDash2"
-            app:layout_constraintEnd_toEndOf="@id/guidelineR"
-            app:layout_constraintHorizontal_bias="0.01"
-            app:layout_constraintVertical_bias="0" />
+            android:layout_marginStart="10sp"/>
 
         <TextView
             android:id="@+id/uselessPrincipalPlace"
@@ -111,8 +91,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/guidelineL"
-            app:layout_constraintTop_toBottomOf="@id/registerCommencementYear"
-            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintTop_toBottomOf="@id/registerCommencementDateText"
+            app:layout_constraintVertical_bias="0.05"
             app:layout_constraintHorizontal_bias="0"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -147,7 +127,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/guidelineL"
             app:layout_constraintTop_toBottomOf="@id/registerPrincipalPlace"
-            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintVertical_bias="0.05"
             app:layout_constraintHorizontal_bias="0"/>
 
         <LinearLayout
@@ -185,12 +165,6 @@
                         android:hint="Enter branch address here" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <ImageView
-                    android:id="@+id/registerBranchAddressTrashCan"
-                    android:layout_width="25sp"
-                    android:layout_height="25sp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/trash_can" />
             </LinearLayout>
 
         </LinearLayout>
@@ -222,7 +196,7 @@
             app:layout_constraintEnd_toEndOf="@id/guidelineR"
             app:layout_constraintStart_toStartOf="@id/guidelineL"
             app:layout_constraintTop_toBottomOf="@id/registerAddBranchAddress"
-            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintVertical_bias="0.05"
             app:layout_constraintHorizontal_bias="0"/>
 
         <TextView
@@ -330,13 +304,6 @@
                         android:textColor="@color/design_default_color_on_secondary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <ImageView
-                    android:id="@+id/registerPartnerNricTrashCan"
-                    android:layout_width="25sp"
-                    android:layout_height="25sp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/trash_can" />
-
             </LinearLayout>
 
         </LinearLayout>
@@ -368,7 +335,7 @@
             app:layout_constraintEnd_toEndOf="@id/guidelineR"
             app:layout_constraintStart_toStartOf="@id/guidelineL"
             app:layout_constraintTop_toBottomOf="@id/registerAddPartnerNric"
-            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintVertical_bias="0.08"
             app:layout_constraintHorizontal_bias="0"/>
 
         <Spinner
@@ -382,6 +349,56 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintVertical_bias="0" />
 
+        <TextView
+            android:id="@+id/uselessBusinessValuation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter your business's estimated total valuation"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/registerBusinessCarriedOut"
+            app:layout_constraintVertical_bias="0.15"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <TextView
+            android:id="@+id/uselessRM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RM"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/uselessBusinessValuation"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginTop="10sp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registerBusinessValuation"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineR"
+            app:layout_constraintHorizontal_bias="0.02"
+            app:layout_constraintStart_toEndOf="@+id/uselessRM"
+            app:layout_constraintTop_toBottomOf="@id/uselessBusinessValuation"
+            app:layout_constraintVertical_bias="0"
+            app:hintEnabled="false">
+
+            <EditText
+                android:id="@+id/editTextRegisterBusinessValuation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="9"
+                android:textColor="@color/design_default_color_on_secondary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/businessNewBusinessDetailsNextButton"
             android:layout_width="130dp"
@@ -394,7 +411,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/registerBusinessCarriedOut"
+            app:layout_constraintTop_toBottomOf="@id/registerBusinessValuation"
             app:layout_constraintVertical_bias="0.35" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -412,7 +429,5 @@
             app:layout_constraintGuide_percent="0.9" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </androidx.core.widget.NestedScrollView>

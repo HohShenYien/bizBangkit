@@ -34,4 +34,22 @@
         <item>F</item>
     </string-array>
 
+    <string-array name="business_type_array">
+        <item>Child care</item>
+        <item>Coffee shop</item>
+        <item>Fashion company</item>
+        <item>Foods and Snacks corner</item>
+        <item>Internet business</item>
+        <item>Laundry</item>
+        <item>Micro-finance services</item>
+        <item>Petroleum business</item>
+        <item>Professional services</item>
+        <item>Real estate materials retailers</item>
+        <item>Restaurant business</item>
+        <item>Smartphone and PC repair</item>
+        <item>Tourism</item>
+        <item>Travel Agency</item>
+        <item>Others</item>
+    </string-array>
+
 </resources>

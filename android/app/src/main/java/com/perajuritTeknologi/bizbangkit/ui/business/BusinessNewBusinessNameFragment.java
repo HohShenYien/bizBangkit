@@ -1,18 +1,24 @@
 package com.perajuritTeknologi.bizbangkit.ui.business;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.perajuritTeknologi.bizbangkit.DataStructure;
@@ -21,10 +27,11 @@ import com.perajuritTeknologi.bizbangkit.R;
 
 public class BusinessNewBusinessNameFragment extends Fragment {
     private View root;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
+    private ImageView backButton;
     private Button nextButton;
     private EditText businessName;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,16 +41,24 @@ public class BusinessNewBusinessNameFragment extends Fragment {
 
         setUpComponents();
         setUpFragmentManager();
+        onBackButtonClicked();
         onNextButtonClicked();
-        onBackKeyClicked();
 
         return root;
     }
 
     private void setUpComponents() {
+        backButton = root.findViewById(R.id.businessNewBusinessNameBackButton);
         nextButton = root.findViewById(R.id.businessNewBusinessNameNextButton);
         businessName = root.findViewById(R.id.editTextRegisterBusinessName);
+    }
 
+    private void onBackButtonClicked() {
+        backButton.setOnClickListener(view -> {
+            fragmentManager.popBackStack();
+            NewBusinessActivity.progressIndicatorChanges(2,1);
+            NewBusinessActivity.currentFragmentPos = 1;
+        });
     }
 
     private void setUpFragmentManager() {
@@ -52,33 +67,38 @@ public class BusinessNewBusinessNameFragment extends Fragment {
 
     private void onNextButtonClicked() {
         nextButton.setOnClickListener(view -> {
-            NewBusinessActivity.businessProfileDetails.name = businessName.getText().toString();
-            fragmentTransaction = fragmentManager.beginTransaction();
-            Fragment fragment = new BusinessNewBusinessDetailsFragment();
-            fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right)
-                    .replace(R.id.businessNewBusinessFragmentContainer, fragment)
-                    .setReorderingAllowed(true)
-                    .addToBackStack("name")
-                    .commit();
-            NewBusinessActivity.progressIndicatorChanges(2, 3);
-        });
-    }
+            if (onNextDeterminant()) {
+                NewBusinessActivity.businessProfileDetails.name = businessName.getText().toString();
 
-    private void onBackKeyClicked() {
-        root.setFocusableInTouchMode(true);
-        root.requestFocus();
-        root.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
-                if( keyCode == KeyEvent.KEYCODE_BACK && keyEvent.getAction() == KeyEvent.ACTION_UP) {
-                    fragmentManager.popBackStack();
-                    NewBusinessActivity.progressIndicatorChanges(2, 1);
-                    return true;
-                }
-                return false;
+                fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment fragment = new BusinessNewBusinessDetailsFragment();
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right)
+                        .replace(R.id.businessNewBusinessFragmentContainer, fragment)
+                        .setReorderingAllowed(true)
+                        .addToBackStack("name")
+                        .commit();
+                NewBusinessActivity.progressIndicatorChanges(2, 3);
+                NewBusinessActivity.currentFragmentPos = 3;
             }
         });
     }
+
+    private boolean onNextDeterminant() {
+        if (businessName.getText().length() == 0) {
+            Toast toast = Toast.makeText(root.getContext(), "Please enter a business name!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL, 0, 850);
+            View view = toast.getView();
+            int color = ContextCompat.getColor(root.getContext(), R.color.light_pink);
+            view.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            TextView toastText = view.findViewById(android.R.id.message);
+            toastText.setTextColor(ContextCompat.getColor(root.getContext(), android.R.color.holo_red_light));
+            toast.show();
+
+            return false;
+        }
+        return true;
+    }
+
 
 }
 

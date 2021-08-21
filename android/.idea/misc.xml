@@ -3,9 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/arrow_bent_left_ic.xml" value="0.2717948717948718" />
+        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/arrow_down_ic.xml" value="0.2717948717948718" />
+        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/arrow_up_ic.xml" value="0.2717948717948718" />
+        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/chevron_left_ic.xml" value="0.2717948717948718" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/list_ic.xml" value="0.3092105263157895" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/profile_ic.xml" value="0.3828125" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/red_card_ic.xml" value="0.3092105263157895" />
+        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/round_edge.xml" value="0.3141025641025641" />
+        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/rounded_bordered_layout.xml" value="0.3141025641025641" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/rounded_corners.xml" value="0.33" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/warning_txt_background.xml" value="0.3223684210526316" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/activity_launch.xml" value="0.31023550724637683" />
@@ -16,8 +22,10 @@
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/activity_registration_account2.xml" value="0.33" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/activity_registratoin_account.xml" value="0.33" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/app_bar_main.xml" value="0.25" />
+        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/branch_business_text_field.xml" value="0.30085470085470084" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/content_main.xml" value="0.25" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/content_registration_account.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/dialog_ok_only.xml" value="0.30085470085470084" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/dialog_yes_or_no.xml" value="0.3087719298245614" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_business_existing_business.xml" value="0.33" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_business_new_business_details.xml" value="0.33" />
@@ -29,6 +37,7 @@
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_businesspage_new_business.xml" value="0.25" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_businesspage_new_business_name.xml" value="0.33" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_businesspage_new_business_type.xml" value="0.3087719298245614" />
+        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_discover_business_detail.xml" value="0.25854700854700857" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_discover_cardlayout.xml" value="0.2956140350877193" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_discover_listlayout.xml" value="0.2956140350877193" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_discoverpage.xml" value="0.33" />
@@ -44,6 +53,7 @@
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_slideshow.xml" value="0.2956140350877193" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/main_activity.xml" value="0.25" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/nav_header_main.xml" value="0.3087719298245614" />
+        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/partner_nric_text_field.xml" value="0.30085470085470084" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/menu/bottom_nav.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/menu/navigation_drawer.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/menu/top_menu.xml" value="0.36666666666666664" />

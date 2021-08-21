@@ -35,8 +35,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.business.NewBusinessActivity"
-            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
+
+    <uses-feature android:name="android.hardware.camera"/>
 
 </manifest>

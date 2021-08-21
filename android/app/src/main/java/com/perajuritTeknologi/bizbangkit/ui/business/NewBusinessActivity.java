@@ -19,6 +19,7 @@ public class NewBusinessActivity extends AppCompatActivity {
     private FragmentTransaction fragmentTransaction;
     private static LinearProgressIndicator progress1, progress2, progress3, progress4;
     public static DataStructure.BusinessProfileDetails businessProfileDetails = new DataStructure.BusinessProfileDetails();
+    public static int currentFragmentPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class NewBusinessActivity extends AppCompatActivity {
         Fragment fragment = new BusinessNewBusinessTypeFragment();
         fragmentTransaction.replace(R.id.businessNewBusinessFragmentContainer, fragment)
                 .commit();
-
+        currentFragmentPos = 1;
     }
 
     // determining progress indicators' animation movements
@@ -92,4 +93,10 @@ public class NewBusinessActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        progressIndicatorChanges(currentFragmentPos, (currentFragmentPos - 1));
+        currentFragmentPos--;
+    }
 }

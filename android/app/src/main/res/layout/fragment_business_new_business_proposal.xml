@@ -5,12 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:fitsSystemWindows="true"
-    android:paddingTop="20dp">
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
+
+        <ImageView
+            android:id="@+id/businessNewBusinessProposalBackButton"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:src="@drawable/arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:clickable="true"
+            android:focusable="true" />
 
         <TextView
             android:id="@+id/uselessProposalTitle"
@@ -25,13 +34,14 @@
             app:layout_constraintStart_toStartOf="@id/guidelineL"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintVertical_bias="0.02"
-            app:layout_constraintHorizontal_bias="0"/>
+            app:layout_constraintHorizontal_bias="0"
+            android:paddingTop="30dp"/>
 
         <TextView
             android:id="@+id/uselessProposalInfo"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
-            android:text="Any information you would like to tell your possible investors regarding your business"
+            android:text="Provide a short description of your business"
             android:textColor="@android:color/black"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +70,7 @@
                 android:layout_marginTop="60sp"
                 android:ems="10"
                 android:autofillHints="name"
-                android:hint="Enter any related information here"
+                android:hint="Enter description here"
                 android:textColor="@color/design_default_color_on_secondary" />
         </com.google.android.material.textfield.TextInputLayout>
 

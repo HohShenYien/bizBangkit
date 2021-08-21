@@ -11,10 +11,12 @@
     <color name="nice_green">#00FA9A</color>
     <color name="pastel_green">#98F18A</color>
     <color name="pastel_purple">#A987E3</color>
+    <color name="dark_purple">#4808A6</color>
     <color name="pastel_orange">#FFBE61</color>
     <color name="gold">#FFD700</color>
     <color name="light_pink">#FAEBEFFF</color>
     <color name="bright_green">#21E100</color>
-    <color name="light_green">#D3E6D0</color>
+    <color name="light_green">#D5F5E3</color>
     <color name="light_blue">#FACDDAFF</color>
+    <color name="light_gray">#f2f3f4</color>
 </resources>

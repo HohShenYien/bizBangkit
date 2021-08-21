@@ -3,18 +3,21 @@ package com.perajuritTeknologi.bizbangkit;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
@@ -24,6 +27,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
@@ -35,7 +39,7 @@ import java.nio.Buffer;
 
 public class RegistrationAccountActivity1 extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private EditText name, nric1, nric2, nric3, phoneNum1, phoneNum2;
-    private TextView warningInfo, login, tncGoBrowser, tncDetail;
+    private TextView login, tncGoBrowser, tncDetail;
     private Spinner gender;
     private ArrayAdapter<CharSequence> adapter;
     private CheckBox tncAgree;
@@ -64,7 +68,6 @@ public class RegistrationAccountActivity1 extends AppCompatActivity implements A
         nric3 = findViewById(R.id.editTextRegisterNRIC3);
         phoneNum1 = findViewById(R.id.editTextRegisterPhoneNum1);
         phoneNum2 = findViewById(R.id.editTextRegisterPhoneNum2);
-        warningInfo = findViewById(R.id.registerWarningInfo);
         login = findViewById(R.id.loginFromRegister);
         tncGoBrowser = findViewById(R.id.registerTnCBrowser);
         tncDetail = findViewById(R.id.registerTnCDetail);
@@ -205,7 +208,6 @@ public class RegistrationAccountActivity1 extends AppCompatActivity implements A
     }
 
     private void onContinueClicked() {
-        warningInfo.setVisibility(View.INVISIBLE);
         continueButton.setOnClickListener(view -> {
             if (onContinueDeterminant()) {
                 redirectToSecondPage();
@@ -228,14 +230,14 @@ public class RegistrationAccountActivity1 extends AppCompatActivity implements A
     }
 
     private void showWarningInfo(String info) {
-        AlphaAnimation fadeOut = new AlphaAnimation(1.0f , 0.0f );
-        fadeOut.setDuration(600);
-        fadeOut.setFillAfter(true);
-        fadeOut.setStartOffset(1500);
-
-        warningInfo.setText(info);
-        warningInfo.setVisibility(View.VISIBLE);
-        warningInfo.startAnimation(fadeOut);
+        Toast toast = Toast.makeText(getApplicationContext(), info, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 850);
+        View view = toast.getView();
+        int color = ContextCompat.getColor(getApplicationContext(), R.color.light_pink);
+        view.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        TextView toastText = view.findViewById(android.R.id.message);
+        toastText.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_red_light));
+        toast.show();
     }
 
     private void redirectToSecondPage() {

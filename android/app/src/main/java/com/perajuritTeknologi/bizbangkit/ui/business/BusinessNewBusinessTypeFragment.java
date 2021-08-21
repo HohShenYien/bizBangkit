@@ -12,12 +12,14 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.perajuritTeknologi.bizbangkit.R;
 
 public class BusinessNewBusinessTypeFragment extends Fragment {
     private View root;
     private CardView newBusiness, existingBusiness;
+    private ImageView backButton;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
@@ -29,6 +31,7 @@ public class BusinessNewBusinessTypeFragment extends Fragment {
 
         setUpComponents();
         setUpFragmentManager();
+        onBackClicked();
         onNewBusinessClicked();
         onExistingBusinessClicked();
 
@@ -36,8 +39,15 @@ public class BusinessNewBusinessTypeFragment extends Fragment {
     }
 
     private void setUpComponents() {
+        backButton = root.findViewById(R.id.businessNewBusinessTypeBackButton);
         newBusiness = root.findViewById(R.id.newBusinessCardView);
         existingBusiness = root.findViewById(R.id.existingBusinessCardView);
+    }
+
+    private void onBackClicked() {
+        backButton.setOnClickListener(view -> {
+            getActivity().finish();
+        });
     }
 
     private void setUpFragmentManager() {
@@ -67,6 +77,7 @@ public class BusinessNewBusinessTypeFragment extends Fragment {
                 .addToBackStack("type")
                 .commit();
         NewBusinessActivity.progressIndicatorChanges(1, 2);
+        NewBusinessActivity.currentFragmentPos = 2;
     }
 
 }

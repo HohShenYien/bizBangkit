@@ -17,21 +17,6 @@
         android:background="@color/backgroundColor">
 
         <TextView
-            android:id="@+id/registerWarningInfo"
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="15sp"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guidelineR"
-            app:layout_constraintStart_toStartOf="@id/guidelineL"
-            app:layout_constraintTop_toBottomOf="@id/registerSignUpButton"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintHorizontal_bias="0.5"
-            android:background="@drawable/warning_txt_background"/>
-
-        <TextView
             android:id="@+id/registerBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

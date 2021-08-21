@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -18,6 +19,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.PorterDuff;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,12 +27,14 @@ import android.os.ParcelFileDescriptor;
 import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -41,7 +45,7 @@ import java.io.IOException;
 
 public class RegistrationAccountActivity2 extends AppCompatActivity {
     private EditText username, email, password1, password2;
-    private TextView back, warningInfo, login;
+    private TextView back, login;
     private ImageView viewProfilePic;
     private Bitmap bitmap;
     private Button signUpButton;
@@ -100,7 +104,6 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
         password1 = findViewById(R.id.editTextRegisterPassword);
         password2 = findViewById(R.id.editTextRegisterPasswordConfirm);
         back = findViewById(R.id.registerBack);
-        warningInfo = findViewById(R.id.registerWarningInfo);
         login = findViewById(R.id.loginFromRegister);
         viewProfilePic = findViewById(R.id.registerProfilePic);
         signUpButton = findViewById(R.id.registerSignUpButton);
@@ -168,14 +171,13 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
     }
 
     private void onSignUpClicked() {
-        warningInfo.setVisibility(View.INVISIBLE);
         signUpButton.setOnClickListener(view -> {
             if (onSignUpDeterminant()) {
                 Dialog dialog = new Dialog(RegistrationAccountActivity2.this);
                 dialog.setContentView(R.layout.dialog_yes_or_no);
                 dialog.setCancelable(true);
                 TextView loginConfirmationText = dialog.findViewById(R.id.dialogYesOrNoText);
-                loginConfirmationText.setText("Confirm registration with the information entered?");
+                loginConfirmationText.setText(("Confirm registration with the information entered?"));
                 Button loginConfirmationYesButton = dialog.findViewById(R.id.dialogYesButton);
                 loginConfirmationYesButton.setOnClickListener(view1 -> {
                     userDetails.username = username.getText().toString();
@@ -207,14 +209,14 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
     }
 
     private void showWarningInfo(String info) {
-        AlphaAnimation fadeOut = new AlphaAnimation(1.0f , 0.0f );
-        fadeOut.setDuration(600);
-        fadeOut.setFillAfter(true);
-        fadeOut.setStartOffset(1500);
-
-        warningInfo.setText(info);
-        warningInfo.setVisibility(View.VISIBLE);
-        warningInfo.startAnimation(fadeOut);
+        Toast toast = Toast.makeText(getApplicationContext(), info, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 850);
+        View view = toast.getView();
+        int color = ContextCompat.getColor(getApplicationContext(), R.color.light_pink);
+        view.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        TextView toastText = view.findViewById(android.R.id.message);
+        toastText.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_red_light));
+        toast.show();
     }
 
     private void redirectToLoginPage() {

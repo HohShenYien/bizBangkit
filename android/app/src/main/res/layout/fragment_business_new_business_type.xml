@@ -5,6 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/businessNewBusinessTypeBackButton"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:src="@drawable/arrow_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:clickable="true"
+        android:focusable="true" />
+
     <TextView
         android:id="@+id/uselessEnterBusinessType"
         android:layout_width="wrap_content"

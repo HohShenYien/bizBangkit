@@ -33,7 +33,8 @@ public class DataStructure {
         public String branchAddress;
         public String partnerNric;
         public String businessType;
-        public String proposalText;
+        public String valuation;
+        public String shortDescription;
 
     }
 }
