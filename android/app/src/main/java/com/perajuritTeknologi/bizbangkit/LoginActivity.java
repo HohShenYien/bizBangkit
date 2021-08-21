@@ -14,6 +14,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.perajuritTeknologi.bizbangkit.event.LogInEvent;
+import com.perajuritTeknologi.bizbangkit.event.TabChanged;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText email, password;
     private TextView warningTxt, registerNewAcc;
@@ -39,17 +45,25 @@ public class LoginActivity extends AppCompatActivity {
     private void setLoginClicked() {
         loginBtn.setOnClickListener(v -> {
             DataStructure.UserCredentials credentials;
-            try {
-                credentials = APICaller.logIn(email.getText().toString(),
-                        password.getText().toString());
-                storeCredentials(credentials);
-                redirectToMainPage();
+            APICaller.logIn(email.getText().toString(),
+                    password.getText().toString());
 
-            } catch (APICaller.LogInFails logInFails) {
-                setWarningTxt(logInFails.getMessage());
-                showWarningTxt();
-            }
+            loginBtn.setText("Logging in...");
+            loginBtn.setAlpha(.5f);
+            loginBtn.setClickable(false);
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     private void setWarningTxt(String message) {
@@ -107,5 +121,19 @@ public class LoginActivity extends AppCompatActivity {
             dialog.cancel();
         });
         dialog.show();
+    }
+
+    @Subscribe
+    public void onLogInEvent(LogInEvent event) {
+        if (event.credentials.userId.compareTo("error") == 0) {
+            setWarningTxt("Incorrect email or password!");
+            showWarningTxt();
+            loginBtn.setText("Login");
+            loginBtn.setAlpha(1);
+            loginBtn.setClickable(true);
+        } else {
+            storeCredentials(event.credentials);
+            redirectToMainPage();
+        }
     }
 }
