@@ -65,7 +65,7 @@ Table USER_TRANSACT_T as T {
     utransact_datetime timestamp //date and time of the transaction
     utransact_amt int[12] //cash amount of the transaction
     utransact_type char[3] //buy share[BUY] or sell share[SEL]
-    utransact_status char[1] //"processing", "on_hold", "canceled" or "confirmed"
+    utransact_status char[2] //"processing" = 'PR', "on_hold" = 'OH', "canceled" = 'CN' or "confirmed" = 'CF'
  }
 
 //Composite table to track users share information
