@@ -244,7 +244,7 @@ public class RegistrationAccountActivity1 extends AppCompatActivity implements A
         Intent intent = new Intent(getApplicationContext(), RegistrationAccountActivity2.class);
         intent.putExtra("name", name.getText().toString());
         intent.putExtra("nric", (nric1.getText().toString() + nric2.getText().toString() + nric3.getText().toString()));
-        intent.putExtra("phone", (("60" + phoneNum1.getText().toString() + phoneNum2.getText().toString())));
+        intent.putExtra("phone", ((phoneNum1.getText().toString() + phoneNum2.getText().toString())));
         intent.putExtra("gender", userDetails.gender);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);

@@ -17,6 +17,7 @@ public class DataStructure {
     public static class UserProfileDetails {
         public String name;
         public String nric;
+        public String dob;
         public String phoneNumber;
         public String gender;
         public String profilePicture;
