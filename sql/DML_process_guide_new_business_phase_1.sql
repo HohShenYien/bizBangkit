@@ -92,8 +92,8 @@ WHERE	( BUS_REPORT_T.bus_id = '<BUSINESS ID>' )
 //-- SPECIAL NOTE: The cost of SSM and Bus Licence is not being factored in this phase for the prototype. It should be added here for the LIVE build.
 
 //-- IF ( 	BUS_SHARE_T.bus_share_current_investor == bus_share_approve_limit && 
-//--      ( BUSINESS_T.bus_ssm_id != 'pending1F' &&
-//--        BUSINESS_T.bus_lic_no != 'pending1F' ) )
+//--      ( BUSINESS_T.bus_ssm_id != 'pendingFI' &&
+//--        BUSINESS_T.bus_lic_no != 'pendingFI' ) )
 
 //-- 2. UPDATE BUS_SHARE_T with values to proceed to Phase 2. (SQL)
 
