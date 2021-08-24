@@ -18,7 +18,7 @@ currentDateTime = datetime.datetime.now()
 
 # FOR UPLOADING FILE (IMAGE) INTO THE SYSTEM
 app = Flask(__name__)
-UPLOAD_FOLDER = '.\\pictures'
+UPLOAD_FOLDER = './pictures/'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -127,12 +127,12 @@ def upload_image():
     path = ''
 
     if file.filename == '':  # If no file is selected, default picture will be used
-        path = '.\\pictures\\default.png'
+        path = './pictures/default.png'
         file.save(path)  # Still have to figure whether this works or not
 
     if file and allowed_file(file.filename):
         # stores the name of the file uploaded
-        filename = secure_filename(file.filename) + str(random.randint(0, 99999))
+        filename = str(random.randint(0, 99999)) + secure_filename(file.filename)
         path = (os.path.join(app.config['UPLOAD_FOLDER'], filename))  # save uploaded image under the filename
         file.save(path)
 
