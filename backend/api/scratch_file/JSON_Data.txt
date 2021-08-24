@@ -47,3 +47,19 @@
     "aboutme": "I am a student in Asia Pacific University",
     "profile_pic": "me1.jpeg"
 }
+
+# JSON Data to create new post
+{
+    "user_id": 20091404,
+    "title": "Business Tips for New Intrepreneurs",
+    "content": "Dave Thomas, the founder of Wendy’s, cited knowing your customer as one of his three keys to success.
+    Know those you serve better than anyone else, and you’ll be able to deliver the solutions they need.",
+    "tags": ["ideas", "entrepreneur", "startup"]
+}
+
+# JSON Data to send a reply/comment
+{
+    "user_id": 20091401,
+    "authkey": "X8ktPlRYz0PZls7Uv2TQVeB2WNQyjCGE",
+    "forum_reply_content": "Wow, what a great content!"
+}

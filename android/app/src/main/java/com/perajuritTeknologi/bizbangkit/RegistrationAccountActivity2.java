@@ -22,6 +22,7 @@ import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.util.AttributeSet;
@@ -38,10 +39,20 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.perajuritTeknologi.bizbangkit.page.BusinessPage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.IOException;
+
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class RegistrationAccountActivity2 extends AppCompatActivity {
     private EditText username, email, password1, password2;
@@ -51,7 +62,8 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
     private Button signUpButton;
     private LinearProgressIndicator pageLeft, pageRight;
     private ActivityResultLauncher<String[]> choosePicture;
-    private DataStructure.UserProfileDetails userDetails = new DataStructure.UserProfileDetails();
+    public static DataStructure.UserProfileDetails userDetails = new DataStructure.UserProfileDetails();
+    public static boolean registered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,7 +196,9 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
                     userDetails.email = email.getText().toString();
                     userDetails.password = password1.getText().toString();
                     // set up connection with server here
-                    redirectToLoginPage();
+                    registerUserToServer();
+                    setUpRegistrationSuccess();
+
                 });
                 Button loginConfirmationNoButton = dialog.findViewById(R.id.dialogNoButton);
                 loginConfirmationNoButton.setOnClickListener(view1 -> {
@@ -229,4 +243,74 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+
+    // to connect to pythonanywhere
+    private static final OkHttpClient client = new OkHttpClient();
+
+    private static final String baseUrl = "http://bizbangkit.pythonanywhere.com/";
+
+    private static class registerTask extends AsyncTask<Request, Integer, DataStructure.UserProfileDetails> {
+        @Override
+        protected DataStructure.UserProfileDetails doInBackground(Request... requests) {
+            Request request = requests[0];
+            try (Response response = client.newCall(request).execute()) {
+                DataStructure.UserProfileDetails profileDetails = new DataStructure.UserProfileDetails();
+
+                try {
+                    JSONObject jObject = new JSONObject(response.body().string());
+                    profileDetails.name = jObject.get("fullname").toString();
+                } catch (JSONException e) {
+                    profileDetails.name = "error JSON";
+                }
+                return profileDetails;
+
+            } catch (IOException e) {
+                DataStructure.UserProfileDetails profileDetails = new DataStructure.UserProfileDetails();
+                profileDetails.name = "error IO";
+                return profileDetails;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(DataStructure.UserProfileDetails userProfileDetails) {
+            RegistrationAccountActivity2.registered = true;
+            RegistrationAccountActivity2.userDetails.name = userProfileDetails.name + " with Additional Info...";
+        }
+    }
+
+    private void registerUserToServer() {
+        RequestBody requestBody
+                = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("fullname", userDetails.name)
+                .addFormDataPart("ic_number", userDetails.nric)
+                .addFormDataPart("username", userDetails.username)
+                .addFormDataPart("password", userDetails.password)
+                .addFormDataPart("dob", "1995-01-02")
+                .addFormDataPart("phone_num", userDetails.phoneNumber)
+                .addFormDataPart("email", userDetails.email)
+                .addFormDataPart("gender", userDetails.gender)
+                .build();
+
+        Request request
+                = new Request.Builder()
+                .url(baseUrl + "register")
+                .post(requestBody)
+                .build();
+
+        new registerTask().execute(request);
+    }
+
+    private void setUpRegistrationSuccess() {
+        Dialog dialog1 = new Dialog(RegistrationAccountActivity2.this);
+        dialog1.setContentView(R.layout.dialog_ok_only);
+        dialog1.setCancelable(false);
+        TextView completionText = dialog1.findViewById(R.id.dialogOKText);
+        completionText.setText(("registration completed"));
+        Button completionOKButton = dialog1.findViewById(R.id.dialogOKButton);
+        completionOKButton.setOnClickListener(view2 -> {
+            redirectToLoginPage();
+        });
+        dialog1.show();
+    }
 }

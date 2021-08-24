@@ -30,3 +30,9 @@ if 'file' not in request.files:  # check if the POST request has the file part
                 user_id = i[0]
 
 clash of PUT request in update image with POST request in upload image; resulting in NULL value of the image in db
+
+INSERT INTO FORUM_POST_T(forum_post_id, forum_post_title, forum_post_content, forum_post_datetime, forum_post_status,
+                 forum_post_tos_flag, forum_post_total_point, forum_post_minuspoint, user_id)
+    VALUES( < generated >, < from_request >, < from_request >, < use
+    time / datetime >, < not sure >, 0, 0,
+    < user_id >)

@@ -49,7 +49,7 @@ WHERE	( USER_WALLET_T.user_id = '<USER ID>' )
 //-- 6. SET transaction history (SQL)
 
 INSERT INTO USER_TRANSACT_T as T (T.user_id, T.bus_id, T.utransact_datetime, T.utransact_amt, T.utransact_type, T.utransact_status)
-VALUES ('<USER ID>', '<BUSINESS ID>', 'YYYY-MM-DD HH:MM:SS', 'paymentAmt', 'BUY', 'PAID')
+VALUES ('<USER ID>', '<BUSINESS ID>', 'YYYY-MM-DD HH:MM:SS', 'paymentAmt', 'BUY', 'CF')	//CF = confirmed
 
 //-- 7. SET SHARE for USER_SHARE_T (SQL)
 

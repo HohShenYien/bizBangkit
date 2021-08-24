@@ -21,6 +21,7 @@ public class DataStructure {
         public String aboutme;
         public String name;
         public String nric;
+        public String dob;
         public String phoneNumber;
         public String gender;
         public String profilePicture;

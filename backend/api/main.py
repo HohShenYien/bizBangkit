@@ -6,12 +6,14 @@ import sqlite3
 from flask_cors import CORS
 from user import user_bp as user_blueprint
 from business import business_bp as business_blueprint
+from posts import posts_bp as posts_blueprint
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 app.register_blueprint(user_blueprint)
 app.register_blueprint(business_blueprint)
+app.register_blueprint(posts_blueprint)
 
 app.config['SECRET_KEY'] = 'secretkey'
 JSON_MIME_TYPE = 'application/json; charset=utf-8'
@@ -85,12 +87,6 @@ def unprotected():
 @token_required
 def protected():
     return jsonify({'message': 'This is only available for people with valid tokens.'})
-
-
-# Might delete if unnecessary / irrelevant
-@app.route('/logout')
-def logout():
-    return jsonify({'message': 'You have successfully logged out from bizBangkit'})
 
 
 if __name__ == '__main__':

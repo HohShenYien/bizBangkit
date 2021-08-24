@@ -1,4 +1,5 @@
-from flask import Flask, Blueprint, request, jsonify, make_response
+import random
+from flask import Flask, Blueprint, request, jsonify, make_response, send_file
 import json
 import sqlite3
 import datetime
@@ -19,7 +20,7 @@ currentDateTime = datetime.datetime.now()
 
 # FOR UPLOADING FILE (IMAGE) INTO THE SYSTEM
 app = Flask(__name__)
-UPLOAD_FOLDER = r'C:\Users\rosss\OneDrive\Documents\GitHub\bizBangkit\backend\api\pictures'
+UPLOAD_FOLDER = '.\\pictures'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -83,11 +84,12 @@ def get_user(user_id):
         user_profile["user_ic_no"] = display[2]
         user_profile["user_username"] = display[3]
         user_profile["user_password"] = display[4]
-        user_profile["user_authkey"] = display[5]
         user_profile["user_dob"] = display[6]
         user_profile["user_phone"] = display[7]
         user_profile["user_email"] = display[8]
         user_profile["user_gender"] = display[9]
+        user_profile["user_fulladdress"] = display[10]
+        user_profile["user_aboutme"] = display[13]
         user_profile["user_fpath_profilepic"] = display[14]
 
         return json_response(json.dumps(user_profile))
@@ -98,7 +100,7 @@ def get_user(user_id):
 # To update user credentials
 @user_bp.route('/update/profile/<user_id>', methods=['PUT'])
 def update_profile(user_id):
-    update = request.form
+    update = request.form.to_dict()
 
     if update['fullname'] or update['ic_number'] or update['username'] or update['password'] or update['dob'] \
             or update['phone_num'] or update['email'] or update['gender'] or update['fulladdress'] or update['aboutme']:
@@ -127,19 +129,25 @@ def update_image(user_authkey):
     return jsonify({"Updated profile picture directory": new_image})
 
 
+@user_bp.route('/image/<path:image_path>', methods=['GET'])
+def view_image(image_path):
+
+    return send_file(image_path, as_attachment=True)
+
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def upload_image():
     file = request.files['file']
+    path = ''
 
-    if file.filename == '':  # If no file is selected, default picture will be used
-        path = r'C:\Users\rosss\OneDrive\Documents\GitHub\bizBangkit\backend\api\pictures\default.png'
-        file.save(path)
+    if 'file' not in request.files:
+        path = '.\\pictures\\default.png'
 
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)  # stores the name of the file uploaded
+    elif file and allowed_file(file.filename):
+        filename = str(random.randint(0, 99999)) + secure_filename(file.filename)
         path = (os.path.join(app.config['UPLOAD_FOLDER'], filename))  # save uploaded image under the filename
         file.save(path)
 
