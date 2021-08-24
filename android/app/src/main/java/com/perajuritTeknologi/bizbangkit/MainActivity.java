@@ -1,11 +1,12 @@
 package com.perajuritTeknologi.bizbangkit;
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,12 +18,16 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
+import com.perajuritTeknologi.bizbangkit.event.ProfileEvent;
 import com.perajuritTeknologi.bizbangkit.event.TabChanged;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends AppCompatActivity {
+    public DataStructure.UserProfileDetails userProfile;
+    public Bitmap userImg;
     private AppBarConfiguration mAppBarConfiguration;
     private View sideNavHeader;
     private Toolbar toolbar;
@@ -31,10 +36,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
         setUpToolBar();
         setUpNavigation();
-        setUserName();
-
     }
 
     @Override
@@ -83,16 +87,16 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
-    private void setUserName() {
+    private void setUserDetail() {
         TextView sideNavTitle = sideNavHeader.findViewById(R.id.side_nav_title);
-        String name = APICaller.getUserName(LocalStorage.getID());
-        sideNavTitle.setText(name);
+        sideNavTitle.setText(userProfile.username);
+        TextView sideNavEmail = sideNavTitle.findViewById(R.id.sideNavUserEmail);
+        sideNavEmail.setText(userProfile.email);
     }
 
-    // events
-    @Subscribe
-    public void onMessageEvent(TabChanged event) {
-        toolbar.setTitle(event.message);
+    private void setUpUserImg() {
+        ImageView sideNavUserImg = sideNavHeader.findViewById(R.id.sideNavUserImage);
+        sideNavUserImg.setImageBitmap(userImg);
     }
 
     @Override
@@ -111,5 +115,26 @@ public class MainActivity extends AppCompatActivity {
             dialog.cancel();
         });
         dialog.show();
+    }
+
+    // events
+    @Subscribe
+    public void onMessageEvent(TabChanged event) {
+        toolbar.setTitle(event.message);
+    }
+
+    @Subscribe
+    public void onProfileEvent(ProfileEvent event) {
+        this.userProfile = event.profile;
+        APICaller.getImg(userProfile.profilePicture, "user", "main-activity");
+        setUserDetail();
+    }
+
+    @Subscribe
+    public void onUserImageEvent(ImageEvent event) {
+        if (event.event_id.compareTo("main-activity") == 0) {
+            this.userImg = event.image.image;
+            setUpUserImg();
+        }
     }
 }

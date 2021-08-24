@@ -6,6 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.perajuritTeknologi.bizbangkit.event.ProfileTabChanged;
+
+import org.greenrobot.eventbus.EventBus;
+
 public class ProfileAdapter extends FragmentStateAdapter {
 
     public ProfileAdapter(@NonNull Fragment fragment) {

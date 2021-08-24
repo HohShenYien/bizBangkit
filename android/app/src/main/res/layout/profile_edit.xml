@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="20dp">
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+        <androidx.cardview.widget.CardView
+            android:layout_width="120sp"
+            android:layout_height="120sp"
+            app:cardCornerRadius="400dp"
+            app:cardElevation="10sp"
+            android:layout_marginVertical="10dp"
+            android:layout_gravity="center">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:contentDescription="profile picture"
+                app:srcCompat="@drawable/profile_pic" />
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:layout_gravity="center"
+            android:textColor="#000"/>
+        <EditText
+            android:id="@+id/profile_edit_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:hint="About"
+            android:text="I am John Doe"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

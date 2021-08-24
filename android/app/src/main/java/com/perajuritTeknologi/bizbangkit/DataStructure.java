@@ -1,5 +1,7 @@
 package com.perajuritTeknologi.bizbangkit;
 
+import android.graphics.Bitmap;
+
 public class DataStructure {
     // stores structures without methods
     public static class UserCredentials {
@@ -15,6 +17,8 @@ public class DataStructure {
     }
 
     public static class UserProfileDetails {
+        public String userId;
+        public String aboutme;
         public String name;
         public String nric;
         public String phoneNumber;
@@ -23,6 +27,8 @@ public class DataStructure {
         public String username;
         public String email;
         public String password;
+        public String address;
+        public String dob;
     }
 
     public static class BusinessProfileDetails {
@@ -35,6 +41,10 @@ public class DataStructure {
         public String businessType;
         public String valuation;
         public String shortDescription;
+    }
 
+    public static class ImageAndId {
+        public Bitmap image;
+        public String image_id; // for you to set which id is it for
     }
 }
