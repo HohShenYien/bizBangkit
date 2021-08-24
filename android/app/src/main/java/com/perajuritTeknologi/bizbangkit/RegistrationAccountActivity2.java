@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,34 +21,35 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
-import com.perajuritTeknologi.bizbangkit.page.BusinessPage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
+import java.net.URI;
 
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -63,7 +65,9 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
     private LinearProgressIndicator pageLeft, pageRight;
     private ActivityResultLauncher<String[]> choosePicture;
     public static DataStructure.UserProfileDetails userDetails = new DataStructure.UserProfileDetails();
-    public static boolean registered = false;
+
+    // 1 = not registered, 2 = successful registration, 3 = account already exists
+    public static int registered = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,15 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
             @Override
             public void onActivityResult(Uri result) {
                 if (result != null) {
+                    userDetails.profilePicture = new File(Environment.getExternalStorageDirectory().toString(), result.getPath());
+                    userDetails.profilePicture.mkdirs();
+                    ContentResolver resolver = getContentResolver();
+                    MimeTypeMap map = MimeTypeMap.getSingleton();
+                    userDetails.profilePictureMimeType = resolver.getType(result);
+                    userDetails.profilePictureType = "." + map.getExtensionFromMimeType(resolver.getType(result));
+
+                    Log.d("Ruijunnnnnnnnnnn", Environment.getExternalStorageDirectory().toString() + result.getPath());
+
                     try {
                         ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(result, "r");
                         FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
@@ -89,11 +102,16 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
                         viewProfilePic.setImageBitmap(bitmap);
 
                         String str = DataConversion.BitmapToBase64String(bitmap);
-                        userDetails.profilePicture = str;
                         SharedPreferences sharedPreferences = getSharedPreferences("registerUserP2", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("profilePic", str);
+                        editor.putString("profilePicPath", result.getPath());
+                        editor.putString("profilePicMimeType", userDetails.profilePictureMimeType);
+                        editor.putString("profilePicType", userDetails.profilePictureType);
                         editor.apply();
+
+
+
                     } catch (IOException e) {
                         Log.e("RuiJun", "Registration add profile picture error");
                     }
@@ -108,6 +126,7 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
         userDetails.nric = intent.getStringExtra("nric");
         userDetails.phoneNumber = intent.getStringExtra("phone");
         userDetails.gender = intent.getStringExtra("gender");
+        userDetails.dob = intent.getStringExtra("dob");
     }
 
     private void setUpComponents() {
@@ -136,6 +155,21 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
         if (n != null) {
             Bitmap bitmap = DataConversion.Base64StringToBitmap(n);
             viewProfilePic.setImageBitmap(bitmap);
+        }
+
+        String p = sharedPreferences.getString("profilePicPath", null);
+        if (p != null) {
+            userDetails.profilePicture = new File(p);
+        }
+
+        String m = sharedPreferences.getString("profilePicMimeType", null);
+        if (m != null) {
+            userDetails.profilePictureMimeType = m;
+        }
+
+        String t = sharedPreferences.getString("profilePicType", null);
+        if (t != null) {
+            userDetails.profilePictureType = t;
         }
 
         LocalStorage.setChangedText(this, username, "registerUserP2", "username");
@@ -169,7 +203,7 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
             dialog.setContentView(R.layout.dialog_yes_or_no);
             dialog.setCancelable(true);
             TextView loginConfirmationText = dialog.findViewById(R.id.dialogYesOrNoText);
-            loginConfirmationText.setText("Proceed to login page without registering a new account?");
+            loginConfirmationText.setText(("Proceed to login page without registering a new account?"));
             Button loginConfirmationYesButton = dialog.findViewById(R.id.dialogYesButton);
             loginConfirmationYesButton.setOnClickListener(view1 -> {
                 redirectToLoginPage();
@@ -195,9 +229,21 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
                     userDetails.username = username.getText().toString();
                     userDetails.email = email.getText().toString();
                     userDetails.password = password1.getText().toString();
-                    // set up connection with server here
+                    dialog.cancel();
+
+                    // set up connection with server
                     registerUserToServer();
-                    setUpRegistrationSuccess();
+                    Dialog dialog1 = setUpRegistrationPending();
+                    dialog1.show();
+
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog1.cancel();
+                            showRegistrationSuccessOrFail();
+                        }
+                    }, 5000);
 
                 });
                 Button loginConfirmationNoButton = dialog.findViewById(R.id.dialogNoButton);
@@ -236,8 +282,8 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
     private void redirectToLoginPage() {
         SharedPreferences sharedPreferences1 = getSharedPreferences("registerUserP1", Context.MODE_PRIVATE);
         SharedPreferences sharedPreferences2 = getSharedPreferences("registerUserP2", Context.MODE_PRIVATE);
-        sharedPreferences1.edit().clear().apply();
-        sharedPreferences2.edit().clear().apply();
+        //sharedPreferences1.edit().clear().apply();
+        //sharedPreferences2.edit().clear().apply();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
 
         startActivity(intent);
@@ -254,43 +300,50 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
         @Override
         protected DataStructure.UserProfileDetails doInBackground(Request... requests) {
             Request request = requests[0];
+            DataStructure.UserProfileDetails profileDetails = new DataStructure.UserProfileDetails();
             try (Response response = client.newCall(request).execute()) {
-                DataStructure.UserProfileDetails profileDetails = new DataStructure.UserProfileDetails();
 
                 try {
                     JSONObject jObject = new JSONObject(response.body().string());
-                    profileDetails.name = jObject.get("fullname").toString();
+                    String accountExist = jObject.get("message").toString();
+                    Log.d("Ruijunnnnnnnnnnnnnnnnnn","Account exists");
+                    RegistrationAccountActivity2.registered = 3;
                 } catch (JSONException e) {
-                    profileDetails.name = "error JSON";
+                    Log.d("Ruijunnnnnnnnnnnnnnnnnn","Account is new");
+                    RegistrationAccountActivity2.registered = 2;
                 }
                 return profileDetails;
 
             } catch (IOException e) {
-                DataStructure.UserProfileDetails profileDetails = new DataStructure.UserProfileDetails();
-                profileDetails.name = "error IO";
+                Log.d("Ruijunnnnnnnnn", "hello there error", e);
                 return profileDetails;
             }
         }
 
         @Override
         protected void onPostExecute(DataStructure.UserProfileDetails userProfileDetails) {
-            RegistrationAccountActivity2.registered = true;
-            RegistrationAccountActivity2.userDetails.name = userProfileDetails.name + " with Additional Info...";
+            Log.d("Ruijunnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn", "finished server connection");
         }
     }
 
     private void registerUserToServer() {
-        RequestBody requestBody
+        MultipartBody.Builder builder
                 = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("fullname", userDetails.name)
                 .addFormDataPart("ic_number", userDetails.nric)
                 .addFormDataPart("username", userDetails.username)
                 .addFormDataPart("password", userDetails.password)
-                .addFormDataPart("dob", "1995-01-02")
+                .addFormDataPart("dob", userDetails.dob)
                 .addFormDataPart("phone_num", userDetails.phoneNumber)
                 .addFormDataPart("email", userDetails.email)
-                .addFormDataPart("gender", userDetails.gender)
-                .build();
+                .addFormDataPart("gender", userDetails.gender);
+
+        if (userDetails.profilePicture != null) {
+            Log.d("Ruijunnnnnnnnnnnnnnnnnn", "profile_pic" + userDetails.profilePictureType);
+            builder.addFormDataPart("file", ("profile_pic" + userDetails.profilePictureType), RequestBody.create(userDetails.profilePicture, MediaType.parse(userDetails.profilePictureMimeType)));
+        }
+
+        RequestBody requestBody = builder.build();
 
         Request request
                 = new Request.Builder()
@@ -298,19 +351,49 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
                 .post(requestBody)
                 .build();
 
+        registered = 1;
+
         new registerTask().execute(request);
     }
 
-    private void setUpRegistrationSuccess() {
-        Dialog dialog1 = new Dialog(RegistrationAccountActivity2.this);
-        dialog1.setContentView(R.layout.dialog_ok_only);
-        dialog1.setCancelable(false);
-        TextView completionText = dialog1.findViewById(R.id.dialogOKText);
-        completionText.setText(("registration completed"));
-        Button completionOKButton = dialog1.findViewById(R.id.dialogOKButton);
-        completionOKButton.setOnClickListener(view2 -> {
-            redirectToLoginPage();
-        });
-        dialog1.show();
+    private Dialog setUpRegistrationPending() {
+        Dialog dialog = new Dialog(RegistrationAccountActivity2.this);
+        dialog.setContentView(R.layout.dialog_text_only);
+        dialog.setCancelable(false);
+        TextView completionText = dialog.findViewById(R.id.dialogTextInfo);
+        completionText.setText(("Registering account..."));
+
+        return dialog;
+    }
+
+    private void showRegistrationSuccessOrFail() {
+        Dialog dialog = new Dialog(RegistrationAccountActivity2.this);
+        dialog.setContentView(R.layout.dialog_ok_only);
+        dialog.setCancelable(false);
+        TextView completionText = dialog.findViewById(R.id.dialogOKText);
+        if (registered == 2) {
+            completionText.setText(("Registration successful!"));
+            Button completionOKButton = dialog.findViewById(R.id.dialogOKButton);
+            completionOKButton.setOnClickListener(view2 -> {
+                redirectToLoginPage();
+            });
+        }
+        else if (registered == 3) {
+            completionText.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_red_light));
+            completionText.setText(("Account with the same IC number and username has already registered on BizBangkit! "));
+            Button completionOKButton = dialog.findViewById(R.id.dialogOKButton);
+            completionOKButton.setOnClickListener(view2 -> {
+                dialog.cancel();
+            });
+        }
+        else {
+            completionText.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_red_light));
+            completionText.setText(("Unable to connect to server, please try again"));
+            Button completionOKButton = dialog.findViewById(R.id.dialogOKButton);
+            completionOKButton.setOnClickListener(view2 -> {
+                dialog.cancel();
+            });
+        }
+        dialog.show();
     }
 }

@@ -1,5 +1,7 @@
 package com.perajuritTeknologi.bizbangkit;
 
+import java.io.File;
+
 public class DataStructure {
     // stores structures without methods
     public static class UserCredentials {
@@ -20,7 +22,9 @@ public class DataStructure {
         public String dob;
         public String phoneNumber;
         public String gender;
-        public String profilePicture;
+        public File profilePicture;
+        public String profilePictureType;
+        public String profilePictureMimeType;
         public String username;
         public String email;
         public String password;

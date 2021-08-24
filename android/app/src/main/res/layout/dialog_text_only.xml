@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/registerGoLoginCardView"
+    android:layout_width="300sp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/dialogTextInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Telling a statement"
+            android:textSize="15sp"
+            android:layout_marginTop="15sp"
+            android:layout_marginBottom="20sp"
+            android:layout_marginStart="10sp"
+            android:layout_marginEnd="10sp"/>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateBehavior="cycle"
+            android:layout_gravity="center"
+            app:trackCornerRadius="@dimen/activity_horizontal_margin"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

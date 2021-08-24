@@ -316,6 +316,50 @@
             app:layout_constraintHorizontal_bias="1" />
 
         <TextView
+            android:id="@+id/uselessDOB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date of birth"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/registerPhoneNum1"
+            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintHorizontal_bias="0" />
+
+        <TextView
+            android:id="@+id/registerDOBText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintTop_toBottomOf="@id/uselessDOB"
+            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintHorizontal_bias="0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/registerDOBButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Pick Date"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_purple"
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="@color/dark_purple"
+            app:rippleColor="@color/pastel_purple"
+            app:layout_constraintStart_toEndOf="@id/registerDOBText"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            app:layout_constraintTop_toBottomOf="@id/uselessDOB"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginStart="10sp"/>
+
+        <TextView
             android:id="@+id/uselessTnC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -325,7 +369,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/guidelineL"
-            app:layout_constraintTop_toBottomOf="@id/registerPhoneNum1"
+            app:layout_constraintTop_toBottomOf="@id/registerDOBText"
             app:layout_constraintVertical_bias="0.03"
             app:layout_constraintHorizontal_bias="0" />
 
@@ -341,7 +385,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/uselessTnC"
-            app:layout_constraintTop_toBottomOf="@id/registerPhoneNum1"
+            app:layout_constraintTop_toBottomOf="@id/registerDOBText"
             app:layout_constraintVertical_bias="0.03"
             app:layout_constraintHorizontal_bias="0.1" />
 
@@ -392,8 +436,6 @@
             app:layout_constraintStart_toStartOf="@+id/guidelineL"
             app:layout_constraintTop_toBottomOf="@+id/registerTnCCheckbox"
             app:layout_constraintVertical_bias="0.15" />
-
-
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineL"
