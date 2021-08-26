@@ -17,7 +17,8 @@ import com.perajuritTeknologi.bizbangkit.ui.business.BusinessNoBusinessFragment;
 
 public class BusinessPage extends Fragment {
     private View root;
-    public static boolean existBusiness = false;
+    public static boolean existBusiness = true;
+    private boolean fromNewBusiness;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
@@ -42,10 +43,15 @@ public class BusinessPage extends Fragment {
     private void setUpFragmentDeterminant() {
         fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment;
-        if (existBusiness)
+        if (existBusiness) {
             fragment = new BusinessExistingBusinessFragment();
-        else
+            fromNewBusiness = false;
+        }
+        else {
             fragment = new BusinessNoBusinessFragment();
+            fromNewBusiness = true;
+        }
+
         fragmentTransaction.replace(R.id.businessFragmentContainer, fragment)
                 .commit();
     }
@@ -53,6 +59,8 @@ public class BusinessPage extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setUpFragmentDeterminant();
+        if (fromNewBusiness) {
+            setUpFragmentDeterminant();
+        }
     }
 }

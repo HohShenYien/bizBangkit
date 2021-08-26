@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private View sideNavHeader;
     private Toolbar toolbar;
 
+    // 1 for being at base page before exiting app, if more than 1 means added fragment onto pages, so pressing back closes fragment instead of the whole app
+    public static int basePage = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,19 +100,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Dialog dialog = new Dialog(MainActivity.this);
-        dialog.setContentView(R.layout.dialog_yes_or_no);
-        dialog.setCancelable(true);
-        TextView exitConfirmationText = dialog.findViewById(R.id.dialogYesOrNoText);
-        exitConfirmationText.setText("Are you sure you want to exit BizBangkit?");
-        Button exitConfirmationYesButton = dialog.findViewById(R.id.dialogYesButton);
-        exitConfirmationYesButton.setOnClickListener(view -> {
+        if (basePage == 1) {
+            Dialog dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.dialog_yes_or_no);
+            dialog.setCancelable(true);
+            TextView exitConfirmationText = dialog.findViewById(R.id.dialogYesOrNoText);
+            exitConfirmationText.setText("Are you sure you want to exit BizBangkit?");
+            Button exitConfirmationYesButton = dialog.findViewById(R.id.dialogYesButton);
+            exitConfirmationYesButton.setOnClickListener(view -> {
+                dialog.cancel();
+                super.onBackPressed();
+            });
+            Button exitConfirmationNoButton = dialog.findViewById(R.id.dialogNoButton);
+            exitConfirmationNoButton.setOnClickListener(view -> {
+                dialog.cancel();
+            });
+            dialog.show();
+        }
+        else {
             super.onBackPressed();
-        });
-        Button exitConfirmationNoButton = dialog.findViewById(R.id.dialogNoButton);
-        exitConfirmationNoButton.setOnClickListener(view -> {
-            dialog.cancel();
-        });
-        dialog.show();
+            basePage--;
+        }
     }
 }
