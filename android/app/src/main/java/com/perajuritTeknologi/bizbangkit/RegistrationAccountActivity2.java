@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.loader.content.CursorLoader;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -17,6 +18,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -27,6 +29,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;
@@ -46,7 +50,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 
 import okhttp3.MediaType;
@@ -84,37 +91,27 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
             @Override
             public void onActivityResult(Uri result) {
                 if (result != null) {
-                    userDetails.profilePicture = new File(Environment.getExternalStorageDirectory().toString(), result.getPath());
-                    userDetails.profilePicture.mkdirs();
+                    File temp = createImageFile(result);
+
+                    userDetails.profilePicture = createImageFile(result);
                     ContentResolver resolver = getContentResolver();
                     MimeTypeMap map = MimeTypeMap.getSingleton();
                     userDetails.profilePictureMimeType = resolver.getType(result);
                     userDetails.profilePictureType = "." + map.getExtensionFromMimeType(resolver.getType(result));
 
-                    Log.d("Ruijunnnnnnnnnnn", Environment.getExternalStorageDirectory().toString() + result.getPath());
+                    Log.d("Ruijunnnnnnnnnnn", "file:" + Environment.getExternalStorageDirectory().toString() + result.getPath());
+                    Log.d("Ruijunnnnnn filePath", temp.getAbsolutePath());
 
-                    try {
-                        ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(result, "r");
-                        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-                        bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), DataConversion.getBitmapRotation(fileDescriptor), true);
-                        parcelFileDescriptor.close();
-                        viewProfilePic.setImageBitmap(bitmap);
+                    viewProfilePic.setImageURI(result);
 
-                        String str = DataConversion.BitmapToBase64String(bitmap);
-                        SharedPreferences sharedPreferences = getSharedPreferences("registerUserP2", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("profilePic", str);
-                        editor.putString("profilePicPath", result.getPath());
-                        editor.putString("profilePicMimeType", userDetails.profilePictureMimeType);
-                        editor.putString("profilePicType", userDetails.profilePictureType);
-                        editor.apply();
-
-
-
-                    } catch (IOException e) {
-                        Log.e("RuiJun", "Registration add profile picture error");
-                    }
+                    String str = result.toString();
+                    SharedPreferences sharedPreferences = getSharedPreferences("registerUserP2", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("profilePic", str);
+                    editor.putString("profilePicPath", result.getPath());
+                    editor.putString("profilePicMimeType", userDetails.profilePictureMimeType);
+                    editor.putString("profilePicType", userDetails.profilePictureType);
+                    editor.apply();
                 }
             }
         });
@@ -148,8 +145,6 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
     }
 
     private void setAllChangedText() {
-        //SharedPreferences sharedPreferences = getSharedPreferences("registerUserP1", Context.MODE_PRIVATE);
-        //sharedPreferences.edit().clear().apply();
         SharedPreferences sharedPreferences = getSharedPreferences("registerUserP2", Context.MODE_PRIVATE);
         String n = sharedPreferences.getString("profilePic", null);
         if (n != null) {
@@ -159,7 +154,8 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
 
         String p = sharedPreferences.getString("profilePicPath", null);
         if (p != null) {
-            userDetails.profilePicture = new File(p);
+            Uri uri = Uri.parse(p);
+            userDetails.profilePicture = createImageFile(uri);
         }
 
         String m = sharedPreferences.getString("profilePicMimeType", null);
@@ -187,6 +183,27 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
 
     public void onAddProfilePictureClicked(View v) {
         choosePicture.launch(new String[]{"image/*"});
+    }
+
+    private File createImageFile(Uri uri) {
+        File temp = null;
+        try {
+            temp = File.createTempFile("profile_pic",".jpeg",getCacheDir());
+            InputStream in =  getContentResolver().openInputStream(uri);
+            OutputStream out = new FileOutputStream(temp);
+            byte[] buf = new byte[1024];
+            int len;
+            while((len=in.read(buf))>0){
+                out.write(buf,0,len);
+            }
+            out.close();
+            in.close();
+
+        } catch (IOException e) {
+            Log.e("RuiJun", "Image file creation error", e);
+        }
+
+        return temp;
     }
 
     private void onBackClicked() {
@@ -240,8 +257,20 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            dialog1.cancel();
-                            showRegistrationSuccessOrFail();
+                            if (RegistrationAccountActivity2.registered == 1) {
+                                Handler handler1 = new Handler();
+                                handler1.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dialog1.cancel();
+                                        showRegistrationSuccessOrFail();
+                                    }
+                                }, 5000);
+                            }
+                            else {
+                                dialog1.cancel();
+                                showRegistrationSuccessOrFail();
+                            }
                         }
                     }, 5000);
 
@@ -306,23 +335,23 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
                 try {
                     JSONObject jObject = new JSONObject(response.body().string());
                     String accountExist = jObject.get("message").toString();
-                    Log.d("Ruijunnnnnnnnnnnnnnnnnn","Account exists");
+                    Log.d("RuiJun","Account exists");
                     RegistrationAccountActivity2.registered = 3;
                 } catch (JSONException e) {
-                    Log.d("Ruijunnnnnnnnnnnnnnnnnn","Account is new");
+                    Log.d("RuiJun","Account is new");
                     RegistrationAccountActivity2.registered = 2;
                 }
                 return profileDetails;
 
             } catch (IOException e) {
-                Log.d("Ruijunnnnnnnnn", "hello there error", e);
+                Log.e("RuiJun", "hello there error", e);
                 return profileDetails;
             }
         }
 
         @Override
         protected void onPostExecute(DataStructure.UserProfileDetails userProfileDetails) {
-            Log.d("Ruijunnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn", "finished server connection");
+            Log.d("RuiJun", "finished server connection");
         }
     }
 

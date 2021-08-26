@@ -1,9 +1,17 @@
 package com.perajuritTeknologi.bizbangkit.ui.business;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -11,12 +19,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,8 +42,16 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
+import com.perajuritTeknologi.bizbangkit.DataConversion;
 import com.perajuritTeknologi.bizbangkit.R;
 
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -40,11 +60,12 @@ import java.util.List;
 
 public class BusinessNewBusinessDetailsFragment extends Fragment {
     private View root;
-    private ImageView backButton;
+    private ImageView backButton, businessLicenseImage;
     private Button nextButton;
-    private MaterialButton pickDate;
+    private MaterialButton pickDate, uploadBusinessLicense;
     public static TextView showDate;
-    private EditText nric1, nric2, nric3;
+    private TextView businessLicenseFixedText;
+    private EditText principlePlace, branchAddress, nric1, nric2, nric3, valuation, businessLicense;
     private FloatingActionButton addBranchBusiness, addPartnerNRIC;
     private static int branchBusinessNum = 1, partnerNRICNum = 1;
     private static ArrayList<Integer> branchBusinessLayoutList = new ArrayList<>();
@@ -53,6 +74,8 @@ public class BusinessNewBusinessDetailsFragment extends Fragment {
     private static ArrayList<Integer> partnerNRICTrashCanList = new ArrayList<>();
     private ArrayAdapter<CharSequence> adapter;
     private Spinner businessTypeSpinner;
+    private TextInputLayout businessLicenseTextLayout;
+    private ActivityResultLauncher<String[]> choosePicture;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
@@ -62,6 +85,7 @@ public class BusinessNewBusinessDetailsFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_business_new_business_details, container, false);
 
         setUpComponents();
+        setUpBusinessLicense();
         setUpFragmentManager();
         onPickDateClicked();
         onAddBranchBusinessClicked();
@@ -78,12 +102,20 @@ public class BusinessNewBusinessDetailsFragment extends Fragment {
         nextButton = root.findViewById(R.id.businessNewBusinessDetailsNextButton);
         pickDate = root.findViewById(R.id.registerCommencementDateButton);
         showDate = root.findViewById(R.id.registerCommencementDateText);
+        principlePlace = root.findViewById(R.id.editTextRegisterPrincipalPlace);
+        branchAddress = root.findViewById(R.id.editTextRegisterBranchAddress);
         nric1 = root.findViewById(R.id.editTextRegisterPartnerNRIC1);
         nric2 = root.findViewById(R.id.editTextRegisterPartnerNRIC2);
         nric3 = root.findViewById(R.id.editTextRegisterPartnerNRIC3);
         addBranchBusiness = root.findViewById(R.id.registerAddBranchAddress);
         addPartnerNRIC = root.findViewById(R.id.registerAddPartnerNric);
         businessTypeSpinner = root.findViewById(R.id.registerBusinessCarriedOut);
+        valuation = root.findViewById(R.id.editTextRegisterBusinessValuation);
+        businessLicenseFixedText = root.findViewById(R.id.uselessBusinessLicense);
+        businessLicense = root.findViewById(R.id.editTextRegisterBusinessLicense);
+        businessLicenseTextLayout = root.findViewById(R.id.registerBusinessLicense);
+        uploadBusinessLicense = root.findViewById(R.id.registerBusinessLicenseButton);
+        businessLicenseImage = root.findViewById(R.id.registerBusinessLicenseImageView);
 
         toNextTextField(nric1, nric2, nric3);
 
@@ -243,6 +275,28 @@ public class BusinessNewBusinessDetailsFragment extends Fragment {
         });
     }
 
+    private void setUpBusinessLicense() {
+        if (NewBusinessActivity.businessProfileDetails.type.equals("Existing")) {
+            choosePicture = registerForActivityResult(new ActivityResultContracts.OpenDocument(), new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri result) {
+                    if (result != null) {
+                        businessLicenseImage.setImageURI(result);
+                    }
+                }
+            });
+            uploadBusinessLicense.setOnClickListener(view -> {
+                choosePicture.launch(new String[]{"image/*"});
+            });
+        }
+        else {      //NewBusinessActivity.businessProfileDetails.type.equals("New")
+            businessLicenseFixedText.setVisibility(View.GONE);
+            businessLicenseTextLayout.setVisibility(View.GONE);
+            uploadBusinessLicense.setVisibility(View.GONE);
+            businessLicenseImage.setVisibility(View.GONE);
+        }
+    }
+
     private void setUpFragment() {
         fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment = new BusinessNewBusinessProposalFragment();
@@ -257,6 +311,13 @@ public class BusinessNewBusinessDetailsFragment extends Fragment {
 
     private void onNextButtonClicked() {
         nextButton.setOnClickListener(view -> {
+            NewBusinessActivity.businessProfileDetails.principalAddress = principlePlace.getText().toString();
+            NewBusinessActivity.businessProfileDetails.branchAddress = branchAddress.getText().toString();
+            NewBusinessActivity.businessProfileDetails.partnerNric = nric1.getText().toString() + nric2.getText().toString() + nric3.getText().toString();
+            NewBusinessActivity.businessProfileDetails.valuation = valuation.getText().toString();
+            if (NewBusinessActivity.businessProfileDetails.type.equals("Existing")) {
+                NewBusinessActivity.businessProfileDetails.licenseNumber = businessLicense.getText().toString();
+            }
             setUpFragment();
         });
     }

@@ -28,5 +28,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
         BusinessNewBusinessDetailsFragment.showDateAfterClicked(year, month, dayOfMonth);
+        NewBusinessActivity.businessProfileDetails.commencementDate
+                = String.format("%d", year) + "-" + String.format("%02d", month + 1) + "-" + String.format("%d", dayOfMonth);
     }
 }

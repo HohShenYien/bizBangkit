@@ -39,6 +39,7 @@ public class DataStructure {
         public String partnerNric;
         public String businessType;
         public String valuation;
+        public String licenseNumber;
         public String shortDescription;
 
     }
