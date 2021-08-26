@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
 import com.perajuritTeknologi.bizbangkit.event.TabChanged;
 import com.perajuritTeknologi.bizbangkit.page.BusinessPage;
@@ -37,7 +38,14 @@ public class HomeFragment extends Fragment {
         setUpFragmentManager();
         setUpFragmentSwitch();
         setDefaultFragment();
+        setUpSelfInMainActivitiy();
         return root;
+    }
+
+    public void changeFragment(Fragment newFragment) {
+        transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container,
+                newFragment).commit();
     }
 
     private void setUpBottomNavBar() {
@@ -91,5 +99,9 @@ public class HomeFragment extends Fragment {
 
     private void setUpFragmentManager() {
         fragmentManager = getFragmentManager();
+    }
+
+    private void setUpSelfInMainActivitiy() {
+        ((MainActivity)getActivity()).setHomeFragment(this);
     }
 }

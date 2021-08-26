@@ -33,6 +33,7 @@ public class BusinessListAdapter extends RecyclerView.Adapter<BusinessListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull BusinessListAdapter.ViewHolder holder, int position) {
+
         holder.containerView.setTag(businesses.get(position));
     }
 
@@ -55,4 +56,6 @@ public class BusinessListAdapter extends RecyclerView.Adapter<BusinessListAdapte
             });
         }
     }
+
+
 }

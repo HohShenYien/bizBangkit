@@ -29,6 +29,11 @@
         <item>Top Businesses</item>
     </string-array>
 
+    <string-array name="gender_spinner">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
     <string-array name="genders_array">
         <item>M</item>
         <item>F</item>
