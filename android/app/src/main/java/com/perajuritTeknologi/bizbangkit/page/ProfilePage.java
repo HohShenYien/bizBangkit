@@ -1,16 +1,20 @@
 package com.perajuritTeknologi.bizbangkit.page;
 
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Guideline;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -22,6 +26,7 @@ import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
 import com.perajuritTeknologi.bizbangkit.event.ProfileScrolled;
 import com.perajuritTeknologi.bizbangkit.event.ProfileTabChanged;
+import com.perajuritTeknologi.bizbangkit.event.SaveProfileResponse;
 import com.perajuritTeknologi.bizbangkit.ui.profiles.ProfileAdapter;
 import com.perajuritTeknologi.bizbangkit.ui.profiles.ProfileEditFragment;
 
@@ -73,6 +78,7 @@ public class ProfilePage extends Fragment {
         guidelineTxt = root.findViewById(R.id.guideline5);
         editBtn = root.findViewById(R.id.profile_editBtn);
         userImg = root.findViewById(R.id.appCompatImageView);
+        userName = root.findViewById(R.id.profile_main_username);
     }
 
     private void setUpTabs() {

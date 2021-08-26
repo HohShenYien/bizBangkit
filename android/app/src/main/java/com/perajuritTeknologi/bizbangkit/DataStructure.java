@@ -1,6 +1,7 @@
 package com.perajuritTeknologi.bizbangkit;
 
 import android.graphics.Bitmap;
+import java.io.File;
 
 public class DataStructure {
     // stores structures without methods
@@ -24,7 +25,10 @@ public class DataStructure {
         public String dob;
         public String phoneNumber;
         public String gender;
-        public String profilePicture;
+        public String picturePath;
+        public File profilePicture;
+        public String profilePictureType;
+        public String profilePictureMimeType;
         public String username;
         public String email;
         public String password;
@@ -40,6 +44,7 @@ public class DataStructure {
         public String partnerNric;
         public String businessType;
         public String valuation;
+        public String licenseNumber;
         public String shortDescription;
     }
 

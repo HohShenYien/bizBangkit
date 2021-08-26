@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -29,19 +31,25 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.perajuritTeknologi.bizbangkit.ui.business.DatePickerFragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.Buffer;
+import java.text.DateFormat;
+import java.util.Calendar;
 
 public class RegistrationAccountActivity1 extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private EditText name, nric1, nric2, nric3, phoneNum1, phoneNum2;
     private TextView login, tncGoBrowser, tncDetail;
+    public static TextView dob;
     private Spinner gender;
     private ArrayAdapter<CharSequence> adapter;
+    private MaterialButton dobButton;
     private CheckBox tncAgree;
     private Button continueButton;
     private LinearProgressIndicator pageLeft, pageRight;
@@ -57,6 +65,7 @@ public class RegistrationAccountActivity1 extends AppCompatActivity implements A
         setAllChangedText();
         setEditTextAware();
         saveAllTextChanges();
+        onPickDOBClicked();
         onLoginClicked();
         onContinueClicked();
     }
@@ -69,6 +78,8 @@ public class RegistrationAccountActivity1 extends AppCompatActivity implements A
         phoneNum1 = findViewById(R.id.editTextRegisterPhoneNum1);
         phoneNum2 = findViewById(R.id.editTextRegisterPhoneNum2);
         login = findViewById(R.id.loginFromRegister);
+        dob = findViewById(R.id.registerDOBText);
+        dobButton = findViewById(R.id.registerDOBButton);
         tncGoBrowser = findViewById(R.id.registerTnCBrowser);
         tncDetail = findViewById(R.id.registerTnCDetail);
         gender = findViewById(R.id.registerGenderSpinner);
@@ -147,12 +158,19 @@ public class RegistrationAccountActivity1 extends AppCompatActivity implements A
             int pos = adapter.getPosition(n);
             gender.setSelection(pos, true);
         }
+
+        String p = sharedPreferences.getString("dob", null);
+        if (p != null) {
+            dob.setText(p);
+        }
+
         LocalStorage.setChangedText(this, name, "registerUserP1", "name");
         LocalStorage.setChangedText(this, nric1, "registerUserP1", "nric1");
         LocalStorage.setChangedText(this, nric2, "registerUserP1", "nric2");
         LocalStorage.setChangedText(this, nric3, "registerUserP1", "nric3");
         LocalStorage.setChangedText(this, phoneNum1, "registerUserP1", "phoneNum1");
         LocalStorage.setChangedText(this, phoneNum2, "registerUserP1", "phoneNum2");
+
     }
 
     private void saveAllTextChanges() {
@@ -176,6 +194,27 @@ public class RegistrationAccountActivity1 extends AppCompatActivity implements A
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) { }
+
+    private void onPickDOBClicked() {
+        dobButton.setOnClickListener(view -> {
+            DialogFragment newFragment = new SpinnerDOBPicker();
+            newFragment.show(getSupportFragmentManager(), "dobSpinner");
+        });
+    }
+
+    public static void showDOBAfterClicked(int year, int month, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        String selectedDate = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(calendar.getTime());
+        selectedDate = selectedDate.substring(6)
+                + "-"
+                + selectedDate.substring(3, 5)
+                + "-"
+                + selectedDate.substring(0, 2);
+        dob.setText(selectedDate);
+    }
 
     private void onLoginClicked() {
         login.setOnClickListener(view -> {
@@ -218,7 +257,8 @@ public class RegistrationAccountActivity1 extends AppCompatActivity implements A
     private boolean onContinueDeterminant() {
         if (name.getText().length() == 0 || nric1.getText().length() !=  6 ||
                 nric2.getText().length() != 2 || nric3.getText().length() != 4 ||
-                phoneNum1.getText().length() != 2 || phoneNum2.getText().length() < 7) { ;
+                phoneNum1.getText().length() != 2 || phoneNum2.getText().length() < 7 ||
+                dob.getText().length() == 0) {
             showWarningInfo("There are incomplete fields!");
             return false;
         }
@@ -246,6 +286,7 @@ public class RegistrationAccountActivity1 extends AppCompatActivity implements A
         intent.putExtra("nric", (nric1.getText().toString() + nric2.getText().toString() + nric3.getText().toString()));
         intent.putExtra("phone", ((phoneNum1.getText().toString() + phoneNum2.getText().toString())));
         intent.putExtra("gender", userDetails.gender);
+        intent.putExtra("dob", dob.getText().toString());
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
     }

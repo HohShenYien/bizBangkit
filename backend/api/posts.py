@@ -125,20 +125,28 @@ def recent_post():
                 "fp.forum_post_totalpoint, fp.forum_post_minuspoint, fp.forum_post_datetime, u.user_fpath_profilepic "
                 "FROM FORUM_POST_T fp JOIN USER_T u ON fp.user_id = u.user_id "
                 "ORDER BY forum_post_id DESC LIMIT ? OFFSET ?", (n, q, ))  # max forum_post_id to low forum_post_id
-    list_all = cur.fetchall()
-    list1 = []
-    for result in list_all:
-        list_dict = {'user_id': result[0], 'username': result[1], 'forum_post_id': result[2],
-                     'forum_post_title': result[3], 'forum_post_content': result[4], 'forum_post_totalpoint': result[5],
-                     'forum_post_minuspoint': result[6], 'forum_post_datetime': result[7],
-                     'user_fpath_profilepic': result[8]}
-        list1.append(list_dict)
+    results = cur.fetchall()  # return a list by grouped by respective post_id
 
     cur.execute("SELECT * FROM FORUM_TAG_T WHERE forum_post_id IN "
                 "(SELECT forum_post_id FROM FORUM_POST_T)")
     dict_all = cur.fetchall()
-    d = defaultdict(list)
-    for post, tag in dict_all:
-        d[post].append(tag)
+    d = defaultdict(list)  # tag_list
+    for post_id, tag_name in dict_all:
+        d[post_id].append(tag_name)
 
-    return jsonify({'list1': list1, 'tag_list': d})
+    res = []
+    for result in results:
+        tmp = {}
+        tmp['user_id'] = result[0],
+        tmp['username'] = result[1],
+        tmp['forum_post_id'] = result[2],
+        tmp['forum_post_title'] = result[3],
+        tmp['forum_post_content'] = result[4],
+        tmp['forum_post_totalpoint'] = result[5],
+        tmp['forum_post_minuspoint'] = result[6],
+        tmp['forum_post_datetime'] = result[7],
+        tmp['user_fpath_profilepic'] = result[8],
+        tmp['tags'] = d[result[2]]
+        res.append(tmp)
+
+    return jsonify({'res': res})

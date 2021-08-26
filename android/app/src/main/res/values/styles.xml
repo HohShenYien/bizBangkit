@@ -66,4 +66,15 @@
 
     </style>
 
+    <style name="MySpinnerDatePickerStyle" parent="android:Theme.Material.Dialog">
+        <item name="android:datePickerStyle">@style/SpinnerDatePickerStyle</item>
+    </style>
+
+
+    <style name="SpinnerDatePickerStyle" parent="android:Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
+    </style>
+
+
 </resources>

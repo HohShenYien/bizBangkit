@@ -177,7 +177,7 @@
             android:id="@+id/uselessPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Password"
+            android:text="Password (Maximum 12 characters)"
             android:textColor="@android:color/black"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -203,6 +203,7 @@
                 android:id="@+id/editTextRegisterPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="12"
                 android:autofillHints="password"
                 android:inputType="textPassword"
                 android:textColor="@color/design_default_color_on_secondary" />
@@ -238,6 +239,7 @@
                 android:id="@+id/editTextRegisterPasswordConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="12"
                 android:autofillHints="password"
                 android:inputType="textPassword"
                 android:textColor="@color/design_default_color_on_secondary" />

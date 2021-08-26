@@ -12,10 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.perajuritTeknologi.bizbangkit.event.LogInEvent;
-import com.perajuritTeknologi.bizbangkit.event.TabChanged;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

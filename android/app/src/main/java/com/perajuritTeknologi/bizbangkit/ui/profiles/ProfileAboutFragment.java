@@ -61,9 +61,9 @@ public class ProfileAboutFragment extends Fragment {
         email.setText(user.email);
         gender.setText(parseGender(user.gender));
         nric.setText(parseIc(user.nric));
-        address.setText(user.address);
+        address.setText(user.address.compareTo("null") == 0 ? "Not available" : user.address);
         phone.setText(parsePhone(user.phoneNumber));
-        about.setText(user.aboutme == null ? "This user is very lazy and didn't include an about me" : user.aboutme);
+        about.setText(user.aboutme.compareTo("null") == 0 ? "This user is very lazy and didn't include an about me" : user.aboutme);
     }
 
     public static String parseGender(String gender) {
