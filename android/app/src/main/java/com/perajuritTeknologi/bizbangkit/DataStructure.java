@@ -29,7 +29,6 @@ public class DataStructure {
         public String email;
         public String password;
         public String address;
-        public String dob;
     }
 
     public static class BusinessProfileDetails {

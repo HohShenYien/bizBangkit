@@ -3,6 +3,7 @@ package com.perajuritTeknologi.bizbangkit;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.perajuritTeknologi.bizbangkit.event.LogInEvent;
@@ -62,19 +63,18 @@ public class APICaller {
             Request request = new Request.Builder().
                     url(baseUrl + "profile/" + details[0]).build();
             try (Response response = client.newCall(request).execute()) {
+                Log.d("ShenYien", "entered");
                 return parseUserProfile(response.body().string());
             } catch (IOException e) {
+                Log.d("ShenYien", e.toString());
                 return parseUserProfile("");
             }
         }
         @Override
         protected void onPostExecute(DataStructure.UserProfileDetails result) {
+            Log.d("ShenYien", result.email);
             EventBus.getDefault().post(new ProfileEvent(result));
         }
-    }
-
-    public static String getUserName(String userID) {
-        return userID + "JohnDoe";
     }
 
     public static void getImg(String path, String imageId, String eventId) {
@@ -137,7 +137,8 @@ public class APICaller {
             profile.profilePicture = jsonObject.get("user_fpath_profilepic").toString();
             profile.aboutme = jsonObject.get("user_aboutme").toString();
             profile.dob = jsonObject.get("user_dob").toString();
-            profile.address = jsonObject.get("user_address").toString();
+            profile.address = jsonObject.get("user_fulladdress").toString();
+            Log.d("ShenYien", profile.email);
 
         } catch (JSONException e) {
             profile.userId = "error";

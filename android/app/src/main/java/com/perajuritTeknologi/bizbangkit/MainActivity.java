@@ -2,7 +2,10 @@ package com.perajuritTeknologi.bizbangkit;
 
 import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -21,6 +25,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.perajuritTeknologi.bizbangkit.event.ProfileEvent;
 import com.perajuritTeknologi.bizbangkit.event.TabChanged;
+import com.perajuritTeknologi.bizbangkit.ui.home.HomeFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -31,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private View sideNavHeader;
     private Toolbar toolbar;
+    private HomeFragment homeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         setUpToolBar();
         setUpNavigation();
+        getUserDetails();
     }
 
     @Override
@@ -90,13 +97,33 @@ public class MainActivity extends AppCompatActivity {
     private void setUserDetail() {
         TextView sideNavTitle = sideNavHeader.findViewById(R.id.side_nav_title);
         sideNavTitle.setText(userProfile.username);
-        TextView sideNavEmail = sideNavTitle.findViewById(R.id.sideNavUserEmail);
+        TextView sideNavEmail = sideNavHeader.findViewById(R.id.side_nav_email);
         sideNavEmail.setText(userProfile.email);
     }
 
     private void setUpUserImg() {
         ImageView sideNavUserImg = sideNavHeader.findViewById(R.id.sideNavUserImage);
-        sideNavUserImg.setImageBitmap(userImg);
+        if (userImg == null) {
+            if (userProfile.gender.compareTo("M") == 0) {
+                sideNavUserImg.setImageResource(R.drawable.male_default);
+            } else {
+                sideNavUserImg.setImageResource(R.drawable.female_default);
+            }
+        } else {
+            sideNavUserImg.setImageBitmap(userImg);
+        }
+    }
+
+    public void getUserDetails() {
+        APICaller.getProfile(LocalStorage.getID());
+    }
+
+    public void changeFragment(Fragment newFragment) {
+        homeFragment.changeFragment(newFragment);
+    }
+
+    public void setHomeFragment(HomeFragment homeFragment) {
+        this.homeFragment = homeFragment;
     }
 
     @Override
@@ -126,7 +153,13 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void onProfileEvent(ProfileEvent event) {
         this.userProfile = event.profile;
-        APICaller.getImg(userProfile.profilePicture, "user", "main-activity");
+        if (userProfile.profilePicture.compareTo("./pictures/default.png") == 0) {
+            userImg = null;
+        } else {
+            APICaller.getImg(userProfile.profilePicture, "user", "main-activity");
+        }
+        this.userImg = null;
+        setUpUserImg();
         setUserDetail();
     }
 

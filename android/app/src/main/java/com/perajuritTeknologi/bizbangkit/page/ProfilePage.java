@@ -1,10 +1,13 @@
 package com.perajuritTeknologi.bizbangkit.page;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Guideline;
@@ -14,10 +17,13 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.perajuritTeknologi.bizbangkit.DataStructure;
+import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
 import com.perajuritTeknologi.bizbangkit.event.ProfileScrolled;
 import com.perajuritTeknologi.bizbangkit.event.ProfileTabChanged;
 import com.perajuritTeknologi.bizbangkit.ui.profiles.ProfileAdapter;
+import com.perajuritTeknologi.bizbangkit.ui.profiles.ProfileEditFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -27,6 +33,8 @@ public class ProfilePage extends Fragment {
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     private FloatingActionButton editBtn;
+    private ImageView userImg;
+    private TextView userName;
     ProfileAdapter profileAdapter;
     Guideline guidelineImg, guidelineTxt;
 
@@ -39,6 +47,9 @@ public class ProfilePage extends Fragment {
         setUpAdapter();
         setUpTabs();
         setUpGuideLines();
+        setUpBtn();
+        setUpUserName();
+        setUpUserImg();
 
         return root;
     }
@@ -61,6 +72,7 @@ public class ProfilePage extends Fragment {
         guidelineImg = root.findViewById(R.id.guideline4);
         guidelineTxt = root.findViewById(R.id.guideline5);
         editBtn = root.findViewById(R.id.profile_editBtn);
+        userImg = root.findViewById(R.id.appCompatImageView);
     }
 
     private void setUpTabs() {
@@ -96,6 +108,31 @@ public class ProfilePage extends Fragment {
     private void setUpAdapter() {
         profileAdapter = new ProfileAdapter(this);
         viewPager.setAdapter(profileAdapter);
+    }
+
+    private void setUpBtn() {
+        editBtn.setOnClickListener(v -> {
+            ((MainActivity)getActivity()).changeFragment(new ProfileEditFragment());
+        });
+    }
+
+    private void setUpUserImg() {
+        Bitmap userImg = ((MainActivity) getActivity()).userImg;
+        if (userImg == null) {
+            DataStructure.UserProfileDetails user = ((MainActivity) getActivity()).userProfile;
+            if (user.gender.compareTo("M") == 0) {
+                this.userImg.setImageResource(R.drawable.male_default);
+            } else {
+                this.userImg.setImageResource(R.drawable.female_default);
+            }
+        } else {
+            this.userImg.setImageBitmap(userImg);
+        }
+    }
+
+    private void setUpUserName() {
+        DataStructure.UserProfileDetails user = ((MainActivity) getActivity()).userProfile;
+        this.userName.setText(user.username);
     }
 
     @Subscribe
