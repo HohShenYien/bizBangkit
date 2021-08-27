@@ -115,7 +115,6 @@ def post_reply(post_id):
 
 
 # To get the most recent post in descending order
-# INCOMPLETE; CONTINUE HERE!!!
 @posts_bp.route('/post/recent', methods=['GET'])
 def recent_post():
     n = request.args.get('n', type=int)  # LIMIT n (number of records shown)

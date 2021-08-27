@@ -66,12 +66,18 @@ def register():
             for i in find:
                 user_id = i[0]
 
+            cur.execute("""INSERT INTO USER_WALLET_T (user_wallet_no, wallet_available_cash, wallet_spent_cash, 
+            wallet_earned_cash, wallet_total_deposit, wallet_total_withdraw, user_bank_acc_no, user_id) 
+            VALUES ((SELECT max(user_wallet_no) FROM USER_WALLET_T)+1, 0, 0, 0, 0, 0, ?, ?)""",
+                        (user['user_bank_acc_no'], user_id,))
+            con.commit()
+
             new_acc = get_user(user_id)
 
     return new_acc
 
 
-# To view user credentials based on their username
+# To view user credentials based on their user_id
 @user_bp.route('/profile/<user_id>', methods=['GET'])
 def get_user(user_id):
     user_profile = {}

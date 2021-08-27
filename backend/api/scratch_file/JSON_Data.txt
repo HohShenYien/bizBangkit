@@ -9,6 +9,7 @@
     "phone_num" : "0183698521",
     "email" : "laila.adreana@hotmail.com",
     "gender" : "F",
+    "user_bank_acc_no": 405965412365
 }
 
 # JSON Data to register a new business proposal:
@@ -62,4 +63,20 @@
     "user_id": 20091401,
     "authkey": "X8ktPlRYz0PZls7Uv2TQVeB2WNQyjCGE",
     "forum_reply_content": "Wow, what a great content!"
+}
+
+# JSON Data to register new wallet account
+{
+    "user_id": 20091401,
+    "user_bank_acc_no": 405952639874
+}
+
+# JSON Data for Wallet Transaction Process route
+{
+    "user_id": 20091400
+}
+
+# JSON Data for PHASE 1 route
+{
+    "user_id": 20091400
 }
