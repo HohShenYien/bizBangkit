@@ -52,4 +52,13 @@ public class DataStructure {
         public Bitmap image;
         public String image_id; // for you to set which id is it for
     }
+
+    public static class SimpleForumPost {
+        public String postId;
+        public String postTitle;
+        public String postContent;
+        public String postDate;
+        public int postViewCount;
+        public int postVoteCount;
+    }
 }
