@@ -76,7 +76,7 @@
     "user_id": 20091400
 }
 
-# JSON Data for PHASE 1 route
+# JSON Data for PHASE 1, PHASE 2 route
 {
     "user_id": 20091400
 }

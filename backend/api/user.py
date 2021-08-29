@@ -1,12 +1,12 @@
-import random
 from flask import Flask, Blueprint, request, jsonify, make_response, send_file
+from werkzeug.utils import secure_filename
+import random
 import json
 import sqlite3
 import datetime
 import string
 import secrets
 import os
-from werkzeug.utils import secure_filename
 
 user_bp = Blueprint('user', __name__)
 
@@ -153,6 +153,7 @@ def upload_image():
         path = './pictures/default.png'
 
     elif file and allowed_file(file.filename):
+        # stores the name of the file uploaded
         filename = str(random.randint(0, 99999)) + secure_filename(file.filename)
         path = (os.path.join(app.config['UPLOAD_FOLDER'], filename))  # save uploaded image under the filename
         file.save(path)
