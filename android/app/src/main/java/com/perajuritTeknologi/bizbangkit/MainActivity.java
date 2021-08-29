@@ -128,7 +128,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changeFragment(Fragment newFragment) {
-        homeFragment.changeFragment(newFragment);
+        homeFragment.changeFragment(newFragment, false);
+    }
+
+    public void changeFragment(Fragment newFragment, boolean allowBack) {
+        homeFragment.changeFragment(newFragment, allowBack);
     }
 
     public void setHomeFragment(HomeFragment homeFragment) {

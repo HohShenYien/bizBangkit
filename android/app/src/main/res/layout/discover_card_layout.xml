@@ -11,18 +11,22 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         >
         <TextView
             android:id="@+id/discover_business_card_title"
+            android:textStyle="bold"
+            android:textColor="#000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="My Burger Shop"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textAlignment="center"/>
 
         <ImageView
             android:id="@+id/discover_business_card_img"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="200dp"
             android:layout_gravity="center"
             android:layout_marginHorizontal="40dp"
             android:src="@drawable/logo"
@@ -30,11 +34,54 @@
 
         <TextView
             android:id="@+id/discover_business_card_description"
-            android:layout_width="351dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="I have good burgers"
             android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:textColor="#000"
             />
+
+        <TextView
+            android:id="@+id/discover_business_card_phase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phase 1: 3000 / 4500"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:weightSum="5">
+            <ProgressBar
+                android:id="@+id/discover_business_card_progress"
+                android:paddingHorizontal="10dp"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:progress="90"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:progressDrawable="@drawable/custom_progress_bar_discover"
+                android:max="100"
+                android:layout_weight="4"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/discover_business_card_percent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="10%"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+
+
     </LinearLayout>
 
 

@@ -42,10 +42,13 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    public void changeFragment(Fragment newFragment) {
+    public void changeFragment(Fragment newFragment, boolean allowBack) {
         transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_container,
-                newFragment).commit();
+        transaction.replace(R.id.fragment_container, newFragment);
+        if (allowBack) {
+            transaction.addToBackStack(newFragment.toString());
+        }
+        transaction.commit();
     }
 
     private void setUpBottomNavBar() {
@@ -91,8 +94,7 @@ public class HomeFragment extends Fragment {
                     selectedFragment = new HomePage();
                     EventBus.getDefault().post(new TabChanged(getString(R.string.bot_nav_home)));
             }
-            transaction.replace(R.id.fragment_container,
-                    selectedFragment).commit();
+            changeFragment(selectedFragment, false);
             return true;
         });
     }

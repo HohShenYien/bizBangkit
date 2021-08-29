@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="20dp">
 
+    <TextView
+        android:paddingHorizontal="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="That's all the businesses available, please revisit again next time"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/discover_controls"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/discover_business_card_holder"
+        app:layout_constraintTop_toTopOf="@+id/discover_business_card_holder" />
+
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/discover_business_card_holder"
         android:layout_width="0dp"
@@ -18,7 +30,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        />
 
     <LinearLayout
         android:id="@+id/discover_controls"

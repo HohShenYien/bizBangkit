@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -24,6 +25,7 @@ import com.perajuritTeknologi.bizbangkit.APICaller;
 import com.perajuritTeknologi.bizbangkit.DataStructure;
 import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
+import com.perajuritTeknologi.bizbangkit.page.ProfilePage;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,6 +35,7 @@ import java.io.OutputStream;
 
 public class ProfileEditFragment extends Fragment {
     private View root;
+    private LinearLayout goBackBtn;
     private TextInputEditText about, name, username, email, phone_start, phone_end, nric_start,
             nric_mid, nric_end, address;
     private Spinner gender;
@@ -50,6 +53,7 @@ public class ProfileEditFragment extends Fragment {
         setGetImgActivity();
         setEditUserImg();
         setUpSaveBtn();
+        setUpBackBtn();
 
         return root;
     }
@@ -68,6 +72,7 @@ public class ProfileEditFragment extends Fragment {
         gender = root.findViewById(R.id.profile_edit_gender);
         saveBtn = root.findViewById(R.id.profile_edit_save_btn);
         userImg = root.findViewById(R.id.profile_edit_img);
+        goBackBtn = root.findViewById(R.id.edit_go_back_btn);
 
         userDetails = new DataStructure.UserProfileDetails();
     }
@@ -164,6 +169,12 @@ public class ProfileEditFragment extends Fragment {
             saveBtn.setClickable(false);
 
             APICaller.saveProfile(userDetails);
+        });
+    }
+
+    private void setUpBackBtn() {
+        goBackBtn.setOnClickListener(v -> {
+            ((MainActivity)getActivity()).changeFragment(new ProfilePage());
         });
     }
 }

@@ -18,8 +18,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.perajuritTeknologi.bizbangkit.APICaller;
+import com.perajuritTeknologi.bizbangkit.DataStructure;
 import com.perajuritTeknologi.bizbangkit.R;
+import com.perajuritTeknologi.bizbangkit.Utils;
 import com.perajuritTeknologi.bizbangkit.event.EnterBusinessDetail;
+import com.perajuritTeknologi.bizbangkit.event.GetBusinessDetails;
+import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.perajuritTeknologi.bizbangkit.event.ProfileScrolled;
 import com.perajuritTeknologi.bizbangkit.event.ReturnToBusinessPage;
 import com.perajuritTeknologi.bizbangkit.ui.discover.CardStyleFragment;
@@ -39,6 +44,7 @@ public class DiscoverPage extends Fragment {
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
     private Fragment currentMainFragment, cardFragment, listFragment;
+    private DataStructure.BusinessProfileDetails curBusiness;
 
     public static int businessDetailId;
 
@@ -116,10 +122,9 @@ public class DiscoverPage extends Fragment {
         });
     }
 
-    private void enterDetailFragment() {
+    private void enterDetailFragment(DataStructure.BusinessProfileDetails details) {
         transaction = fragmentManager.beginTransaction();
-        Fragment newFragment = new DetailPageFragment();
-        toolbar.setVisibility(View.GONE);
+        Fragment newFragment = new DetailPageFragment(details);
         transaction.replace(R.id.discover_fragment_container,
                 newFragment).commit();
     }
@@ -133,8 +138,12 @@ public class DiscoverPage extends Fragment {
 
     @Subscribe
     public void enterBusiness(EnterBusinessDetail event) {
-        this.businessDetailId = event.id;
-        enterDetailFragment();
+        businessDetailId = event.id;
+        transaction = fragmentManager.beginTransaction();
+        APICaller.getBusienssDetails(businessDetailId);
+        toolbar.setVisibility(View.GONE);
+        Fragment loadingPage = new Utils.LoadingPage();
+        transaction.replace(R.id.discover_fragment_container, loadingPage).commit();
     }
 
     @Subscribe
@@ -142,4 +151,21 @@ public class DiscoverPage extends Fragment {
         backToHere();
     }
 
+    @Subscribe
+    public void receivedBusinessInformation(GetBusinessDetails event) {
+        if (event.details.logoPath != null && event.details.logoPath.startsWith("./pictures")) {
+            curBusiness = event.details;
+            APICaller.getImg(event.details.logoPath, "P01", "DetailsLogo");
+        } else {
+            enterDetailFragment(event.details);
+        }
+    }
+
+    @Subscribe
+    public void getBusinessLogo(ImageEvent event) {
+        if (event.event_id.compareTo("P01") == 0) {
+            curBusiness.logo = event.image.image;
+            enterDetailFragment(curBusiness);
+        }
+    }
 }
