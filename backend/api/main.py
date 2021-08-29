@@ -1,7 +1,5 @@
 from flask import Flask, jsonify, request, make_response
-import jwt
 import datetime
-from functools import wraps
 import sqlite3
 from flask_cors import CORS
 from user import user_bp as user_blueprint

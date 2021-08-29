@@ -1,10 +1,10 @@
 from flask import Flask, Blueprint, request, jsonify, make_response
+from werkzeug.utils import secure_filename
 import json
 import sqlite3
 import datetime
 import os
 import random
-from werkzeug.utils import secure_filename
 
 business_bp = Blueprint('business', __name__)
 
@@ -177,7 +177,6 @@ def upload_image():
 
     if file.filename == '':  # If no file is selected, default picture will be used
         path = './pictures/default.png'
-        file.save(path)  # Still have to figure whether this works or not
 
     if file and allowed_file(file.filename):
         # stores the name of the file uploaded
