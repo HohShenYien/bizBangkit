@@ -5,16 +5,20 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.perajuritTeknologi.bizbangkit.event.GetBusinessDetails;
+import com.perajuritTeknologi.bizbangkit.event.GetBusinessListEvent;
 import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.perajuritTeknologi.bizbangkit.event.LogInEvent;
 import com.perajuritTeknologi.bizbangkit.event.ProfileEvent;
 import com.perajuritTeknologi.bizbangkit.event.SaveProfileResponse;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import okhttp3.Credentials;
@@ -157,6 +161,98 @@ public class APICaller {
         protected void onPostExecute(Integer result) {
             EventBus.getDefault().post(new SaveProfileResponse(result));
         }
+    }
+
+    public static void getBusinessList(int start, int num) {
+        Request request = new Request.Builder().
+                url(baseUrl + "business/list?n=" + num + "&q=" + start).build();
+        new BusinessListTask().execute(request);
+    }
+
+    private static class BusinessListTask extends AsyncTask<Request, Integer, ArrayList<DataStructure.SimpleBusiness>> {
+
+        @Override
+        protected ArrayList<DataStructure.SimpleBusiness> doInBackground(Request... requests) {
+            try (Response response = client.newCall(requests[0]).execute()) {
+                return parseBusinessList(response.body().string());
+            } catch (IOException e) {
+                Log.e("ShenYien", "Shouldn't have an error here");
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<DataStructure.SimpleBusiness> result) {
+            EventBus.getDefault().post(new GetBusinessListEvent(result));
+        }
+    }
+
+    public static void getBusienssDetails(int busId) {
+        Request request = new Request.Builder().
+                url(baseUrl + "business/info/" + busId).build();
+        new GetBusinessTask().execute(request);
+    }
+
+    private static class GetBusinessTask extends AsyncTask <Request, Integer, DataStructure.BusinessProfileDetails>{
+
+        @Override
+        protected DataStructure.BusinessProfileDetails doInBackground(Request... requests) {
+            try (Response response = client.newCall(requests[0]).execute()) {
+                return parseBusinessDetails(response.body().string());
+            } catch (IOException e) {
+                Log.e("ShenYien", e.toString());
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(DataStructure.BusinessProfileDetails result) {
+            EventBus.getDefault().post(new GetBusinessDetails(result));
+        }
+    }
+
+    private static DataStructure.BusinessProfileDetails parseBusinessDetails(String details) {
+        DataStructure.BusinessProfileDetails business = new DataStructure.BusinessProfileDetails();
+        try {
+            JSONObject result = new JSONObject(details);
+            business.businessId = result.getInt("bus_id");
+            business.name = result.getString("bus_name");
+            business.businessType = result.getString("bus_type");
+            business.valuation = Integer.toString(result.getInt("bus_valuation"));
+            business.principalAddress = result.getString("bus_loc_address_city");
+            business.logoPath = result.getString("bus_fpath_logo");
+            business.commencementDate = result.getString("bus_start_date");
+            business.purchasedPercent = result.getInt("share_bought");
+            business.phase = result.getInt("bus_phase");
+            return business;
+
+        } catch (JSONException e) {
+            Log.e("ShenYien", e.toString());
+            return null;
+        }
+    }
+
+    private static ArrayList<DataStructure.SimpleBusiness> parseBusinessList(String response) {
+        ArrayList<DataStructure.SimpleBusiness> arrayList = new ArrayList<>();
+        try {
+            JSONArray businessList = new JSONArray(response);
+            for (int i = 0; i < businessList.length(); i++) {
+                JSONObject business = businessList.getJSONObject(i);
+                DataStructure.SimpleBusiness theBusiness = new DataStructure.SimpleBusiness();
+                theBusiness.businessId = business.getInt("bus_id");
+                theBusiness.businessName = business.getString("bus_name");
+                theBusiness.phase = business.getInt("bus_share_phase");
+                theBusiness.type = business.getString("bus_type");
+                theBusiness.valuation = business.getInt("bus_valuation");
+                theBusiness.logoPath = business.getString("bus_fpath_logo");
+                theBusiness.purchasedPercent = business.getInt("puchased_percent");
+                arrayList.add(theBusiness);
+            }
+        } catch (JSONException e) {
+            Log.e("ShenYien", "Oh no");
+            Log.e("ShenYien", e.toString());
+        }
+        return arrayList;
     }
 
     private static DataStructure.UserCredentials parseCredential(String response) {

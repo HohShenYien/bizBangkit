@@ -62,6 +62,20 @@ def reg_business():
                                (biz['bus_name'], biz['bus_email']))
             for i in find:
                 biz_id = i[0]
+
+            cur.execute("""INSERT INTO BUSINESS_OWNER_T (bus_id, user_id, share_alloc_qty) VALUES 
+                        (?, ?, 60)""", (biz_id, biz['user_id'],))
+            con.commit()
+
+            cur.execute("""INSERT INTO BUS_SHARE_T (bus_share_total_investor, bus_share_approve_limit,
+            bus_share_current_investor, bus_share_phase, bus_share_total_divestor, bus_id) VALUES (7, 1, 0, 1, 0, ?)""",
+                        (biz_id,))
+            con.commit()
+
+            cur.execute("""INSERT INTO BUS_REPORT_T (rep_total_fund, rep_current_fund, rep_total_spent, 
+            rep_total_income, bus_id) VALUES (0, 0, 0, 0, ?)""", (biz_id,))
+            con.commit()
+
             new_biz = get_business(biz_id)
 
     return new_biz
@@ -72,6 +86,41 @@ def reg_business():
 def get_business(bus_id):
     biz_info = {}
     cur.execute("SELECT * FROM BUSINESS_T WHERE bus_id = ?", (bus_id,))
+    info = cur.fetchone()
+
+    if info:
+        biz_info["bus_id"] = info[0]
+        biz_info["bus_name"] = info[1]
+        biz_info["bus_type"] = info[2]
+        biz_info["bus_valuation"] = info[3]
+        biz_info["bus_total_emp"] = info[4]
+        biz_info["bus_current_emp"] = info[5]
+        biz_info["bus_phone"] = info[6]
+        biz_info["bus_email"] = info[7]
+        biz_info["bus_ssm_id"] = info[8]
+        biz_info["bus_lic_no"] = info[9]
+        biz_info["bus_bank_acc"] = info[10]
+        biz_info["bus_ops_start_time"] = info[14]
+        biz_info["bus_ops_end_time"] = info[15]
+        biz_info["bus_day"] = info[16]
+        biz_info["bus_reg_address"] = info[17]
+        biz_info["bus_loc_address_city"] = info[18]
+        biz_info["bus_fpath_logo"] = info[19]
+
+        return json_response(json.dumps(biz_info))
+    else:
+        return jsonify({"Error": "Business ID cannot be found!"})
+
+
+# To view business details based on user_id
+@business_bp.route('/business/info/user/<user_id>', methods=['GET'])
+def get_user_business(user_id):
+    cur.execute("SELECT bus_id FROM BUSINESS_OWNER_T WHERE user_id = ?", (user_id,))
+    the_user = cur.fetchone()
+    if not the_user:
+        return jsonify({"Error": "This user does not have business"})
+    biz_info = {}
+    cur.execute("SELECT * FROM BUSINESS_T WHERE bus_id = ?", (the_user[0],))
     info = cur.fetchone()
 
     if info:

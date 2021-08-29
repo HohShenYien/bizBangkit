@@ -36,3 +36,21 @@ INSERT INTO FORUM_POST_T(forum_post_id, forum_post_title, forum_post_content, fo
     VALUES( < generated >, < from_request >, < from_request >, < use
     time / datetime >, < not sure >, 0, 0,
     < user_id >)
+
+def token_required(f):
+    # to decorate the inner function by configuring the to-be-decorated function.
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.args.get('token')  # http://127.0.0.1:5000/route?token=alshfjfjdklsfj89549834ur
+
+        if not token:
+            return jsonify({'message': 'Token is missing!'}), 401
+
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+        except ValueError:
+            return jsonify({'message': 'Token is invalid!'}), 401
+
+        return f(*args, **kwargs)
+
+    return decorated

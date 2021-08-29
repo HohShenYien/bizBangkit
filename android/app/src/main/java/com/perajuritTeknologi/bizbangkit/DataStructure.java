@@ -12,9 +12,13 @@ public class DataStructure {
 
     public static class SimpleBusiness {
         public String businessName;
+        public String logoPath;
+        public int valuation;
         public int phase;
-        public String description;
+        public String type;
         public int businessId;
+        public Bitmap logo;
+        public int purchasedPercent;
     }
 
     public static class UserProfileDetails {
@@ -36,6 +40,7 @@ public class DataStructure {
     }
 
     public static class BusinessProfileDetails {
+        public int businessId;
         public String type;
         public String name;
         public String commencementDate;
@@ -47,10 +52,23 @@ public class DataStructure {
         public String shareBought;
         public String licenseNumber;
         public String shortDescription;
+        public Bitmap logo;
+        public int purchasedPercent;
+        public String logoPath;
+        public int phase;
     }
 
     public static class ImageAndId {
         public Bitmap image;
         public String image_id; // for you to set which id is it for
+    }
+
+    public static class SimpleForumPost {
+        public String postId;
+        public String postTitle;
+        public String postContent;
+        public String postDate;
+        public int postViewCount;
+        public int postVoteCount;
     }
 }

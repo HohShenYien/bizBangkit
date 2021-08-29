@@ -70,6 +70,13 @@
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/menu/bottom_nav.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/menu/navigation_drawer.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/menu/top_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/bizBangkitAlphaApp/bizBangkit/android/app/src/main/res/drawable/arrow_bent_left_ic.xml" value="0.22135416666666666" />
+        <entry key="..\:/bizBangkitAlphaApp/bizBangkit/android/app/src/main/res/layout/discover_list_layout.xml" value="0.20520833333333333" />
+        <entry key="..\:/bizBangkitAlphaApp/bizBangkit/android/app/src/main/res/layout/discuss_post_list_layout.xml" value="0.33" />
+        <entry key="..\:/bizBangkitAlphaApp/bizBangkit/android/app/src/main/res/layout/fragment_discuss_post_list_layout.xml" value="0.2694746376811594" />
+        <entry key="..\:/bizBangkitAlphaApp/bizBangkit/android/app/src/main/res/layout/fragment_discusspage.xml" value="0.20520833333333333" />
+        <entry key="..\:/bizBangkitAlphaApp/bizBangkit/android/app/src/main/res/layout/fragment_profile_general.xml" value="0.20520833333333333" />
+        <entry key="..\:/bizBangkitAlphaApp/bizBangkit/android/app/src/main/res/layout/fragment_profilepage.xml" value="0.20520833333333333" />
       </map>
     </option>
   </component>

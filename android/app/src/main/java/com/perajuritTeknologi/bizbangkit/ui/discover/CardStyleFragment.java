@@ -11,10 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.Fragment;
 
+import com.perajuritTeknologi.bizbangkit.APICaller;
 import com.perajuritTeknologi.bizbangkit.DataStructure;
 import com.perajuritTeknologi.bizbangkit.R;
 import com.perajuritTeknologi.bizbangkit.event.EnterBusinessDetail;
-import com.perajuritTeknologi.bizbangkit.event.ProfileScrolled;
+import com.perajuritTeknologi.bizbangkit.event.GetBusinessListEvent;
+import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -25,6 +27,7 @@ import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
 import com.yuyakaido.android.cardstackview.SwipeableMethod;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -34,21 +37,42 @@ public class CardStyleFragment extends Fragment implements CardStackListener {
     private CardStackLayoutManager cardStackLayoutManager;
     private BusinessCardAdapter businessCardAdapter;
     private ImageButton swipeLeftBtn, swipeRightBtn;
+    private ArrayList<DataStructure.SimpleBusiness> businesses;
+    private boolean endOfList; // set to true when arraylist returned is smaller than size expected
+    private int imgInd; // to get the images for the data
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_discover_cardlayout, container, false);
-        Log.d("ShenYien", "entered cards");
+
+        imgInd = 0;
+        endOfList = false;
+        businesses = new ArrayList<>();
+
         setUpComponents();
         initialize();
         setUpSwipeButtons();
+        getNewContent();
+
         return root;
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
 
     private void setUpComponents() {
         cardStackView = root.findViewById(R.id.discover_business_card_holder);
         cardStackLayoutManager = new CardStackLayoutManager(root.getContext(), this);
-        businessCardAdapter = new BusinessCardAdapter(tmp());
+        businessCardAdapter = new BusinessCardAdapter();
         swipeLeftBtn = root.findViewById(R.id.swipe_left_btn);
         swipeRightBtn = root.findViewById(R.id.swipe_right_btn);
     }
@@ -66,16 +90,6 @@ public class CardStyleFragment extends Fragment implements CardStackListener {
         cardStackLayoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual);
         cardStackView.setLayoutManager(cardStackLayoutManager);
         cardStackView.setAdapter(businessCardAdapter);
-    }
-
-    private ArrayList<DataStructure.SimpleBusiness> tmp() {
-        ArrayList<DataStructure.SimpleBusiness> list = new ArrayList();
-        DataStructure.SimpleBusiness temp = new DataStructure.SimpleBusiness();
-        temp.businessId = 9;
-        for (int i = 0; i < 50; i++) {
-            list.add(temp);
-        }
-        return list;
     }
 
     private void setUpSwipeButtons() {
@@ -107,9 +121,13 @@ public class CardStyleFragment extends Fragment implements CardStackListener {
     @Override
     public void onCardSwiped(Direction direction) {
         if (direction.equals(Direction.Right)) {
-            int position = cardStackLayoutManager.getTopPosition();
+            int position = cardStackLayoutManager.getTopPosition() - 1;
             DataStructure.SimpleBusiness currentBusiness = businessCardAdapter.businesses.get(position);
             EventBus.getDefault().post(new EnterBusinessDetail(currentBusiness.businessId));
+        }
+
+        if(!endOfList && cardStackLayoutManager.getTopPosition() > businesses.size() - 6) {
+            getNewContent();
         }
     }
 
@@ -131,5 +149,47 @@ public class CardStyleFragment extends Fragment implements CardStackListener {
     @Override
     public void onCardDisappeared(View view, int position) {
 
+    }
+
+    private void getNewContent() {
+        APICaller.getBusinessList(businesses.size(), 20);
+    }
+
+    private void addContentsToAdapter(ArrayList<DataStructure.SimpleBusiness> newBusinesses) {
+        businesses.addAll(newBusinesses);
+        if (imgInd == businesses.size() - newBusinesses.size()) {
+            getBusinessLogo();
+        }
+        businessCardAdapter.setItems(businesses);
+        businessCardAdapter.notifyDataSetChanged();
+        if (newBusinesses.size() < 20) {
+            endOfList = true;
+        }
+    }
+
+    @Subscribe
+    public void handleNewContents(GetBusinessListEvent event) {
+        addContentsToAdapter(event.businesses);
+    }
+
+    @Subscribe
+    public void handleLogos(ImageEvent event) {
+        if (event.event_id.compareTo("CardLogos") == 0) {
+            businesses.get(imgInd).logo = event.image.image;
+            businessCardAdapter.setItems(businesses);
+            businessCardAdapter.notifyDataSetChanged();
+            imgInd++;
+            getBusinessLogo();
+        }
+    }
+
+    private void getBusinessLogo() {
+        while (imgInd < businesses.size()) {
+            if (businesses.get(imgInd).logoPath.startsWith("./files/")) {
+                APICaller.getImg(businesses.get(imgInd).logoPath, imgInd + "a", "CardLogos");
+                break;
+            }
+            imgInd++;
+        }
     }
 }

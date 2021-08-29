@@ -1,9 +1,15 @@
 package com.perajuritTeknologi.bizbangkit;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -29,6 +35,13 @@ public class Utils {
         } catch (Exception e) {
             return password;
         }
+    }
 
+    public static class LoadingPage extends Fragment {
+        public View onCreateView(@NonNull LayoutInflater inflater,
+                                 ViewGroup container, Bundle savedInstanceState) {
+
+            return inflater.inflate(R.layout.loading_page, container, false);
+        }
     }
 }
