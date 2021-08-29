@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.perajuritTeknologi.bizbangkit.event.GetBusinessDetails;
 import com.perajuritTeknologi.bizbangkit.event.GetBusinessListEvent;
+import com.perajuritTeknologi.bizbangkit.event.GetPersonalBusinessDetails;
 import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.perajuritTeknologi.bizbangkit.event.LogInEvent;
 import com.perajuritTeknologi.bizbangkit.event.ProfileEvent;
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 import okhttp3.Credentials;
@@ -187,7 +189,60 @@ public class APICaller {
         }
     }
 
-    public static void getBusienssDetails(int busId) {
+    public static void getPersonalBusinessDetails(String userID) {
+        Request request =
+                new Request.Builder()
+                .url(baseUrl + "business/info/user/" + userID)
+                .build();
+        new GetPersonalBusinessTask().execute(request);
+    }
+
+    private static class GetPersonalBusinessTask extends AsyncTask<Request, Integer, DataStructure.BusinessProfileDetails> {
+        @Override
+        protected DataStructure.BusinessProfileDetails doInBackground(Request... requests) {
+            DataStructure.BusinessProfileDetails profileDetails = new DataStructure.BusinessProfileDetails();
+            try (Response response = client.newCall(requests[0]).execute()) {
+                return parsePersonalBusinessDetails(response.body().string());
+            } catch (IOException e) {
+                Log.e("RuiJun", "Request to server problem", e);
+                profileDetails.name = "ServerFailedUs";
+                return profileDetails;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(DataStructure.BusinessProfileDetails result) {
+            EventBus.getDefault().post(new GetPersonalBusinessDetails(result));
+        }
+    }
+
+    private static DataStructure.BusinessProfileDetails parsePersonalBusinessDetails(String details) {
+        DataStructure.BusinessProfileDetails profileDetails = new DataStructure.BusinessProfileDetails();
+        try {
+            JSONObject jsonObject = new JSONObject(details);
+            try {
+                String noBusiness = jsonObject.get("Error").toString();
+                Log.d("RuiJun","No business exists");
+                profileDetails.name = "NO_EXISTING_BUSINESS";
+                return profileDetails;
+            } catch (JSONException e) {
+                Log.d("RuiJun","Business does exists for this user");
+                profileDetails.type = jsonObject.get("bus_phase").toString();
+                profileDetails.name = jsonObject.get("bus_name").toString();
+                profileDetails.valuation = jsonObject.get("bus_valuation").toString();
+                profileDetails.commencementDate = jsonObject.get("bus_day").toString();
+                profileDetails.shareBought = String.format(Locale.getDefault(),"%d",Math.round(Float.parseFloat(profileDetails.valuation)
+                        * jsonObject.getInt("share_bought")/100f));
+                return profileDetails;
+            }
+
+        } catch (JSONException e) {
+            Log.d("RuiJun", "JSON parsing error", e);
+            return null;
+        }
+    }
+
+    public static void getBusinessDetails(int busId) {
         Request request = new Request.Builder().
                 url(baseUrl + "business/info/" + busId).build();
         new GetBusinessTask().execute(request);
@@ -221,7 +276,7 @@ public class APICaller {
             business.valuation = Integer.toString(result.getInt("bus_valuation"));
             business.principalAddress = result.getString("bus_loc_address_city");
             business.logoPath = result.getString("bus_fpath_logo");
-            business.commencementDate = result.getString("bus_start_date");
+            business.commencementDate = result.getString("bus_day");
             business.purchasedPercent = result.getInt("share_bought");
             business.phase = result.getInt("bus_phase");
             return business;

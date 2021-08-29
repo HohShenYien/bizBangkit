@@ -26,6 +26,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.perajuritTeknologi.bizbangkit.event.GetPersonalBusinessDetails;
 import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.perajuritTeknologi.bizbangkit.event.ProfileEvent;
 import com.perajuritTeknologi.bizbangkit.event.SaveProfileResponse;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         setUpToolBar();
         setUpNavigation();
         getUserDetails();
+        getBusinessDetails();
     }
 
     @Override
@@ -130,6 +132,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void getUserDetails() {
         APICaller.getProfile(LocalStorage.getID());
+    }
+
+    public void getBusinessDetails() {
+        businessDetails.name = "LOADING_BUSINESS"; // temporary name
+        APICaller.getPersonalBusinessDetails(LocalStorage.getID());
     }
 
     public void changeFragment(Fragment newFragment) {
@@ -226,5 +233,10 @@ public class MainActivity extends AppCompatActivity {
             this.userImg = event.image.image;
             setUpUserImg();
         }
+    }
+
+    @Subscribe
+    public void onGetPersonalBusinessDetails(GetPersonalBusinessDetails details) {
+        businessDetails = details.details;
     }
 }

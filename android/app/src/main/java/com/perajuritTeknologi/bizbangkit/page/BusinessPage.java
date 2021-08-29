@@ -11,13 +11,19 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
+import com.perajuritTeknologi.bizbangkit.Utils;
+import com.perajuritTeknologi.bizbangkit.event.GetPersonalBusinessDetails;
 import com.perajuritTeknologi.bizbangkit.ui.business.BusinessExistingBusinessFragment;
 import com.perajuritTeknologi.bizbangkit.ui.business.BusinessNoBusinessFragment;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 public class BusinessPage extends Fragment {
     private View root;
-    public static boolean existBusiness = false;
+    public static boolean existBusiness;
     private boolean fromNewBusiness;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
@@ -27,14 +33,23 @@ public class BusinessPage extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_businesspage, container, false);
 
-        setUpComponents();
         setUpFragmentManager();
         setUpFragmentDeterminant();
 
         return root;
     }
 
-    private void setUpComponents() { }
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
 
     private void setUpFragmentManager() {
         fragmentManager = getParentFragmentManager();
@@ -43,13 +58,20 @@ public class BusinessPage extends Fragment {
     private void setUpFragmentDeterminant() {
         fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment;
-        if (existBusiness) {
-            fragment = new BusinessExistingBusinessFragment();
-            fromNewBusiness = false;
+
+        if(!MainActivity.businessDetails.name.equals("LOADING_BUSINESS")) {
+            existBusiness = !MainActivity.businessDetails.name.equals("NO_EXISTING_BUSINESS");
+
+            if (existBusiness) {
+                fragment = new BusinessExistingBusinessFragment();
+                fromNewBusiness = false;
+            } else {
+                fragment = new BusinessNoBusinessFragment();
+                fromNewBusiness = true;
+            }
         }
         else {
-            fragment = new BusinessNoBusinessFragment();
-            fromNewBusiness = true;
+            fragment = new Utils.LoadingPage();
         }
 
         fragmentTransaction.replace(R.id.businessFragmentContainer, fragment)
@@ -62,5 +84,10 @@ public class BusinessPage extends Fragment {
         if (fromNewBusiness) {
             setUpFragmentDeterminant();
         }
+    }
+
+    @Subscribe
+    public void GetPersonalBusinessDetails(GetPersonalBusinessDetails details) {
+        setUpFragmentDeterminant();
     }
 }

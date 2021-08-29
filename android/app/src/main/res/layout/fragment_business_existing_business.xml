@@ -33,7 +33,7 @@
                     android:id="@+id/existingBusinessProfilePictureImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/small_store" />
+                    android:src="@drawable/default_business_logo" />
             </androidx.cardview.widget.CardView>
             
             <TextView

@@ -140,7 +140,7 @@ public class DiscoverPage extends Fragment {
     public void enterBusiness(EnterBusinessDetail event) {
         businessDetailId = event.id;
         transaction = fragmentManager.beginTransaction();
-        APICaller.getBusienssDetails(businessDetailId);
+        APICaller.getBusinessDetails(businessDetailId);
         toolbar.setVisibility(View.GONE);
         Fragment loadingPage = new Utils.LoadingPage();
         transaction.replace(R.id.discover_fragment_container, loadingPage).commit();

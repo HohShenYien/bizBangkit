@@ -253,7 +253,6 @@ public class BusinessNewBusinessProposalFragment extends Fragment {
             Request request = requests[0];
             DataStructure.BusinessProfileDetails profileDetails = new DataStructure.BusinessProfileDetails();
             try (Response response = client.newCall(request).execute()) {
-                Log.d("RuiJun", "response here");
                 JSONObject jObject = new JSONObject(response.body().string());
                 try {
                     String accountExist = jObject.get("message").toString();
@@ -261,7 +260,7 @@ public class BusinessNewBusinessProposalFragment extends Fragment {
                     BusinessNewBusinessProposalFragment.registered = 3;
                 } catch (JSONException e) {
                     Log.d("RuiJun","Business is new");
-                    MainActivity.businessDetails.type = jObject.get("bus_lic_no").toString();
+                    MainActivity.businessDetails.type = jObject.get("bus_phase").toString();
                     MainActivity.businessDetails.name = jObject.get("bus_name").toString();
                     MainActivity.businessDetails.valuation = jObject.get("bus_valuation").toString();
                     MainActivity.businessDetails.commencementDate = jObject.get("bus_start_date").toString();
