@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.perajuritTeknologi.bizbangkit.DataConversion;
+import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -33,20 +34,23 @@ import java.io.IOException;
 
 public class BusinessExistingBusinessFinancialDetailsFragment extends Fragment {
     private View root;
-    private LinearLayout costTab;
-    private ExpandableLayout costLayout;
-    private ImageView costArrow;
-    private MaterialButton costUploadButton;
-    private ActivityResultLauncher<String[]> chooseCostPicture;
-    private GridLayout costGrid;
+    private LinearLayout costTab, revenueTab, incomeTab;
+    private ExpandableLayout costLayout, revenueLayout, incomeLayout;
+    private ImageView costArrow, revenueArrow, incomeArrow;
+    private MaterialButton costUploadButton, revenueUploadButton, incomeUploadButton;
+    private ActivityResultLauncher<String[]> chooseCostPicture, chooseRevenuePicture, chooseIncomePicture;
+    private GridLayout costGrid, revenueGrid, incomeGrid;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_business_existing_financial_details, container, false);
-        setUpComponents();
 
-        onCostLayoutClicked();
+        setUpComponents();
+        onExpandableLayoutClicked();
+
         setUpCostUploadButton();
+        setUpRevenueUploadButton();
+        setUpIncomeUploadButton();
 
         return root;
     }
@@ -58,6 +62,17 @@ public class BusinessExistingBusinessFinancialDetailsFragment extends Fragment {
         costUploadButton = root.findViewById(R.id.businessExistingFinancialCostUploadButton);
         costGrid = root.findViewById(R.id.businessExistingFinancialCostGrid);
 
+        revenueTab = root.findViewById(R.id.businessFinancialRevenueLayout);
+        revenueLayout = root.findViewById(R.id.businessFinancialRevenueExpandable);
+        revenueArrow = root.findViewById(R.id.businessFinancialRevenueArrow);
+        revenueUploadButton = root.findViewById(R.id.businessExistingFinancialRevenueUploadButton);
+        revenueGrid = root.findViewById(R.id.businessExistingFinancialRevenueGrid);
+
+        incomeTab = root.findViewById(R.id.businessFinancialIncomeLayout);
+        incomeLayout = root.findViewById(R.id.businessFinancialIncomeExpandable);
+        incomeArrow = root.findViewById(R.id.businessFinancialIncomeArrow);
+        incomeUploadButton = root.findViewById(R.id.businessFinancialIncomeUploadButton);
+        incomeGrid = root.findViewById(R.id.businessExistingFinancialIncomeGrid);
 
     }
 
@@ -74,9 +89,7 @@ public class BusinessExistingBusinessFinancialDetailsFragment extends Fragment {
         return param;
     }
 
-
-    // cost section of the financial details
-    private void onCostLayoutClicked() {
+    private void onExpandableLayoutClicked() {
         costTab.setOnClickListener(view -> {
             if (costLayout.isExpanded()) {
                 costArrow.setImageResource(R.drawable.arrow_down_ic);
@@ -84,6 +97,26 @@ public class BusinessExistingBusinessFinancialDetailsFragment extends Fragment {
             } else {
                 costArrow.setImageResource(R.drawable.arrow_up_ic);
                 costLayout.expand();
+            }
+        });
+
+        revenueTab.setOnClickListener(view -> {
+            if (revenueLayout.isExpanded()) {
+                revenueArrow.setImageResource(R.drawable.arrow_down_ic);
+                revenueLayout.collapse();
+            } else {
+                revenueArrow.setImageResource(R.drawable.arrow_up_ic);
+                revenueLayout.expand();
+            }
+        });
+
+        incomeTab.setOnClickListener(view -> {
+            if (incomeLayout.isExpanded()) {
+                incomeArrow.setImageResource(R.drawable.arrow_down_ic);
+                incomeLayout.collapse();
+            } else {
+                incomeArrow.setImageResource(R.drawable.arrow_up_ic);
+                incomeLayout.expand();
             }
         });
     }
@@ -102,6 +135,40 @@ public class BusinessExistingBusinessFinancialDetailsFragment extends Fragment {
         });
         costUploadButton.setOnClickListener(view -> {
             chooseCostPicture.launch(new String[] {"image/*"});
+        });
+    }
+
+    private void setUpRevenueUploadButton() {
+        chooseRevenuePicture = registerForActivityResult(new ActivityResultContracts.OpenDocument(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                if (result != null) {
+                    ImageView imageView = new ImageView(root.getContext());
+                    imageView.setImageURI(result);
+                    imageView.setLayoutParams(getLayoutParams());
+                    revenueGrid.addView(imageView);
+                }
+            }
+        });
+        revenueUploadButton.setOnClickListener(view -> {
+            chooseRevenuePicture.launch(new String[] {"image/*"});
+        });
+    }
+
+    private void setUpIncomeUploadButton() {
+        chooseIncomePicture = registerForActivityResult(new ActivityResultContracts.OpenDocument(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                if (result != null) {
+                    ImageView imageView = new ImageView(root.getContext());
+                    imageView.setImageURI(result);
+                    imageView.setLayoutParams(getLayoutParams());
+                    incomeGrid.addView(imageView);
+                }
+            }
+        });
+        incomeUploadButton.setOnClickListener(view -> {
+            chooseIncomePicture.launch(new String[] {"image/*"});
         });
     }
 }

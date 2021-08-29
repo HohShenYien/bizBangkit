@@ -54,24 +54,34 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/registerProposalText"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guidelineR"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guidelineL"
             app:layout_constraintTop_toBottomOf="@id/uselessProposalInfo"
             app:layout_constraintVertical_bias="0"
-            app:hintEnabled="false">
+            app:hintEnabled="false"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/editTextRegisterProposalText"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60sp"
-                android:ems="10"
-                android:autofillHints="name"
-                android:hint="Enter description here"
-                android:textColor="@color/design_default_color_on_secondary" />
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:background="@drawable/rounded_corners"
+                android:backgroundTint="@color/light_gray">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextRegisterProposalText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Enter description here"
+                    android:gravity="start"
+                    android:textColor="@color/design_default_color_on_secondary" />
+            </androidx.core.widget.NestedScrollView>
+
+
+
         </com.google.android.material.textfield.TextInputLayout>
 
 

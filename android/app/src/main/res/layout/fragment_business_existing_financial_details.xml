@@ -8,8 +8,7 @@
     android:layout_width="match_parent"
     android:background="#E6E6E6"
     android:paddingHorizontal="3dp"
-    android:paddingTop="5dp"
-    >
+    android:paddingTop="5dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +26,6 @@
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:paddingHorizontal="20dp"
-            android:layout_marginBottom="5dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp">
 
@@ -54,11 +52,9 @@
             android:id="@+id/businessFinancialCostExpandable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
             app:el_duration="400"
-            app:el_expanded="true"
+            app:el_expanded="false"
+            android:background="@color/light_gray"
             tools:layout_editor_absoluteY="32dp">
 
             <LinearLayout
@@ -94,7 +90,7 @@
         </net.cachapa.expandablelayout.ExpandableLayout>
 
         <LinearLayout
-            android:id="@+id/business_detail_revenue_tab"
+            android:id="@+id/businessFinancialRevenueLayout"
             android:layout_width="411dp"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
@@ -105,7 +101,7 @@
             android:gravity="center"
             android:paddingHorizontal="20dp"
             tools:layout_editor_absoluteY="32dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp">
 
@@ -121,7 +117,7 @@
                 android:layout_weight="1" />
 
             <ImageView
-                android:id="@+id/business_detail_finance_chevron2"
+                android:id="@+id/businessFinancialRevenueArrow"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/arrow_down_ic"
@@ -129,27 +125,48 @@
         </LinearLayout>
 
         <net.cachapa.expandablelayout.ExpandableLayout
-            android:id="@+id/expandable_layout_revenue"
+            android:id="@+id/businessFinancialRevenueExpandable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:el_duration="1000"
+            app:el_duration="400"
             app:el_expanded="false"
+            android:background="@color/light_gray"
             tools:layout_editor_absoluteY="65dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="#00b300"
-                android:clipToPadding="false"
-                android:elevation="4dp"
-                android:gravity="center"
-                android:text="Fixed height"
-                android:textColor="#fff" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/businessExistingFinancialRevenueUploadButton"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Image"
+                    android:textAllCaps="false"
+                    android:layout_gravity="center"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:backgroundTint="@color/light_pink"
+                    app:strokeColor="@color/colorPrimary"
+                    app:strokeWidth="2sp"
+                    app:rippleColor="@color/pastel_purple"/>
+
+                <GridLayout
+                    android:id="@+id/businessExistingFinancialRevenueGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    grid:alignmentMode="alignBounds"
+                    android:useDefaultMargins="true">
+
+                </GridLayout>
+
+            </LinearLayout>
 
         </net.cachapa.expandablelayout.ExpandableLayout>
 
         <LinearLayout
-            android:id="@+id/business_detail_income_tab"
+            android:id="@+id/businessFinancialIncomeLayout"
             android:layout_width="411dp"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
@@ -160,6 +177,7 @@
             android:gravity="center"
             android:paddingHorizontal="20dp"
             tools:layout_editor_absoluteY="65dp"
+            android:layout_marginTop="5dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp">
 
@@ -175,7 +193,7 @@
                 android:layout_weight="1" />
 
             <ImageView
-                android:id="@+id/business_detail_finance_chevron3"
+                android:id="@+id/businessFinancialIncomeArrow"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/arrow_down_ic"
@@ -183,24 +201,46 @@
         </LinearLayout>
 
         <net.cachapa.expandablelayout.ExpandableLayout
-            android:id="@+id/expandable_layout_income"
+            android:id="@+id/businessFinancialIncomeExpandable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:el_duration="1000"
+            app:el_duration="400"
             app:el_expanded="false"
+            android:background="@color/light_gray"
             tools:layout_editor_absoluteY="97dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="#00b300"
-                android:clipToPadding="false"
-                android:elevation="4dp"
-                android:gravity="center"
-                android:text="Fixed height"
-                android:textColor="#fff" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/businessFinancialIncomeUploadButton"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Image"
+                    android:textAllCaps="false"
+                    android:layout_gravity="center"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:backgroundTint="@color/light_pink"
+                    app:strokeColor="@color/colorPrimary"
+                    app:strokeWidth="2sp"
+                    app:rippleColor="@color/pastel_purple"/>
+
+                <GridLayout
+                    android:id="@+id/businessExistingFinancialIncomeGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    grid:alignmentMode="alignBounds"
+                    android:useDefaultMargins="true">
+
+                </GridLayout>
+
+            </LinearLayout>
 
         </net.cachapa.expandablelayout.ExpandableLayout>
 
     </LinearLayout>
+
 </androidx.core.widget.NestedScrollView>

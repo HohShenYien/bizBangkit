@@ -13,7 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
+
+import java.util.Objects;
 
 public class BusinessNoBusinessFragment extends Fragment {
     private View root;
@@ -44,6 +47,9 @@ public class BusinessNoBusinessFragment extends Fragment {
     private void onStartBusinessClicked() {
         startBusinessButton.setOnClickListener(view -> {
             Intent intent = new Intent(getContext(), NewBusinessActivity.class);
+            intent.putExtra("userID", ((MainActivity) getActivity()).userProfile.userId);
+            intent.putExtra("email", ((MainActivity) getActivity()).userProfile.email);
+            intent.putExtra("phoneNum", ((MainActivity) getActivity()).userProfile.phoneNumber);
             startActivity(intent);
         });
     }

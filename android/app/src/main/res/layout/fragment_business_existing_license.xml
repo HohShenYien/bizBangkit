@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:fadeScrollbars="false"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:background="@android:color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="10dp"
+        android:paddingTop="3dp">
+
+        <TextView
+            android:id="@+id/businessLicenseWarningText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You must provide a proof business license ownership before proceeding to phase 3 of your business"
+            android:textColor="@color/warning"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingBottom="10sp"/>
+
+        <TextView
+            android:id="@+id/uselessExistingBusinessLicense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Business license number (registration number)"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/businessLicenseWarningText"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/existingBusinessLicense"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/uselessExistingBusinessLicense"
+            app:layout_constraintVertical_bias="0"
+            android:layout_marginTop="5dp"
+            app:hintEnabled="false"
+            app:boxStrokeWidth="1.5dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextExistingBusinessLicense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter license number"
+                android:textColor="@android:color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/uselessExistingBusinessLicenseImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Image of license"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/existingBusinessLicense"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15sp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/existingBusinessLicenseUploadButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Upload Image"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_purple"
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="@color/dark_purple"
+            app:rippleColor="@color/pastel_purple"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/uselessExistingBusinessLicenseImage"
+            android:layout_marginStart="5dp" />
+
+        <LinearLayout
+            android:id="@+id/existingBusinessLicenseImageLayout"
+            android:layout_width="0sp"
+            android:layout_height="400dp"
+            android:padding="10sp"
+            android:background="@drawable/rounded_corners"
+            android:backgroundTint="@color/light_gray"
+            app:layout_constraintTop_toBottomOf="@id/existingBusinessLicenseUploadButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:elevation="3sp"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/existingBusinessLicenseImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/existingBusinessLicenseSaveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button"
+            app:rippleColor="@color/light_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/existingBusinessLicenseImageLayout"
+            android:layout_marginTop="10dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
+

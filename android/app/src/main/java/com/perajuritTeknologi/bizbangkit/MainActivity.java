@@ -31,6 +31,7 @@ import com.perajuritTeknologi.bizbangkit.event.ProfileEvent;
 import com.perajuritTeknologi.bizbangkit.event.SaveProfileResponse;
 import com.perajuritTeknologi.bizbangkit.event.TabChanged;
 import com.perajuritTeknologi.bizbangkit.page.ProfilePage;
+import com.perajuritTeknologi.bizbangkit.ui.business.BusinessExistingBusinessFragment;
 import com.perajuritTeknologi.bizbangkit.ui.home.HomeFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     // 1 for being at base page before exiting app, if more than 1 means added fragment onto pages, so pressing back closes fragment instead of the whole app
     public static int basePage = 1;
+    public static DataStructure.BusinessProfileDetails businessDetails = new DataStructure.BusinessProfileDetails();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

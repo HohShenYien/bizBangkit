@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,6 +20,10 @@ public class NewBusinessActivity extends AppCompatActivity {
     private FragmentTransaction fragmentTransaction;
     private static LinearProgressIndicator progress1, progress2, progress3, progress4;
     public static DataStructure.BusinessProfileDetails businessProfileDetails = new DataStructure.BusinessProfileDetails();
+
+    public static String userID;
+    public static String userEmail;
+    public static String phoneNum;
     public static int currentFragmentPos;
 
     @Override
@@ -27,6 +32,7 @@ public class NewBusinessActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_business);
 
         setUpComponents();
+        receiveIntent();
         setUpFragmentManager();
         setUpFragment();
     }
@@ -38,6 +44,13 @@ public class NewBusinessActivity extends AppCompatActivity {
         progress4 = findViewById(R.id.businessRegisterProgress4);
 
         progress1.setProgress(100, true);
+    }
+
+    private void receiveIntent() {
+        Intent intent = getIntent();
+        userID = intent.getStringExtra("userID");
+        userEmail = intent.getStringExtra("email");
+        phoneNum = intent.getStringExtra("phoneNum");
     }
 
     private void setUpFragmentManager() {

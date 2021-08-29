@@ -311,8 +311,8 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
     private void redirectToLoginPage() {
         SharedPreferences sharedPreferences1 = getSharedPreferences("registerUserP1", Context.MODE_PRIVATE);
         SharedPreferences sharedPreferences2 = getSharedPreferences("registerUserP2", Context.MODE_PRIVATE);
-        //sharedPreferences1.edit().clear().apply();
-        //sharedPreferences2.edit().clear().apply();
+        sharedPreferences1.edit().clear().apply();
+        sharedPreferences2.edit().clear().apply();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
 
         startActivity(intent);

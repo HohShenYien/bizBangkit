@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,6 +26,7 @@ import android.os.ParcelFileDescriptor;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +42,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -74,6 +78,7 @@ public class BusinessNewBusinessDetailsFragment extends Fragment {
     private static ArrayList<Integer> partnerNRICTrashCanList = new ArrayList<>();
     private ArrayAdapter<CharSequence> adapter;
     private Spinner businessTypeSpinner;
+    private boolean businessTypeChosen = false;
     private TextInputLayout businessLicenseTextLayout;
     private ActivityResultLauncher<String[]> choosePicture;
     private FragmentManager fragmentManager;
@@ -268,10 +273,15 @@ public class BusinessNewBusinessDetailsFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
                 NewBusinessActivity.businessProfileDetails.businessType = adapterView.getItemAtPosition(pos).toString();
+                businessTypeChosen = true;
+                Log.d("Ruijun", adapterView.getItemAtPosition(pos).toString());
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) { }
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                NewBusinessActivity.businessProfileDetails.businessType = "Child care";
+                businessTypeChosen = true;
+            }
         });
     }
 
@@ -311,15 +321,42 @@ public class BusinessNewBusinessDetailsFragment extends Fragment {
 
     private void onNextButtonClicked() {
         nextButton.setOnClickListener(view -> {
-            NewBusinessActivity.businessProfileDetails.principalAddress = principlePlace.getText().toString();
-            NewBusinessActivity.businessProfileDetails.branchAddress = branchAddress.getText().toString();
-            NewBusinessActivity.businessProfileDetails.partnerNric = nric1.getText().toString() + nric2.getText().toString() + nric3.getText().toString();
-            NewBusinessActivity.businessProfileDetails.valuation = valuation.getText().toString();
-            if (NewBusinessActivity.businessProfileDetails.type.equals("Existing")) {
-                NewBusinessActivity.businessProfileDetails.licenseNumber = businessLicense.getText().toString();
+            if (onNextDeterminant()) {
+                NewBusinessActivity.businessProfileDetails.principalAddress = principlePlace.getText().toString();
+                NewBusinessActivity.businessProfileDetails.branchAddress = branchAddress.getText().toString();
+                NewBusinessActivity.businessProfileDetails.partnerNric = nric1.getText().toString() + nric2.getText().toString() + nric3.getText().toString();
+                NewBusinessActivity.businessProfileDetails.valuation = valuation.getText().toString();
+                if (NewBusinessActivity.businessProfileDetails.type.equals("Existing")) {
+                    NewBusinessActivity.businessProfileDetails.licenseNumber = businessLicense.getText().toString();
+                }
+                setUpFragment();
             }
-            setUpFragment();
         });
+    }
+
+    private boolean onNextDeterminant() {
+        if (showDate.getText().length() == 0 || principlePlace.getText().length() == 0||
+                branchAddress.getText().length() == 0 || nric1.getText().length() != 6 ||
+                nric2.getText().length() != 2 || nric3.getText().length() != 4 ||
+                !businessTypeChosen || valuation.getText().length() == 0) {
+            return makeToastWarning();
+        }
+        else if (NewBusinessActivity.businessProfileDetails.type.equals("Existing") && businessLicense.getText().length() == 0) {
+            return makeToastWarning();
+        }
+        return true;
+    }
+
+    private boolean makeToastWarning() {
+        Toast toast = Toast.makeText(root.getContext(), "There are incomplete fields!", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 850);
+        View view = toast.getView();
+        int color = ContextCompat.getColor(root.getContext(), R.color.light_pink);
+        view.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        TextView toastText = view.findViewById(android.R.id.message);
+        toastText.setTextColor(ContextCompat.getColor(root.getContext(), android.R.color.holo_red_light));
+        toast.show();
+        return false;
     }
 
 }

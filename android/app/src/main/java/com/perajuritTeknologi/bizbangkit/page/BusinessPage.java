@@ -17,7 +17,7 @@ import com.perajuritTeknologi.bizbangkit.ui.business.BusinessNoBusinessFragment;
 
 public class BusinessPage extends Fragment {
     private View root;
-    public static boolean existBusiness = true;
+    public static boolean existBusiness = false;
     private boolean fromNewBusiness;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;

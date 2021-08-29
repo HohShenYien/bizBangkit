@@ -1,7 +1,9 @@
 package com.perajuritTeknologi.bizbangkit.ui.business;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -9,7 +11,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -29,8 +34,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.perajuritTeknologi.bizbangkit.BuildConfig;
 import com.perajuritTeknologi.bizbangkit.DataStructure;
+import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
 import com.perajuritTeknologi.bizbangkit.RegistrationAccountActivity2;
 import com.perajuritTeknologi.bizbangkit.page.BusinessPage;
@@ -40,6 +47,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -50,7 +58,7 @@ import okhttp3.Response;
 
 public class BusinessNewBusinessProposalFragment extends Fragment {
     private View root;
-    private EditText businessDescription;
+    private TextInputEditText businessDescription;
     private CardView businessVideo, businessUpload;
     private ActivityResultLauncher<Uri> takeVideo;
     private ActivityResultLauncher<String[]> chooseVideo;
@@ -87,8 +95,6 @@ public class BusinessNewBusinessProposalFragment extends Fragment {
         filePath = root.findViewById(R.id.businessVideoFile);
         backButton = root.findViewById(R.id.businessNewBusinessProposalBackButton);
         finishButton = root.findViewById(R.id.businessNewBusinessProposalFinishButton);
-
-        Log.d("RuiJun", NewBusinessActivity.businessProfileDetails.principalAddress + "| hello");
     }
 
     private void saveText() {
@@ -170,47 +176,67 @@ public class BusinessNewBusinessProposalFragment extends Fragment {
 
     private void onFinishButtonClicked() {
         finishButton.setOnClickListener(view -> {
-            Dialog dialog = new Dialog(root.getContext());
-            dialog.setContentView(R.layout.dialog_yes_or_no);
-            dialog.setCancelable(true);
-            TextView completionConfirmation = dialog.findViewById(R.id.dialogYesOrNoText);
-            completionConfirmation.setText(("Confirm registration with the information entered?"));
-            Button completionYesButton = dialog.findViewById(R.id.dialogYesButton);
-            completionYesButton.setOnClickListener(view1 -> {
-                dialog.cancel();
+            if (onFinishDeterminant()) {
+                Dialog dialog = new Dialog(root.getContext());
+                dialog.setContentView(R.layout.dialog_yes_or_no);
+                dialog.setCancelable(true);
+                TextView completionConfirmation = dialog.findViewById(R.id.dialogYesOrNoText);
+                completionConfirmation.setText(("Confirm registration with the information entered?"));
+                Button completionYesButton = dialog.findViewById(R.id.dialogYesButton);
+                completionYesButton.setOnClickListener(view1 -> {
+                    dialog.cancel();
 
-                // set up connection to server and send data
-                registerUserToServer();
-                Dialog dialog1 = setUpRegistrationPending();
-                dialog1.show();
+                    // set up connection to server and send data
+                    registerUserToServer();
+                    Dialog dialog1 = setUpRegistrationPending();
+                    dialog1.show();
 
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (BusinessNewBusinessProposalFragment.registered == 1) {
-                            Handler handler1 = new Handler();
-                            handler1.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dialog1.cancel();
-                                    showRegistrationSuccessOrFail();
-                                }
-                            }, 5000);
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (BusinessNewBusinessProposalFragment.registered == 1) {
+                                Handler handler1 = new Handler();
+                                handler1.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dialog1.cancel();
+                                        showRegistrationSuccessOrFail();
+                                    }
+                                }, 5000);
+                            } else {
+                                dialog1.cancel();
+                                showRegistrationSuccessOrFail();
+                            }
                         }
-                        else {
-                            dialog1.cancel();
-                            showRegistrationSuccessOrFail();
-                        }
-                    }
-                }, 5000);
-            });
-            Button completionNoButton = dialog.findViewById(R.id.dialogNoButton);
-            completionNoButton.setOnClickListener(view1 -> {
-                dialog.cancel();
-            });
-            dialog.show();
+                    }, 5000);
+                });
+                Button completionNoButton = dialog.findViewById(R.id.dialogNoButton);
+                completionNoButton.setOnClickListener(view1 -> {
+                    dialog.cancel();
+                });
+                dialog.show();
+            }
         });
+    }
+
+    private boolean onFinishDeterminant() {
+        if (businessDescription.getText().length() == 0) {
+            return makeToastWarning();
+        }
+        return true;
+    }
+
+    private boolean makeToastWarning() {
+        Toast toast = Toast.makeText(root.getContext(), "There are incomplete fields!", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 850);
+        View view = toast.getView();
+        int color = ContextCompat.getColor(root.getContext(), R.color.light_pink);
+        view.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        TextView toastText = view.findViewById(android.R.id.message);
+        toastText.setTextColor(ContextCompat.getColor(root.getContext(), android.R.color.holo_red_light));
+        toast.show();
+        return false;
     }
 
 
@@ -227,20 +253,27 @@ public class BusinessNewBusinessProposalFragment extends Fragment {
             Request request = requests[0];
             DataStructure.BusinessProfileDetails profileDetails = new DataStructure.BusinessProfileDetails();
             try (Response response = client.newCall(request).execute()) {
-
+                Log.d("RuiJun", "response here");
+                JSONObject jObject = new JSONObject(response.body().string());
                 try {
-                    JSONObject jObject = new JSONObject(response.body().string());
                     String accountExist = jObject.get("message").toString();
                     Log.d("RuiJun","Business exists");
-                    RegistrationAccountActivity2.registered = 3;
+                    BusinessNewBusinessProposalFragment.registered = 3;
                 } catch (JSONException e) {
                     Log.d("RuiJun","Business is new");
-                    RegistrationAccountActivity2.registered = 2;
+                    MainActivity.businessDetails.type = jObject.get("bus_lic_no").toString();
+                    MainActivity.businessDetails.name = jObject.get("bus_name").toString();
+                    MainActivity.businessDetails.valuation = jObject.get("bus_valuation").toString();
+                    MainActivity.businessDetails.commencementDate = jObject.get("bus_start_date").toString();
+                    MainActivity.businessDetails.shareBought = String.format(Locale.getDefault(),"%d",Math.round(Float.parseFloat(MainActivity.businessDetails.valuation)
+                            * jObject.getInt("share_bought")/100f));
+                    Log.d("RuiJun","5");
+                    BusinessNewBusinessProposalFragment.registered = 2;
                 }
                 return profileDetails;
 
-            } catch (IOException e) {
-                Log.e("RuiJun", "hello there error", e);
+            } catch (IOException | JSONException e) {
+                Log.e("RuiJun", "either server connection problem or JSONObject problem", e);
                 return profileDetails;
             }
         }
@@ -254,13 +287,34 @@ public class BusinessNewBusinessProposalFragment extends Fragment {
     private void registerUserToServer() {
         MultipartBody.Builder builder
                 = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("user_id", NewBusinessActivity.userID)
                 .addFormDataPart("bus_name", NewBusinessActivity.businessProfileDetails.name)
                 .addFormDataPart("bus_type", NewBusinessActivity.businessProfileDetails.businessType)
                 .addFormDataPart("bus_valuation", NewBusinessActivity.businessProfileDetails.valuation)
-                .addFormDataPart("bus_lic_no", NewBusinessActivity.businessProfileDetails.licenseNumber)
+                .addFormDataPart("bus_total_emp", "0")
+                .addFormDataPart("bus_current_emp", "0")
+                .addFormDataPart("bus_phone", NewBusinessActivity.phoneNum)
+                .addFormDataPart("bus_email", NewBusinessActivity.userEmail)
+                .addFormDataPart("bus_bank_acc", NewBusinessActivity.userID+"99")
+                .addFormDataPart("bus_ops_start_time", "09:00")
+                .addFormDataPart("bus_ops_end_time", "05:30")
                 .addFormDataPart("bus_day", NewBusinessActivity.businessProfileDetails.commencementDate)
                 .addFormDataPart("bus_reg_address", NewBusinessActivity.businessProfileDetails.principalAddress)
                 .addFormDataPart("bus_loc_address_city", NewBusinessActivity.businessProfileDetails.branchAddress);
+
+        if (NewBusinessActivity.businessProfileDetails.type.equals("New")) {
+            builder.addFormDataPart("bus_lic_no", "1");
+        }
+        else if (NewBusinessActivity.businessProfileDetails.type.equals("Existing")){
+            builder.addFormDataPart("bus_lic_no", "2");
+        }
+
+        if (NewBusinessActivity.businessProfileDetails.licenseNumber != null) {
+            builder.addFormDataPart("bus_ssm_id", NewBusinessActivity.businessProfileDetails.licenseNumber);
+        }
+        else {
+            builder.addFormDataPart("bus_ssm_id", "0");
+        }
 
         RequestBody requestBody = builder.build();
 
@@ -302,7 +356,7 @@ public class BusinessNewBusinessProposalFragment extends Fragment {
         }
         else if (registered == 3) {
             completionText.setTextColor(ContextCompat.getColor(root.getContext(), android.R.color.holo_red_light));
-            completionText.setText(("Account with the same IC number and username has already registered on BizBangkit! "));
+            completionText.setText(("Account with the same business name, email and bank account has already registered on BizBangkit! "));
             Button completionOKButton = dialog.findViewById(R.id.dialogOKButton);
             completionOKButton.setOnClickListener(view2 -> {
                 dialog.cancel();

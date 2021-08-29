@@ -313,14 +313,13 @@
                 android:background="@drawable/spinner_background">
 
                 <Spinner
+                    android:id="@+id/profile_edit_gender"
                     style="@style/Widget.AppCompat.DropDownItem.Spinner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/profile_edit_gender"
                     android:layout_marginVertical="10dp"
                     android:entries="@array/gender_spinner"
-                    android:textAlignment="center"
-                    />
+                    android:textAlignment="center" />
             </RelativeLayout>
 
             <TextView
