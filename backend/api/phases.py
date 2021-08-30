@@ -246,7 +246,8 @@ def phase_two(bus_id):
         # 3. UPDATE BUS_SHARE_T with values to proceed to Phase 3.
         six_months = currentDateTime + relativedelta(months=+6)
         print(six_months)
-        cur.execute("UPDATE	BUS_SHARE_T SET	bus_share_maturity_date = ? WHERE bus_id = ?", (six_months, bus_id,))
+        cur.execute("UPDATE	BUS_SHARE_T SET	bus_share_phase = ?, "
+                    "bus_share_maturity_date = ? WHERE bus_id = ?", (3, six_months, bus_id,))
         con.commit()
 
         one_year = currentDateTime + relativedelta(months=+12)
@@ -303,7 +304,7 @@ def phase_three(bus_id):
 
     # 1. SET the deposited amount
     depositAmt = p3['deposit_amt']
-    # string descriptionOfTransaction = p3['deposit_desc']
+    descriptionOfTransaction = 'Successful Deposit!'
 
     # 2. ADD income amount to BUS_REPORT_T
     cur.execute("UPDATE	BUS_REPORT_T SET rep_current_fund = rep_current_fund + ?, "
@@ -315,7 +316,7 @@ def phase_three(bus_id):
     cur.execute("""INSERT INTO BUS_TRANSACT_T (rep_transact_id, bus_id, rep_transact_datetime, 
             rep_transact_decription, rep_transact_tos_flag, rep_transact_fpath_updatepic, rep_transact_amt, 
             rep_transact_type) VALUES ((SELECT max(rep_transact_id) FROM BUS_TRANSACT_T)+1, ?, ?, ?, 'A', ?, ?, 'EA')""",
-                (bus_id, currentDateTime, p3['deposit_desc'], proof, depositAmt,))
+                (bus_id, currentDateTime, descriptionOfTransaction, proof, depositAmt,))
     con.commit()
 
     # Process 3
@@ -452,7 +453,7 @@ def phase_four(bus_id):
 
     # 1. SET the deposited amount
     depositAmt = p4['deposit_amt']
-    # string descriptionOfTransaction = p4['deposit_desc']
+    descriptionOfTransaction = 'Successful Deposit!'
 
     # 2. ADD income amount to BUS_REPORT_T
     cur.execute("UPDATE	BUS_REPORT_T SET rep_current_fund = rep_current_fund + ?, "
@@ -463,7 +464,7 @@ def phase_four(bus_id):
     cur.execute("""INSERT INTO BUS_TRANSACT_T (rep_transact_id, bus_id, rep_transact_datetime, 
         rep_transact_decription, rep_transact_tos_flag, rep_transact_fpath_updatepic, rep_transact_amt, 
         rep_transact_type) VALUES ((SELECT max(rep_transact_id) FROM BUS_TRANSACT_T)+1, ?, ?, ?, 'A', ?, ?, 'EA')""",
-                (bus_id, currentDateTime, p4['deposit_desc'], proof, depositAmt,))
+                (bus_id, currentDateTime, descriptionOfTransaction, proof, depositAmt,))
     con.commit()
 
     # Process 3
