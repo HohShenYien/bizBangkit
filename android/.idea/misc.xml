@@ -20,6 +20,7 @@
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/spinner_background.xml" value="0.3141025641025641" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/drawable/warning_txt_background.xml" value="0.3223684210526316" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/activity_launch.xml" value="0.31023550724637683" />
+        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/activity_loading.xml" value="0.30085470085470084" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/activity_login.xml" value="0.31023550724637683" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/activity_new_business.xml" value="0.25" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/activity_registration_account.xml" value="0.33" />
@@ -59,7 +60,7 @@
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_first.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_gallery.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_home.xml" value="0.2956140350877193" />
-        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_homepage.xml" value="0.2956140350877193" />
+        <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_homepage.xml" value="0.33" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_profile_general.xml" value="0.2956140350877193" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_profilepage.xml" value="0.2956140350877193" />
         <entry key="..\:/Users/chong/Documents/APU/Year1Sem2/zzz CHIPTA/codes/bizBangkit/android/app/src/main/res/layout/fragment_second.xml" value="0.36666666666666664" />

@@ -1,11 +1,13 @@
 package com.perajuritTeknologi.bizbangkit;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -15,11 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,10 +32,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.perajuritTeknologi.bizbangkit.event.GetPersonalBusinessDetails;
+import com.perajuritTeknologi.bizbangkit.event.GoToBusinessPage;
 import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.perajuritTeknologi.bizbangkit.event.ProfileEvent;
 import com.perajuritTeknologi.bizbangkit.event.SaveProfileResponse;
 import com.perajuritTeknologi.bizbangkit.event.TabChanged;
+import com.perajuritTeknologi.bizbangkit.page.BusinessPage;
+import com.perajuritTeknologi.bizbangkit.page.HomePage;
 import com.perajuritTeknologi.bizbangkit.page.ProfilePage;
 import com.perajuritTeknologi.bizbangkit.ui.business.BusinessExistingBusinessFragment;
 import com.perajuritTeknologi.bizbangkit.ui.home.HomeFragment;
@@ -58,10 +66,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
+        changeFragment(new Utils.LoadingPage());
         setUpToolBar();
         setUpNavigation();
         getUserDetails();
         getBusinessDetails();
+
     }
 
     @Override
@@ -238,5 +248,11 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void onGetPersonalBusinessDetails(GetPersonalBusinessDetails details) {
         businessDetails = details.details;
+        changeFragment(new HomePage());
+    }
+
+    @Subscribe
+    public void onGoToBusinessPage(GoToBusinessPage event) {
+        changeFragment(new BusinessPage());
     }
 }

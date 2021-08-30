@@ -25,6 +25,8 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
 
+import java.util.Locale;
+
 public class BusinessExistingBusinessFragment extends Fragment {
     private View root;
     private long currentFundRequired;
@@ -89,10 +91,10 @@ public class BusinessExistingBusinessFragment extends Fragment {
 
         // setting up progress bar section (left side)
         if (!cheated) {
-            if (MainActivity.businessDetails.type.equals("1")) {
+            if (MainActivity.businessDetails.phase == 1) {
                 currentFundRequired = Math.round(Integer.parseInt(MainActivity.businessDetails.valuation) * 0.08);
                 phaseNum = 1;
-            } else if (MainActivity.businessDetails.type.equals("2")) {
+            } else if (MainActivity.businessDetails.phase == 2) {
                 currentFundRequired = Math.round(Integer.parseInt(MainActivity.businessDetails.valuation) * 0.3);
                 phaseNum = 2;
             }
@@ -104,7 +106,7 @@ public class BusinessExistingBusinessFragment extends Fragment {
 
         // setting up business details section (right side)
         proposedDate.setText(MainActivity.businessDetails.commencementDate);
-        phaseNumText.setText(MainActivity.businessDetails.type);
+        phaseNumText.setText(String.format(Locale.getDefault(),"%d", MainActivity.businessDetails.phase));
 
 
     }
