@@ -25,7 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 
 public class HomeFragment extends Fragment {
     private View root;
-    private BottomNavigationView bottomNavBar;
+    public BottomNavigationView bottomNavBar;
     private FragmentTransaction transaction;
     private FragmentActivity fragmentActivity;
     private FragmentManager fragmentManager;

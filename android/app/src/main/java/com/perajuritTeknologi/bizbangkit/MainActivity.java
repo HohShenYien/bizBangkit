@@ -254,5 +254,7 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void onGoToBusinessPage(GoToBusinessPage event) {
         changeFragment(new BusinessPage());
+        toolbar.setTitle("Business");
+        homeFragment.bottomNavBar.setSelectedItemId(R.id.bot_nav_business);
     }
 }
