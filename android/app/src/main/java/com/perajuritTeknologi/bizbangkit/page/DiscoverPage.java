@@ -24,6 +24,7 @@ import com.perajuritTeknologi.bizbangkit.R;
 import com.perajuritTeknologi.bizbangkit.Utils;
 import com.perajuritTeknologi.bizbangkit.event.EnterBusinessDetail;
 import com.perajuritTeknologi.bizbangkit.event.GetBusinessDetails;
+import com.perajuritTeknologi.bizbangkit.event.GetInvestors;
 import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.perajuritTeknologi.bizbangkit.event.ProfileScrolled;
 import com.perajuritTeknologi.bizbangkit.event.ReturnToBusinessPage;
@@ -34,10 +35,11 @@ import com.perajuritTeknologi.bizbangkit.ui.discover.ListStyleFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+
 public class DiscoverPage extends Fragment {
     private View root;
     private MaterialButton filterBtn;
-    private FragmentContainerView fragmentContainer;
     private MaterialToolbar toolbar;
     private ImageButton changeViewBtn;
     private boolean isCardView;
@@ -45,6 +47,8 @@ public class DiscoverPage extends Fragment {
     private FragmentTransaction transaction;
     private Fragment currentMainFragment, cardFragment, listFragment;
     private DataStructure.BusinessProfileDetails curBusiness;
+    private ArrayList<DataStructure.Investor> investors;
+    private int businessLoading;
 
     public static int businessDetailId;
 
@@ -80,7 +84,7 @@ public class DiscoverPage extends Fragment {
     private void setUpComponents() {
         filterBtn = root.findViewById(R.id.discover_filter_button);
         changeViewBtn = root.findViewById(R.id.changeViewButton);
-        fragmentContainer = root.findViewById(R.id.discover_fragment_container);
+        FragmentContainerView fragmentContainer = root.findViewById(R.id.discover_fragment_container);
         toolbar = root.findViewById(R.id.discover_top_bar);
     }
 
@@ -122,11 +126,14 @@ public class DiscoverPage extends Fragment {
         });
     }
 
-    private void enterDetailFragment(DataStructure.BusinessProfileDetails details) {
-        transaction = fragmentManager.beginTransaction();
-        Fragment newFragment = new DetailPageFragment(details);
-        transaction.replace(R.id.discover_fragment_container,
-                newFragment).commit();
+    private void enterDetailFragment(DataStructure.BusinessProfileDetails details,
+                                     ArrayList<DataStructure.Investor> investors) {
+        if (businessLoading >= 2) {
+            transaction = fragmentManager.beginTransaction();
+            Fragment newFragment = new DetailPageFragment(details, investors);
+            transaction.replace(R.id.discover_fragment_container,
+                    newFragment).commit();
+        }
     }
 
     private void backToHere() {
@@ -140,7 +147,9 @@ public class DiscoverPage extends Fragment {
     public void enterBusiness(EnterBusinessDetail event) {
         businessDetailId = event.id;
         transaction = fragmentManager.beginTransaction();
+        businessLoading = 0;
         APICaller.getBusinessDetails(businessDetailId);
+        APICaller.getInvestors(businessDetailId);
         toolbar.setVisibility(View.GONE);
         Fragment loadingPage = new Utils.LoadingPage();
         transaction.replace(R.id.discover_fragment_container, loadingPage).commit();
@@ -153,19 +162,30 @@ public class DiscoverPage extends Fragment {
 
     @Subscribe
     public void receivedBusinessInformation(GetBusinessDetails event) {
+        curBusiness = event.details;
         if (event.details.logoPath != null && event.details.logoPath.startsWith("./pictures")) {
-            curBusiness = event.details;
             APICaller.getImg(event.details.logoPath, "P01", "DetailsLogo");
+
         } else {
-            enterDetailFragment(event.details);
+            businessLoading++;
+            enterDetailFragment(curBusiness, investors);
         }
     }
 
     @Subscribe
     public void getBusinessLogo(ImageEvent event) {
-        if (event.event_id.compareTo("P01") == 0) {
+        if (event.event_id.compareTo("DetailsLogo") == 0) {
+            businessLoading++;
             curBusiness.logo = event.image.image;
-            enterDetailFragment(curBusiness);
+            enterDetailFragment(curBusiness, investors);
         }
+    }
+
+    @Subscribe
+    public void receivedInvestors(GetInvestors event) {
+        this.investors = event.investors;
+        businessLoading++;
+        enterDetailFragment(curBusiness, investors);
+
     }
 }

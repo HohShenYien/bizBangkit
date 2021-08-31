@@ -17,7 +17,6 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
 import com.perajuritTeknologi.bizbangkit.event.GoToBusinessPage;
-import com.perajuritTeknologi.bizbangkit.ui.home.HomeFragment;
 
 import org.greenrobot.eventbus.EventBus;
 

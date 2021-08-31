@@ -45,7 +45,7 @@ public class DiscussDetailPageFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        root = inflater.inflate(R.layout.fragment_discuss_post_detail, container, false);
+        root = inflater.inflate(R.layout.discuss_post_list_layout, container, false);
         //Log.d("Syahilan", DiscussPage.postDetailId + "-----");
 
         setUpComponents();
@@ -63,9 +63,9 @@ public class DiscussDetailPageFragment extends Fragment{
 
 
     private void setUpComponents() {
-        topLayout = root.findViewById(R.id.discuss_Detail_Container);
-        replyList = root.findViewById(R.id.reply_lists);
-        backBtn = root.findViewById(R.id.post_detail_back_btn);
+//        topLayout = root.findViewById(R.id.discuss_Detail_Container);
+//        replyList = root.findViewById(R.id.reply_lists);
+//        backBtn = root.findViewById(R.id.post_detail_back_btn);
     }
 
     private void setUpList() {

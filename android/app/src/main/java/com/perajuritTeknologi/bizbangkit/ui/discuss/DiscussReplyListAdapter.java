@@ -24,7 +24,7 @@ public class DiscussReplyListAdapter extends RecyclerView.Adapter<DiscussReplyLi
     @NonNull
     @Override
     public DiscussReplyListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.discuss_reply_list_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.discuss_post_list_layout, parent, false);
         return new DiscussReplyListAdapter.ViewHolder(view);
     }
 
@@ -45,7 +45,7 @@ public class DiscussReplyListAdapter extends RecyclerView.Adapter<DiscussReplyLi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            containerView = itemView.findViewById(R.id.discuss_reply_list_layout);
+//            containerView = itemView.findViewById(R.id.discuss_reply_list_layout);
 //            containerView.setOnClickListener(v -> {
 //                DataStructure.SimplePost this_discussion = (DataStructure.SimplePost) containerView.getTag();
 //                //EventBus.getDefault().post(new EnterPostDetail(this_discussion.postId));

@@ -58,6 +58,15 @@ public class DataStructure {
         public int phase;
     }
 
+    public static class Investor {
+        public int userId;
+        public int sharePercent;
+        public String userGender;
+        public String username;
+        public String userPicPath;
+        public Bitmap userPic;
+    }
+
     public static class ImageAndId {
         public Bitmap image;
         public String image_id; // for you to set which id is it for

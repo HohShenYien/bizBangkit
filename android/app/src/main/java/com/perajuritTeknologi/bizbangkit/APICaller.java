@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.perajuritTeknologi.bizbangkit.event.GetBusinessDetails;
 import com.perajuritTeknologi.bizbangkit.event.GetBusinessListEvent;
+import com.perajuritTeknologi.bizbangkit.event.GetInvestors;
 import com.perajuritTeknologi.bizbangkit.event.GetPersonalBusinessDetails;
 import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.perajuritTeknologi.bizbangkit.event.LogInEvent;
@@ -267,6 +268,51 @@ public class APICaller {
             EventBus.getDefault().post(new GetBusinessDetails(result));
         }
     }
+
+    public static void getInvestors(int busId) {
+        Request request = new Request.Builder().
+                url(baseUrl + "business/investors/" + busId).build();
+        new GetInvestorTask().execute(request);
+    }
+
+    private static class GetInvestorTask extends AsyncTask <Request, Integer, ArrayList<DataStructure.Investor>> {
+        @Override
+        protected ArrayList<DataStructure.Investor> doInBackground(Request... requests) {
+            try (Response response = client.newCall(requests[0]).execute()) {
+                return parseInvestor(response.body().string());
+            } catch (IOException e) {
+                Log.e("ShenYien", e.toString());
+                return parseInvestor("");
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<DataStructure.Investor> result) {
+            EventBus.getDefault().post(new GetInvestors(result));
+        }
+    }
+
+    private static ArrayList<DataStructure.Investor> parseInvestor(String response) {
+        ArrayList<DataStructure.Investor> investors = new ArrayList<>();
+        try {
+            JSONArray investorList = new JSONArray(response);
+            for (int i = 0; i < investorList.length(); i++) {
+                JSONObject investorData = investorList.getJSONObject(i);
+                DataStructure.Investor investor = new DataStructure.Investor();
+                investor.sharePercent = investorData.getInt("share_percent");
+                investor.userGender = investorData.getString("user_Gender");
+                investor.userPicPath = investorData.getString("user_fpath_profilepic");
+                investor.userId = investorData.getInt("user_id");
+                investor.username = investorData.getString("username");
+                investors.add(investor);
+            }
+        } catch (JSONException e) {
+            Log.e("ShenYien", "Oh no");
+            Log.e("ShenYien", e.toString());
+        }
+        return investors;
+    }
+
 
     private static DataStructure.BusinessProfileDetails parseBusinessDetails(String details) {
         DataStructure.BusinessProfileDetails business = new DataStructure.BusinessProfileDetails();

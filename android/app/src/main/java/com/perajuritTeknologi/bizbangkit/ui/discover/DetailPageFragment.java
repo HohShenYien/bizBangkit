@@ -25,6 +25,8 @@ import com.perajuritTeknologi.bizbangkit.page.DiscoverPage;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+
 public class DetailPageFragment extends Fragment {
     private View root;
     private TabLayout tabLayout;
@@ -35,9 +37,11 @@ public class DetailPageFragment extends Fragment {
     private TextView title, phase, percent;
     private ProgressBar progressBar;
     private DataStructure.BusinessProfileDetails details;
+    private ArrayList<DataStructure.Investor> investors;
 
-    public DetailPageFragment(DataStructure.BusinessProfileDetails details) {
+    public DetailPageFragment(DataStructure.BusinessProfileDetails details, ArrayList<DataStructure.Investor> investors) {
         this.details = details;
+        this.investors = investors;
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -82,7 +86,7 @@ public class DetailPageFragment extends Fragment {
     }
 
     private void setUpAdapter() {
-        adapter = new BusinessDetailTabAdapter(this);
+        adapter = new BusinessDetailTabAdapter(this, details, investors);
         viewPager.setAdapter(adapter);
     }
 

@@ -24,7 +24,7 @@ public class ListStyleFragmentReply extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_discuss_post_detail, container, false);
+        root = inflater.inflate(R.layout.fragment_discusspage, container, false);
         Log.d("ShenYien", "entered lists");
 
         setUpComponents();
@@ -43,7 +43,7 @@ public class ListStyleFragmentReply extends Fragment {
     }
 
     private void setUpComponents() {
-        listView = root.findViewById(R.id.reply_lists);
+//        listView = root.findViewById(R.id.reply_lists);
         discussReplyListAdapter = new DiscussReplyListAdapter(tmp());
     }
 
