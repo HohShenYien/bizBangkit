@@ -38,7 +38,7 @@
                 android:text="Proposal Owner"
                 android:textSize="18sp"/>
             <TextView
-                android:id="@+id/business_detail_owner"
+                android:id="@+id/business_detail_owner_username"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -65,7 +65,7 @@
                 android:text="Proposer Name"
                 android:textSize="18sp"/>
             <TextView
-                android:id="@+id/business_detail_owner_username"
+                android:id="@+id/business_detail_owner_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"

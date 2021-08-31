@@ -61,10 +61,12 @@ public class BusinessDetailInvestors extends Fragment {
     }
 
     private void getUserImg() {
-        while (investors.get(imgId).userPicPath != null) {
+        while (imgId < investors.size() && investors.get(imgId).userPicPath == null) {
             imgId++;
         }
-        APICaller.getImg(investors.get(imgId).userPicPath, Integer.toString(imgId), "Discover-investors");
+        if (imgId < investors.size()) {
+            APICaller.getImg(investors.get(imgId).userPicPath, Integer.toString(imgId), "Discover-investors");
+        }
     }
 
     private void updateUserImg(Bitmap img, int ind) {

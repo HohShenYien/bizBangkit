@@ -29,7 +29,7 @@ public class BusinessDetailTabAdapter extends FragmentStateAdapter {
         Fragment fragment;
         switch (position) {
             case 0:
-                fragment = new BusinessDetailAbout();
+                fragment = new BusinessDetailAbout(details);
                 break;
             case 1:
                 fragment = new BusinessDetailFinance();
@@ -38,7 +38,7 @@ public class BusinessDetailTabAdapter extends FragmentStateAdapter {
                 fragment = new BusinessDetailInvestors(investors, details);
                 break;
             default:
-                fragment = new BusinessDetailAbout();
+                fragment = new BusinessDetailAbout(details);
         }
 
         return fragment;

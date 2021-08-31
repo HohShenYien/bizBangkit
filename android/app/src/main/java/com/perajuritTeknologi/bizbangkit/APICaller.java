@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.perajuritTeknologi.bizbangkit.event.BusinessOwnerEvent;
 import com.perajuritTeknologi.bizbangkit.event.GetBusinessDetails;
 import com.perajuritTeknologi.bizbangkit.event.GetBusinessListEvent;
 import com.perajuritTeknologi.bizbangkit.event.GetInvestors;
@@ -82,6 +83,27 @@ public class APICaller {
         @Override
         protected void onPostExecute(DataStructure.UserProfileDetails result) {
             EventBus.getDefault().post(new ProfileEvent(result));
+        }
+    }
+
+    public static void getBusinessOwner(int userId) {
+        new BusinessOwnerTask().execute(userId);
+    }
+
+    private static class BusinessOwnerTask extends AsyncTask<Integer, Integer, DataStructure.UserProfileDetails> {
+        @Override
+        protected DataStructure.UserProfileDetails doInBackground(Integer... details) {
+            Request request = new Request.Builder().
+                    url(baseUrl + "business/owner/" + details[0]).build();
+            try (Response response = client.newCall(request).execute()) {
+                return parseUserProfile(response.body().string());
+            } catch (IOException e) {
+                return parseUserProfile("");
+            }
+        }
+        @Override
+        protected void onPostExecute(DataStructure.UserProfileDetails result) {
+            EventBus.getDefault().post(new BusinessOwnerEvent(result));
         }
     }
 
