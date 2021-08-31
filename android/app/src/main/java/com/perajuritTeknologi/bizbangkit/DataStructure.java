@@ -64,11 +64,18 @@ public class DataStructure {
     }
 
     public static class SimpleForumPost {
-        public String postId;
+        public int postId;
         public String postTitle;
         public String postContent;
         public String postDate;
         public int postViewCount;
         public int postVoteCount;
     }
+
+    public static class SimpleForumReply {
+        public int replyId;
+        public String replyContent;
+        public String replyDate;
+    }
+
 }

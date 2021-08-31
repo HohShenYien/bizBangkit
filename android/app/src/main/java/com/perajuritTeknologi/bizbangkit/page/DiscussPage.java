@@ -3,10 +3,8 @@ package com.perajuritTeknologi.bizbangkit.page;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,17 +12,21 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
+import com.perajuritTeknologi.bizbangkit.APICaller;
+import com.perajuritTeknologi.bizbangkit.DataStructure;
 import com.perajuritTeknologi.bizbangkit.R;
-
-import com.perajuritTeknologi.bizbangkit.event.PostScrolled;
-
+import com.perajuritTeknologi.bizbangkit.Utils;
+import com.perajuritTeknologi.bizbangkit.event.EnterBusinessDetail;
+import com.perajuritTeknologi.bizbangkit.event.EnterDiscussionDetail;
+import com.perajuritTeknologi.bizbangkit.event.GetReplyListEvent;
+import com.perajuritTeknologi.bizbangkit.event.ReturnToBusinessPage;
+import com.perajuritTeknologi.bizbangkit.ui.discover.DetailPageFragment;
+import com.perajuritTeknologi.bizbangkit.ui.discuss.DiscussDetailPageFragment;
 import com.perajuritTeknologi.bizbangkit.ui.discuss.ListStyleFragmentPost;
+import com.perajuritTeknologi.bizbangkit.ui.discuss.ListStyleFragmentReply;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 
 public class DiscussPage extends Fragment {
     private View root;
@@ -33,7 +35,7 @@ public class DiscussPage extends Fragment {
     private FragmentTransaction transaction;
     private Fragment currentMainFragment, listFragment;
 
-    public static int discussDetailId;
+    public static int postDetailId;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,26 +43,24 @@ public class DiscussPage extends Fragment {
         root = inflater.inflate(R.layout.fragment_discusspage, container, false);
 
         setUpComponents();
-
         setUpFragmentManager();
-
         setUpFragments();
         setDefaultFragment();
 
         return root;
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        EventBus.getDefault().register(this);
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        EventBus.getDefault().unregister(this);
-//        super.onStop();
-//    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
 
     private void setUpComponents() {
         //filterBtn = root.findViewById(R.id.discover_filter_button);
@@ -85,5 +85,17 @@ public class DiscussPage extends Fragment {
         fragmentManager = getFragmentManager();
     }
 
+    private void enterDiscussionDetailFragment() {
+        transaction = fragmentManager.beginTransaction();
+        Fragment newFragment = new DiscussDetailPageFragment();
+        transaction.replace(R.id.discuss_fragment_container,
+                newFragment).commit();
+    }
+
+    @Subscribe
+    public void enterDiscussion(EnterDiscussionDetail event) {
+        this.postDetailId = event.id;
+        enterDiscussionDetailFragment();
+    }
 
 }

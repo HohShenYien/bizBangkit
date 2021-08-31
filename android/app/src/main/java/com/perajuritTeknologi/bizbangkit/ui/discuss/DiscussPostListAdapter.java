@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.perajuritTeknologi.bizbangkit.DataStructure;
 import com.perajuritTeknologi.bizbangkit.R;
+import com.perajuritTeknologi.bizbangkit.event.EnterDiscussionDetail;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -48,10 +51,10 @@ public class DiscussPostListAdapter extends RecyclerView.Adapter<DiscussPostList
             super(itemView);
             containerView = itemView.findViewById(R.id.discuss_post_list_layout);
 
-//            containerView.setOnClickListener(v -> {
-//                DataStructure.SimplePost this_discussion = (DataStructure.SimplePost) containerView.getTag();
-//                //EventBus.getDefault().post(new EnterPostDetail(this_discussion.postId));
-//            });
+            containerView.setOnClickListener(v -> {
+                DataStructure.SimpleForumPost this_discussion = (DataStructure.SimpleForumPost) containerView.getTag();
+                EventBus.getDefault().post(new EnterDiscussionDetail(this_discussion.postId));
+            });
         }
     }
 
