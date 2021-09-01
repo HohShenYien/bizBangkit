@@ -55,7 +55,7 @@ def get_balance(user_id):
 # Wallet Process for transaction purposes
 @phases_bp.route('/wallet/<user_authkey>', methods=['POST'])
 def wallet(user_authkey):
-    wal = request.form
+    wal = request.json
     ''' request needs 
     'user_id' : user id 
     'amount'  : withdrawal or deposit amount
