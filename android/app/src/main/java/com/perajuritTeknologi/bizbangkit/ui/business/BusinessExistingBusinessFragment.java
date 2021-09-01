@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
+import com.perajuritTeknologi.bizbangkit.ui.discover.BusinessDetailInvestors;
 
 import java.util.Locale;
 
@@ -99,7 +101,8 @@ public class BusinessExistingBusinessFragment extends Fragment {
                 phaseNum = 2;
             }
             progressValues.setText(("RM " + MainActivity.businessDetails.shareBought + " / " + currentFundRequired));
-            progressFinalValue = Math.round((float) (Integer.parseInt(MainActivity.businessDetails.shareBought) / currentFundRequired));
+            progressFinalValue = Math.round((Float.parseFloat(MainActivity.businessDetails.shareBought) / (float)currentFundRequired) * 100);
+            Log.d("RuiJun progress", String.format("%d", progressFinalValue));
             setUpProgress(progressFinalValue);
         }
 

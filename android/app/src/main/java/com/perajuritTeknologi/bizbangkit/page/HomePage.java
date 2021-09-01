@@ -82,7 +82,7 @@ public class HomePage extends Fragment {
                 currentFundRequired = Math.round(Integer.parseInt(MainActivity.businessDetails.valuation) * 0.3);
             }
             fundingReceived.setText(("RM" + MainActivity.businessDetails.shareBought + " / " + currentFundRequired));
-            progressFinalValue = Math.round((float) (Integer.parseInt(MainActivity.businessDetails.shareBought) / currentFundRequired));
+            progressFinalValue = Math.round((Float.parseFloat(MainActivity.businessDetails.shareBought) / (float) currentFundRequired) * 100);
             personalBusinessProgress.setProgress(progressFinalValue, false);
 
             phaseNum.setText(String.format(Locale.getDefault(), "%d", MainActivity.businessDetails.phase));

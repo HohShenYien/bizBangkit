@@ -1,6 +1,478 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:fillViewport="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:background="@color/light_pink">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/help1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:contentPadding="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Home Page"
+                    android:textSize="25sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"/>
+
+                <ImageView
+                    android:layout_width="270dp"
+                    android:layout_height="270dp"
+                    android:src="@drawable/sample_home_page"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="The home page allows you to go to view the businesses u invested and view your business information."
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:textAlignment="center"
+                    android:paddingHorizontal="20sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/help2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/help1"
+            android:layout_marginTop="10dp"
+            app:contentPadding="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/help1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Discover Page"
+                    android:textSize="25sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_discover_page_card"
+                        android:layout_gravity="center"/>
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_discover_page_list"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="The discover page is to view businesses by other users\n-&gt; For card view, swipe right to view the business's details, swipe left to discard it and move on to the next business\n-&gt; For list view the business by clicking on it."
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:textAlignment="center"
+                    android:paddingHorizontal="20sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/help3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/help2"
+            android:layout_marginTop="10dp"
+            app:contentPadding="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/help1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Discover Page (details)"
+                    android:textSize="25sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_discover_about"
+                        android:layout_gravity="center"/>
+
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_discover_finance"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="10dp"/>
+
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_discover_investors"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="The details of each business can be viewed and the business can be invested from the invest button."
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:textAlignment="center"
+                    android:paddingHorizontal="20sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/help4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/help3"
+            android:layout_marginTop="10dp"
+            app:contentPadding="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Profile Page"
+                    android:textSize="25sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_profile_details"
+                        android:layout_gravity="center"/>
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_profile_investments"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="The profile page is to view your personal details as well as the businesses you have invested in."
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:textAlignment="center"
+                    android:paddingHorizontal="20sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/help5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/help4"
+            android:layout_marginTop="10dp"
+            app:contentPadding="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Business Page"
+                    android:textSize="25sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_business_page"
+                        android:layout_gravity="center"/>
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_business_no_business"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="The business page shows the details of your business and its funding progress, if no business is set up in BizBangkit, you can start your business by clicking the 'Start New Business' button."
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:textAlignment="center"
+                    android:paddingHorizontal="20sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/help6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/help5"
+            android:layout_marginTop="10dp"
+            app:contentPadding="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Business Page (register)"
+                    android:textSize="25sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_business_new1"
+                        android:layout_gravity="center"/>
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_business_new2"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_business_new3"
+                        android:layout_gravity="center"/>
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_business_new4"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="During registration of a business in BizBangkit, you will need to fill in details regarding your business."
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:textAlignment="center"
+                    android:paddingHorizontal="20sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/help7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/help6"
+            app:contentPadding="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Navigation Tab"
+                    android:textSize="25sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"/>
+
+                <ImageView
+                    android:layout_width="270dp"
+                    android:layout_height="270dp"
+                    android:src="@drawable/sample_navigation_side"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tapping on the top right corner of the app will bring up a navigation tab."
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:textAlignment="center"
+                    android:paddingHorizontal="20sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/help8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/help7"
+            android:layout_marginTop="10dp"
+            app:contentPadding="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Navigation Tab (functions)"
+                    android:textSize="25sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_settings"
+                        android:layout_gravity="center"/>
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_e_wallet"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_help"
+                        android:layout_gravity="center"/>
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="270dp"
+                        android:src="@drawable/sample_dataset"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Clicking on the available tabs from the navigation tab will provide you with different functionalities."
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:textAlignment="center"
+                    android:paddingHorizontal="20sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
