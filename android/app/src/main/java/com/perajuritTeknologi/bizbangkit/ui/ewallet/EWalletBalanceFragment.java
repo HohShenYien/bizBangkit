@@ -1,15 +1,19 @@
 package com.perajuritTeknologi.bizbangkit.ui.ewallet;
 
 import android.app.Dialog;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -74,13 +78,18 @@ public class EWalletBalanceFragment extends Fragment {
     private void onCashOutClicked() {
         cashOutButton.setOnClickListener(view -> {
             Dialog dialog = createDialog();
-            EditText reloadAmount = dialog.findViewById(R.id.editTextBalanceAmount);
+            EditText cashOutAmount = dialog.findViewById(R.id.editTextBalanceAmount);
             Button confirmButton = dialog.findViewById(R.id.dialogConfirmButton);
             confirmButton.setText(("Cash Out"));
             confirmButton.setOnClickListener(view1 -> {
-                dialog.cancel();
-                APICaller.changeWalletBalance(LocalStorage.getID(), LocalStorage.getToken(), reloadAmount.getText().toString(), "withdraw");
-                changeToLoadingScreen();
+                if (Float.parseFloat(cashOutAmount.getText().toString()) > Float.parseFloat(MainActivity.eWalletBalance.balance)) {
+                    makeToastWarning();
+                }
+                else {
+                    dialog.cancel();
+                    APICaller.changeWalletBalance(LocalStorage.getID(), LocalStorage.getToken(), cashOutAmount.getText().toString(), "withdraw");
+                    changeToLoadingScreen();
+                }
             });
             dialog.show();
         });
@@ -98,6 +107,17 @@ public class EWalletBalanceFragment extends Fragment {
         return dialog;
     }
 
+    private void makeToastWarning() {
+        Toast toast = Toast.makeText(root.getContext(), "Insufficient balance to cash out!", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 850);
+        View view = toast.getView();
+        int color = ContextCompat.getColor(root.getContext(), R.color.light_pink);
+        view.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        TextView toastText = view.findViewById(android.R.id.message);
+        toastText.setTextColor(ContextCompat.getColor(root.getContext(), android.R.color.holo_red_light));
+        toast.show();
+    }
+
     private void changeToLoadingScreen() {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction
@@ -105,5 +125,4 @@ public class EWalletBalanceFragment extends Fragment {
                 .replace(R.id.eWalletFragmentContainer, new Utils.LoadingPage())
                 .commit();
     }
-
 }
