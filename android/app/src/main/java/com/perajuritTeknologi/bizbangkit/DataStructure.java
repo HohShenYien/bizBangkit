@@ -71,4 +71,8 @@ public class DataStructure {
         public int postViewCount;
         public int postVoteCount;
     }
+
+    public static class EWalletBalance {
+        public String balance;
+    }
 }

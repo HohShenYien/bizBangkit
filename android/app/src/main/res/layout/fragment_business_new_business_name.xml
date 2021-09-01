@@ -40,14 +40,15 @@
         app:layout_constraintTop_toBottomOf="@id/uselessEnterBusinessName"
         app:layout_constraintVertical_bias="0.2"
         app:hintEnabled="false"
-        android:background="@drawable/rounded_corners">
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:background="@color/light_gray"
+        app:boxStrokeWidth="2sp">
 
         <EditText
             android:id="@+id/editTextRegisterBusinessName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
-            android:ems="10"
             android:autofillHints="name"
             android:hint="Eg: Bob's Nasi Lemak"
             android:textAlignment="center"

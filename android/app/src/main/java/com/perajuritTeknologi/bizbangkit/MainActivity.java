@@ -1,13 +1,9 @@
 package com.perajuritTeknologi.bizbangkit;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -17,14 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -40,7 +33,6 @@ import com.perajuritTeknologi.bizbangkit.event.TabChanged;
 import com.perajuritTeknologi.bizbangkit.page.BusinessPage;
 import com.perajuritTeknologi.bizbangkit.page.HomePage;
 import com.perajuritTeknologi.bizbangkit.page.ProfilePage;
-import com.perajuritTeknologi.bizbangkit.ui.business.BusinessExistingBusinessFragment;
 import com.perajuritTeknologi.bizbangkit.ui.home.HomeFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     // 1 for being at base page before exiting app, if more than 1 means added fragment onto pages, so pressing back closes fragment instead of the whole app
     public static int basePage = 1;
     public static DataStructure.BusinessProfileDetails businessDetails = new DataStructure.BusinessProfileDetails();
+
+    public static DataStructure.EWalletBalance eWalletBalance = new DataStructure.EWalletBalance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_settings, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_settings, R.id.nav_eWallet)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

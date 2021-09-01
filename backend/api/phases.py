@@ -46,7 +46,7 @@ def upload_image():
 # Wallet Process for transaction purposes
 @phases_bp.route('/wallet/<user_authkey>', methods=['POST'])
 def wallet(user_authkey):
-    wal = request.json
+    wal = request.form
 
     cur.execute("SELECT user_id FROM USER_T WHERE user_authkey = ?", (user_authkey,))
     check = cur.fetchone()
@@ -63,45 +63,45 @@ def wallet(user_authkey):
 
         if bankAccount != 0:  # it will show the bank account number
 
-            # P2: Withdraw from Bank Account to USER_WALLET_T
-            addToWallet = 5000
+            addToWallet = int(wal['amount'])
 
-            cur.execute("SELECT W.wallet_available_cash FROM USER_T U JOIN USER_WALLET_T W ON U.user_id = W.user_id "
-                        "WHERE w.user_id = ?", (check1,))
+            cur.execute("SELECT wallet_available_cash FROM USER_WALLET_T "
+                        "WHERE user_id = ?", (check1,))
             check2 = cur.fetchone()
-            currentBalance = check2[0]  # W.wallet_available_cash
+            currentBalance = check2[0]  # wallet_available_cash
 
-            wal_avail_cash = currentBalance + addToWallet
+            # P2: Reload to USER_WALLET_T from bank account
+            if wal['action'] == 'reload':
+                wal_avail_cash = currentBalance + addToWallet
 
-            cur.execute("UPDATE	USER_WALLET_T SET wallet_available_cash = ?, "
-                        "wallet_total_deposit = wallet_total_deposit + ? WHERE user_id = ?",
-                        (wal_avail_cash, addToWallet, check1,))
-            con.commit()
-
-            # P3: Deposit to Bank Account from USER_WALLET_T
-            addToBankAcc = 5000
-
-            cur.execute("SELECT W.wallet_available_cash FROM USER_T U JOIN USER_WALLET_T W ON U.user_id = W.user_id "
-                        "WHERE W.user_id = ?", (check1,))
-            check21 = cur.fetchone()
-            currentBalance1 = check21[0]  # W.wallet_available_cash
-
-            if currentBalance1 >= addToBankAcc:  # should have MIN 5000 in bank account
-                wal_cash_avail = currentBalance1 - addToBankAcc  # will be 0
                 cur.execute("UPDATE	USER_WALLET_T SET wallet_available_cash = ?, "
-                            "wallet_total_withdraw = wallet_total_withdraw + ? WHERE user_id = ?",
-                            (wal_cash_avail, addToBankAcc, check1,))
+                            "wallet_total_deposit = wallet_total_deposit + ? WHERE user_id = ?",
+                            (wal_avail_cash, addToWallet, check1,))
                 con.commit()
 
-                return jsonify({'wal_avail_cash at P2': wal_avail_cash, 'wal_cash_avail at P3': wal_cash_avail})
+                return jsonify({'response': 200, 'balance': wal_avail_cash})
+
+            # P3: withdraw from USER_WALLET_T and into bank account
+            elif wal['action'] == 'withdraw':
+                if currentBalance >= addToBankAcc:  # should have more than withdrawal amount in eWallet
+                    wal_avail_cash = currentBalance - addToBankAcc  # will be 0
+                    cur.execute("UPDATE	USER_WALLET_T SET wallet_available_cash = ?, "
+                                "wallet_total_withdraw = wallet_total_withdraw + ? WHERE user_id = ?",
+                                (wal_avail_cash, addToBankAcc, check1,))
+                    con.commit()
+
+                    return jsonify({'response': 200, 'balance': wal_avail_cash})
+                else:
+                    return jsonify({'response': 401, 'Error': 'User has insufficient funds in wallet to withdraw to bank account.'})
+
             else:
-                return jsonify({'Error': 'User has insufficient funds in wallet to withdraw to bank account.'})
+                return jsonify({'response': 401, 'Error': 'Invalid action request to eWallet'})
 
         else:
-            return jsonify({'Error': 'User has not registered a bank account number yet'})
+            return jsonify({'response': 401, 'Error': 'User has not registered a bank account number yet'})
 
     else:
-        return jsonify({'Error': 'Invalid user_id from the database!!'})
+        return jsonify({'response': 401, 'Error': 'Invalid user_id from the database!!'})
 
 
 @phases_bp.route('/phase1/buy/<bus_id>', methods=['POST'])
