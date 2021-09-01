@@ -10,6 +10,7 @@ import com.perajuritTeknologi.bizbangkit.event.GetBusinessDetails;
 import com.perajuritTeknologi.bizbangkit.event.GetBusinessListEvent;
 import com.perajuritTeknologi.bizbangkit.event.GetInvestors;
 import com.perajuritTeknologi.bizbangkit.event.GetPersonalBusinessDetails;
+import com.perajuritTeknologi.bizbangkit.event.GetWalletBalance;
 import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.perajuritTeknologi.bizbangkit.event.LogInEvent;
 import com.perajuritTeknologi.bizbangkit.event.ProfileEvent;
@@ -420,55 +421,45 @@ public class APICaller {
     public static void getWalletBalance(String userID) {
         Request request =
                 new Request.Builder()
-                        .url(baseUrl + "business/info/user/" + userID)
+                        .url(baseUrl + "wallet/balance/" + userID)
                         .build();
-        new GetPersonalBusinessTask().execute(request);
+        new GetWalletBalanceTask().execute(request);
     }
 
-    private static class GetPersonalBusinessTask extends AsyncTask<Request, Integer, DataStructure.BusinessProfileDetails> {
+    private static class GetWalletBalanceTask extends AsyncTask<Request, Integer, DataStructure.EWalletBalance> {
         @Override
-        protected DataStructure.BusinessProfileDetails doInBackground(Request... requests) {
-            DataStructure.BusinessProfileDetails profileDetails = new DataStructure.BusinessProfileDetails();
+        protected DataStructure.EWalletBalance doInBackground(Request... requests) {
+            DataStructure.EWalletBalance balance = new DataStructure.EWalletBalance();
             try (Response response = client.newCall(requests[0]).execute()) {
-                return parsePersonalBusinessDetails(response.body().string());
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    balance.balance = jsonObject.get("balance").toString();
+                    return balance;
+                } catch (JSONException e) {
+                    Log.d("RuiJun", "JSON parsing error", e);
+                    balance.balance = "ERROR";
+                    return balance;
+                }
             } catch (IOException e) {
                 Log.e("RuiJun", "Request to server problem", e);
-                profileDetails.name = "ServerFailedUs";
-                return profileDetails;
+                balance.balance = "ERROR";
+                return balance;
             }
         }
 
         @Override
-        protected void onPostExecute(DataStructure.BusinessProfileDetails result) {
-            EventBus.getDefault().post(new GetPersonalBusinessDetails(result));
+        protected void onPostExecute(DataStructure.EWalletBalance result) {
+            EventBus.getDefault().post(new GetWalletBalance(result));
         }
     }
 
-    private static DataStructure.BusinessProfileDetails parsePersonalBusinessDetails(String details) {
-        DataStructure.BusinessProfileDetails profileDetails = new DataStructure.BusinessProfileDetails();
-        try {
-            JSONObject jsonObject = new JSONObject(details);
-            try {
-                String noBusiness = jsonObject.get("Error").toString();
-                Log.d("RuiJun","No business exists");
-                profileDetails.name = "NO_EXISTING_BUSINESS";
-                return profileDetails;
-            } catch (JSONException e) {
-                Log.d("RuiJun","Business does exists for this user");
-                profileDetails.type = jsonObject.get("bus_lic_no").toString();
-                profileDetails.name = jsonObject.get("bus_name").toString();
-                profileDetails.phase = jsonObject.getInt("bus_phase");
-                profileDetails.valuation = jsonObject.get("bus_valuation").toString();
-                profileDetails.commencementDate = jsonObject.get("bus_start_date").toString();  // this is actually the proposed date, put into commencement date as data holder only
-                profileDetails.shareBought = String.format(Locale.getDefault(),"%d",Math.round(Float.parseFloat(profileDetails.valuation)
-                        * jsonObject.getInt("share_bought")/100f));
-                Log.d("RuiJun share bought", profileDetails.shareBought);
-                return profileDetails;
-            }
-
-        } catch (JSONException e) {
-            Log.d("RuiJun", "JSON parsing error", e);
-            return null;
-        }
+    public static void changeWalletBalance(String userToken) {
+        Request request =
+                new Request.Builder()
+                .url(baseUrl + "wallet/" + userToken)
+                .build();
+        new
     }
+
+    private static class ChangeWalletBalanceTask extends AsyncTask<>
 }

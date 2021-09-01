@@ -39,18 +39,6 @@ public class BusinessPage extends Fragment {
         return root;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
-
     private void setUpFragmentManager() {
         fragmentManager = getParentFragmentManager();
     }
@@ -59,19 +47,14 @@ public class BusinessPage extends Fragment {
         fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment;
 
-        if(!MainActivity.businessDetails.name.equals("LOADING_BUSINESS")) {
-            existBusiness = !MainActivity.businessDetails.name.equals("NO_EXISTING_BUSINESS");
+        existBusiness = !MainActivity.businessDetails.name.equals("NO_EXISTING_BUSINESS");
 
-            if (existBusiness) {
-                fragment = new BusinessExistingBusinessFragment();
-                fromNewBusiness = false;
-            } else {
-                fragment = new BusinessNoBusinessFragment();
-                fromNewBusiness = true;
-            }
-        }
-        else {
-            fragment = new Utils.LoadingPage();
+        if (existBusiness) {
+            fragment = new BusinessExistingBusinessFragment();
+            fromNewBusiness = false;
+        } else {
+            fragment = new BusinessNoBusinessFragment();
+            fromNewBusiness = true;
         }
 
         fragmentTransaction.replace(R.id.businessFragmentContainer, fragment)
@@ -84,10 +67,5 @@ public class BusinessPage extends Fragment {
         if (fromNewBusiness) {
             setUpFragmentDeterminant();
         }
-    }
-
-    @Subscribe
-    public void GetPersonalBusinessDetails(GetPersonalBusinessDetails details) {
-        setUpFragmentDeterminant();
     }
 }
