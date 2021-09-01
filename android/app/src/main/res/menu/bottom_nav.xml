@@ -6,10 +6,6 @@
         android:title="@string/bot_nav_business"
         android:id="@+id/bot_nav_business"/>
     <item
-        android:icon="@drawable/chat_bubble_ic"
-        android:title="@string/bot_nav_discuss"
-        android:id="@+id/bot_nav_discuss"/>
-    <item
         android:icon="@drawable/home_ic"
         android:title="@string/bot_nav_home"
         android:id="@+id/bot_nav_home"/>

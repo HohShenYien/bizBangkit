@@ -22,4 +22,16 @@
         android:name="com.perajuritTeknologi.bizbangkit.ui.ewallet.EWalletFragment"
         android:label="@string/menu_eWallet"
         tools:layout="@layout/fragment_ewallet_balance" />
+
+    <fragment
+        android:id="@+id/nav_help"
+        android:name="com.perajuritTeknologi.bizbangkit.ui.HelpPage"
+        android:label="Help"
+        tools:layout="@layout/help_page_fragment" />
+
+    <fragment
+        android:id="@+id/nav_analytics"
+        android:name="com.perajuritTeknologi.bizbangkit.ui.AnalyticsPage"
+        android:label="Analytics"
+        tools:layout="@layout/analytics_page_fragment" />
 </navigation>

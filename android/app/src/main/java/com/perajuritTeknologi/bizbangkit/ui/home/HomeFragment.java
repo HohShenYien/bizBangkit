@@ -88,10 +88,6 @@ public class HomeFragment extends Fragment {
                     selectedFragment = new DiscoverPage();
                     EventBus.getDefault().post(new TabChanged(getString(R.string.bot_nav_discover)));
                     break;
-                case R.id.bot_nav_discuss:
-                    selectedFragment = new DiscussPage();
-                    EventBus.getDefault().post(new TabChanged(getString(R.string.bot_nav_discuss)));
-                    break;
                 case R.id.bot_nav_home:
                     selectedFragment = new HomePage();
                     EventBus.getDefault().post(new TabChanged(getString(R.string.bot_nav_home)));

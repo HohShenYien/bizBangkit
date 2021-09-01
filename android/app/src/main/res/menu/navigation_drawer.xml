@@ -14,7 +14,17 @@
             android:title="@string/menu_settings" />
         <item
             android:id="@+id/nav_eWallet"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/wallet_ic"
             android:title="@string/menu_eWallet" />
+
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/help_ic"
+            android:title="Help" />
+
+        <item
+            android:id="@+id/nav_analytics"
+            android:icon="@drawable/stat_ic"
+            android:title="Analytics" />
     </group>
 </menu>
