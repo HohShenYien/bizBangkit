@@ -183,6 +183,5 @@ public class DiscoverPage extends Fragment {
         this.investors = event.investors;
         businessLoading++;
         enterDetailFragment(curBusiness, investors);
-
     }
 }

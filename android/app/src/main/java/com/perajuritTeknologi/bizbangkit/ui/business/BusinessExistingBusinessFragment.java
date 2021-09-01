@@ -22,9 +22,17 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.perajuritTeknologi.bizbangkit.APICaller;
+import com.perajuritTeknologi.bizbangkit.DataStructure;
 import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
+import com.perajuritTeknologi.bizbangkit.Utils;
+import com.perajuritTeknologi.bizbangkit.event.GetInvestors;
+import com.perajuritTeknologi.bizbangkit.ui.discover.BusinessDetailInvestors;
 
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class BusinessExistingBusinessFragment extends Fragment {
@@ -35,6 +43,7 @@ public class BusinessExistingBusinessFragment extends Fragment {
     private TextView businessName, progressPercent, progressValues, proposedDate, phaseNumText, phaseEndText, workersEmployedText;
     private CircularProgressIndicator progressIndicator;
     private MaterialButton discussionButton, licenseButton, workersButton, financialDetailsButton, regretButton, cheatingButton;
+    private ArrayList<DataStructure.Investor> investors;
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
@@ -212,6 +221,10 @@ public class BusinessExistingBusinessFragment extends Fragment {
      * this is for prototype usage only
      *
      * */
+    private void onViewInvestorsClicked() {
+        APICaller.getInvestors(MainActivity.businessDetails.businessId);
+        changeFragment(new Utils.LoadingPage());
+    }
 
     // go back to previous phase
     private void onPrevPhaseClicked() {
@@ -268,6 +281,12 @@ public class BusinessExistingBusinessFragment extends Fragment {
         TextView toastText = view.findViewById(android.R.id.message);
         toastText.setTextColor(ContextCompat.getColor(root.getContext(), android.R.color.holo_red_light));
         toast.show();
+    }
+
+    @Subscribe
+    public void receivedInvestors(GetInvestors event) {
+        this.investors = event.investors;
+        changeFragment(new BusinessDetailInvestors(this.investors, MainActivity.businessDetails));
     }
 
 }
