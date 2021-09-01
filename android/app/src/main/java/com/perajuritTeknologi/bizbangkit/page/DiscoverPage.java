@@ -39,7 +39,6 @@ import java.util.ArrayList;
 
 public class DiscoverPage extends Fragment {
     private View root;
-    private MaterialButton filterBtn;
     private MaterialToolbar toolbar;
     private ImageButton changeViewBtn;
     private boolean isCardView;
@@ -82,14 +81,12 @@ public class DiscoverPage extends Fragment {
     }
 
     private void setUpComponents() {
-        filterBtn = root.findViewById(R.id.discover_filter_button);
         changeViewBtn = root.findViewById(R.id.changeViewButton);
         FragmentContainerView fragmentContainer = root.findViewById(R.id.discover_fragment_container);
         toolbar = root.findViewById(R.id.discover_top_bar);
     }
 
     private void setUpBtnHint() {
-        TooltipCompat.setTooltipText(filterBtn, "Filter businesses");
         TooltipCompat.setTooltipText(changeViewBtn, "Change view");
     }
 
@@ -186,6 +183,5 @@ public class DiscoverPage extends Fragment {
         this.investors = event.investors;
         businessLoading++;
         enterDetailFragment(curBusiness, investors);
-
     }
 }

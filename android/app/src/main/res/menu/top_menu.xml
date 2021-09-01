@@ -3,18 +3,5 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/favorite"
-        android:icon="@drawable/hamburger_ic_24"
-        android:title="Side Menu"
-        android:contentDescription="Shows side menu"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/search"
-        android:icon="@drawable/search_ic_24"
-        android:title="Search"
-        android:contentDescription="Search contents"
-        app:showAsAction="ifRoom" />
 
 </menu>
