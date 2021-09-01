@@ -11,6 +11,7 @@ import com.perajuritTeknologi.bizbangkit.event.GetBusinessListEvent;
 import com.perajuritTeknologi.bizbangkit.event.GetInvestors;
 import com.perajuritTeknologi.bizbangkit.event.GetPersonalBusinessDetails;
 import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
+import com.perajuritTeknologi.bizbangkit.event.InvestEvent;
 import com.perajuritTeknologi.bizbangkit.event.LogInEvent;
 import com.perajuritTeknologi.bizbangkit.event.ProfileEvent;
 import com.perajuritTeknologi.bizbangkit.event.SaveProfileResponse;
@@ -335,6 +336,88 @@ public class APICaller {
         return investors;
     }
 
+    public static void invest(int userId, int busId, int phase) {
+        MultipartBody.Builder builder
+                = new MultipartBody.Builder().setType(MultipartBody.FORM).
+                addFormDataPart("user_id", Integer.toString(userId));
+        RequestBody requestBody = builder.build();
+        Request request = new Request.Builder().
+                url(baseUrl + "business/investors/" + busId)
+                .post(requestBody).build();
+        new InvestTask().execute(request);
+    }
+
+    private static class InvestTask extends AsyncTask<Request, Integer, Boolean> {
+        @Override
+        protected Boolean doInBackground(Request... requests) {
+            try (Response response = client.newCall(requests[0]).execute()) {
+                try {
+                    JSONObject object = new JSONObject(response.body().string());
+                    if (object.getString("Error") != null) {
+                        return false;
+                    }
+                    return true;
+                } catch (JSONException e) {
+                    return false;
+                }
+            } catch (IOException e) {
+                return true;
+            }
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            EventBus.getDefault().post(new InvestEvent(result));
+        }
+    }
+
+    public static void getInvested(String user_id) {
+        Request request = new Request.Builder().
+                url(baseUrl + "user/investment/" + user_id).build();
+        new InvestedListTask().execute(request);
+    }
+
+    private static class InvestedListTask extends AsyncTask<Request, Integer, ArrayList<DataStructure.SimpleBusiness>> {
+
+        @Override
+        protected ArrayList<DataStructure.SimpleBusiness> doInBackground(Request... requests) {
+            try (Response response = client.newCall(requests[0]).execute()) {
+                return parseInvested(response.body().string());
+            } catch (IOException e) {
+                Log.e("ShenYien", "Shouldn't have an error here");
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<DataStructure.SimpleBusiness> result) {
+            EventBus.getDefault().post(new GetBusinessListEvent(result));
+        }
+    }
+
+    private static ArrayList<DataStructure.SimpleBusiness> parseInvested(String response) {
+        ArrayList<DataStructure.SimpleBusiness> arrayList = new ArrayList<>();
+        try {
+            JSONArray businessList = new JSONArray(response);
+            for (int i = 0; i < businessList.length(); i++) {
+                JSONObject business = businessList.getJSONObject(i);
+                DataStructure.SimpleBusiness theBusiness = new DataStructure.SimpleBusiness();
+                theBusiness.businessId = business.getInt("bus_id");
+                theBusiness.businessName = business.getString("bus_name");
+                theBusiness.phase = business.getInt("bus_share_phase");
+                theBusiness.type = business.getString("bus_type");
+                theBusiness.valuation = business.getInt("bus_valuation");
+                theBusiness.logoPath = business.getString("bus_fpath_logo");
+                theBusiness.purchasedPercent = business.getInt("puchased_percent");
+                theBusiness.invested = business.getInt("invested");
+                arrayList.add(theBusiness);
+            }
+        } catch (JSONException e) {
+            Log.e("ShenYien", "Oh no");
+            Log.e("ShenYien", e.toString());
+        }
+        return arrayList;
+    }
+
 
     private static DataStructure.BusinessProfileDetails parseBusinessDetails(String details) {
         DataStructure.BusinessProfileDetails business = new DataStructure.BusinessProfileDetails();
@@ -423,52 +506,5 @@ public class APICaller {
                         .url(baseUrl + "business/info/user/" + userID)
                         .build();
         new GetPersonalBusinessTask().execute(request);
-    }
-
-    private static class GetPersonalBusinessTask extends AsyncTask<Request, Integer, DataStructure.BusinessProfileDetails> {
-        @Override
-        protected DataStructure.BusinessProfileDetails doInBackground(Request... requests) {
-            DataStructure.BusinessProfileDetails profileDetails = new DataStructure.BusinessProfileDetails();
-            try (Response response = client.newCall(requests[0]).execute()) {
-                return parsePersonalBusinessDetails(response.body().string());
-            } catch (IOException e) {
-                Log.e("RuiJun", "Request to server problem", e);
-                profileDetails.name = "ServerFailedUs";
-                return profileDetails;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(DataStructure.BusinessProfileDetails result) {
-            EventBus.getDefault().post(new GetPersonalBusinessDetails(result));
-        }
-    }
-
-    private static DataStructure.BusinessProfileDetails parsePersonalBusinessDetails(String details) {
-        DataStructure.BusinessProfileDetails profileDetails = new DataStructure.BusinessProfileDetails();
-        try {
-            JSONObject jsonObject = new JSONObject(details);
-            try {
-                String noBusiness = jsonObject.get("Error").toString();
-                Log.d("RuiJun","No business exists");
-                profileDetails.name = "NO_EXISTING_BUSINESS";
-                return profileDetails;
-            } catch (JSONException e) {
-                Log.d("RuiJun","Business does exists for this user");
-                profileDetails.type = jsonObject.get("bus_lic_no").toString();
-                profileDetails.name = jsonObject.get("bus_name").toString();
-                profileDetails.phase = jsonObject.getInt("bus_phase");
-                profileDetails.valuation = jsonObject.get("bus_valuation").toString();
-                profileDetails.commencementDate = jsonObject.get("bus_start_date").toString();  // this is actually the proposed date, put into commencement date as data holder only
-                profileDetails.shareBought = String.format(Locale.getDefault(),"%d",Math.round(Float.parseFloat(profileDetails.valuation)
-                        * jsonObject.getInt("share_bought")/100f));
-                Log.d("RuiJun share bought", profileDetails.shareBought);
-                return profileDetails;
-            }
-
-        } catch (JSONException e) {
-            Log.d("RuiJun", "JSON parsing error", e);
-            return null;
-        }
     }
 }

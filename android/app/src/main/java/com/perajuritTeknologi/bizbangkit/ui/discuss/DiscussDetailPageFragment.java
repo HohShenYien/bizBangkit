@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.perajuritTeknologi.bizbangkit.DataStructure;
 import com.perajuritTeknologi.bizbangkit.R;
 
@@ -33,44 +34,68 @@ import java.util.ArrayList;
 
 public class DiscussDetailPageFragment extends Fragment{
     private View root;
-    private RecyclerView replyList;
-    private LinearLayout topLayout;
 
     private DiscussReplyListAdapter discussReplyListAdapter;
     private ImageButton backBtn;
-    private DataStructure.SimpleForumReply replyDetail;
+    private ArrayList<DataStructure.SimpleForumReply> replies;
     private DataStructure.SimpleForumPost details;
+
+    private TextView votes, title, content, date, views, username;
+    private TextInputEditText replyText;
+    private ListView replyList;
+    private ImageView upvote, downvote, replyBtn;
+
+    public DiscussDetailPageFragment(DataStructure.SimpleForumPost post,
+                                     ArrayList<DataStructure.SimpleForumReply> replies) {
+        this.replies = replies;
+        this.details = post;
+    }
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        root = inflater.inflate(R.layout.discuss_post_list_layout, container, false);
-        //Log.d("Syahilan", DiscussPage.postDetailId + "-----");
+        root = inflater.inflate(R.layout.discuss_post_discussion, container, false);
 
         setUpComponents();
         setUpAdapter();
         setUpList();
-        //setUpBackBtn();
 
         return root;
     }
 
     private void setUpAdapter()
     {
-        //discussReplyListAdapter = new DiscussReplyListAdapter();
+        discussReplyListAdapter = new DiscussReplyListAdapter(getContext(), replies);
     }
 
 
     private void setUpComponents() {
-//        topLayout = root.findViewById(R.id.discuss_Detail_Container);
-//        replyList = root.findViewById(R.id.reply_lists);
-//        backBtn = root.findViewById(R.id.post_detail_back_btn);
+        votes = root.findViewById(R.id.vote_count);
+        username = root.findViewById(R.id.post_username);
+        title = root.findViewById(R.id.post_title);
+        content = root.findViewById(R.id.post_content);
+        date = root.findViewById(R.id.post_date);
+        views = root.findViewById(R.id.view_count);
+        replyList = root.findViewById(R.id.reply_list);
+        upvote = root.findViewById(R.id.upvote_btn);
+        downvote = root.findViewById(R.id.downvote_btn);
+        replyBtn = root.findViewById(R.id.reply_btn);
+        replyText = root.findViewById(R.id.reply_reply);
+
+        votes.setText(details.postVoteCount);
+        username.setText(details.username);
+        title.setText(details.postTitle);
+        content.setText(details.postContent);
+        date.setText(details.postDate);
+        views.setText(details.postViewCount);
     }
 
     private void setUpList() {
         replyList.setAdapter(discussReplyListAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext());
-        replyList.setLayoutManager(linearLayoutManager);
+    }
+
+    private void setUpBtn() {
+
     }
 }

@@ -52,20 +52,16 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
             app:el_duration="1000"
             app:el_expanded="false"
             tools:layout_editor_absoluteY="32dp">
 
-            <TextView
+            <ImageView
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="#00b300"
-                android:clipToPadding="false"
-                android:elevation="4dp"
-                android:gravity="center"
-                android:text="Fixed height"
-                android:textColor="#fff" />
+                android:src="@drawable/finance_details"
+                android:layout_margin="0dp"
+                android:padding="0dp"/>
 
         </net.cachapa.expandablelayout.ExpandableLayout>
 
@@ -108,17 +104,21 @@
             app:el_duration="1000"
             app:el_expanded="false"
             tools:layout_editor_absoluteY="65dp">
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="#00b300"
-                android:clipToPadding="false"
-                android:elevation="4dp"
-                android:gravity="center"
-                android:text="Fixed height"
-                android:textColor="#fff" />
-
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:paddingHorizontal="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:gravity="center"
+                    android:text="Total revenue is currently not available until sufficient funds have been received."
+                    android:textSize="16sp"
+                    android:textColor="#000" />
+            </LinearLayout>
         </net.cachapa.expandablelayout.ExpandableLayout>
 
         <LinearLayout
@@ -160,15 +160,21 @@
             app:el_expanded="false"
             tools:layout_editor_absoluteY="97dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="#00b300"
-                android:clipToPadding="false"
-                android:elevation="4dp"
-                android:gravity="center"
-                android:text="Fixed height"
-                android:textColor="#fff" />
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:paddingHorizontal="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:gravity="center"
+                    android:text="Total profit is currently not available until sufficient funds have been received."
+                    android:textSize="16sp"
+                    android:textColor="#000" />
+            </LinearLayout>
 
         </net.cachapa.expandablelayout.ExpandableLayout>
 

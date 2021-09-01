@@ -19,6 +19,7 @@ public class DataStructure {
         public int businessId;
         public Bitmap logo;
         public int purchasedPercent;
+        public int invested; // for getting invesments
     }
 
     public static class UserProfileDetails {
@@ -74,6 +75,9 @@ public class DataStructure {
 
     public static class SimpleForumPost {
         public int postId;
+        public String imagePath;
+        public Bitmap pic;
+        public String username;
         public String postTitle;
         public String postContent;
         public String postDate;
@@ -82,7 +86,10 @@ public class DataStructure {
     }
 
     public static class SimpleForumReply {
+        public String imagePath;
+        public Bitmap pic;
         public int replyId;
+        public String username;
         public String replyContent;
         public String replyDate;
     }

@@ -42,6 +42,15 @@ public class ProfilePage extends Fragment {
     private TextView userName;
     ProfileAdapter profileAdapter;
     Guideline guidelineImg, guidelineTxt;
+    private int defaultPage;
+
+    public ProfilePage() {
+        defaultPage = 0;
+    }
+
+    public ProfilePage(int ind) {
+        defaultPage = ind;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +91,7 @@ public class ProfilePage extends Fragment {
     }
 
     private void setUpTabs() {
-        String[] tabNames = {"Profile", "Details"};
+        String[] tabNames = {"Profile", "Investments"};
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(tabNames[position])
@@ -103,7 +112,7 @@ public class ProfilePage extends Fragment {
 
             }
         });
-
+        viewPager.setCurrentItem(defaultPage);
     }
 
     private void setUpGuideLines() {

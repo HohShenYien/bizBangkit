@@ -37,7 +37,10 @@ public class HomePage extends Fragment {
         root = inflater.inflate(R.layout.fragment_homepage, container, false);
 
         setUpComponents();
-        //setUpPageDetails();
+        if (((MainActivity)getActivity()).userProfile != null &&
+                MainActivity.businessDetails.valuation != null) {
+            setUpPageDetails();
+        }
 
         onViewPersonalBusinessClicked();
         onPersonalBusinessLayoutClicked();

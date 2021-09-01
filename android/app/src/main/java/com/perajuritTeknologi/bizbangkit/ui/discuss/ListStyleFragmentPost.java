@@ -25,7 +25,6 @@ public class ListStyleFragmentPost extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_discuss_post_list_layout, container, false);
-        Log.d("ShenYien", "entered lists");
 
         setUpComponents();
         setUpList();
