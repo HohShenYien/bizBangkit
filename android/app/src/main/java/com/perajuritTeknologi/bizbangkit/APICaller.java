@@ -477,7 +477,9 @@ public class APICaller {
             balance.balance = "-1";
             try (Response response = client.newCall(requests[0]).execute()) {
                 try {
+                    Log.d("RuiJun", "response done");
                     JSONObject jsonObject = new JSONObject(response.body().string());
+
                     int responseCode = jsonObject.getInt("response");
                     if (responseCode == 200) {
                         balance.balance = String.format(Locale.getDefault(), "%.2f", (double)jsonObject.getInt("balance"));

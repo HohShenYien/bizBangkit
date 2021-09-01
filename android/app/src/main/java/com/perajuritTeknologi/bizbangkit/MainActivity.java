@@ -277,9 +277,4 @@ public class MainActivity extends AppCompatActivity {
         Log.d("RuiJun", "Wallet balance loaded");
         startHomePage();
     }
-
-    @Subscribe
-    public void onChangeWalletBalance(GetWalletBalance details) {
-        eWalletBalance = details.details;
-    }
 }

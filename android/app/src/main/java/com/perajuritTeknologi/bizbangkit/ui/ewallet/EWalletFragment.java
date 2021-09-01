@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import com.google.android.material.button.MaterialButton;
+import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
 import com.perajuritTeknologi.bizbangkit.Utils;
 import com.perajuritTeknologi.bizbangkit.event.ChangeWalletBalance;
@@ -23,7 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 public class EWalletFragment extends Fragment {
     private View root;
     private FragmentManager fragmentManager;
-    private static FragmentTransaction fragmentTransaction;
+    private FragmentTransaction fragmentTransaction;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class EWalletFragment extends Fragment {
 
     @Subscribe
     public void onChangeWalletBalance(ChangeWalletBalance details) {
+        MainActivity.eWalletBalance.balance = details.details.balance;
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
