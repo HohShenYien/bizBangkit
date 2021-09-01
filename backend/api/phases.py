@@ -47,6 +47,11 @@ def upload_image():
 @phases_bp.route('/wallet/<user_authkey>', methods=['POST'])
 def wallet(user_authkey):
     wal = request.form
+    ''' request needs 
+    'user_id' : user id 
+    'amount'  : withdrawal or deposit amount
+    'action'  : 'withdraw' or 'reload'
+    '''
 
     cur.execute("SELECT user_id FROM USER_T WHERE user_authkey = ?", (user_authkey,))
     check = cur.fetchone()
