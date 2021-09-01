@@ -63,18 +63,27 @@ public class HomePage extends Fragment {
     private void setUpPageDetails() {
         username.setText(((MainActivity)getActivity()).userProfile.username);
 
-        businessName.setText(MainActivity.businessDetails.name);
-        if (MainActivity.businessDetails.phase == 1) {
-            currentFundRequired = Math.round(Integer.parseInt(MainActivity.businessDetails.valuation) * 0.08);
-        } else if (MainActivity.businessDetails.phase == 2) {
-            currentFundRequired = Math.round(Integer.parseInt(MainActivity.businessDetails.valuation) * 0.3);
+        if (MainActivity.businessDetails.name.equals("NO_EXISTING_BUSINESS")) {
+            personalBusinessLayout.setVisibility(View.GONE);
+            myBusinessText.setText(("Starting a business?"));
+            viewPersonalBusiness.setText(("Begin now >"));
         }
-        fundingReceived.setText(("RM" + MainActivity.businessDetails.shareBought + " / " + currentFundRequired));
-        progressFinalValue = Math.round((float) (Integer.parseInt(MainActivity.businessDetails.shareBought) / currentFundRequired));
-        personalBusinessProgress.setProgress(progressFinalValue, false);
 
-        phaseNum.setText(String.format(Locale.getDefault(), "%d", MainActivity.businessDetails.phase));
-        phaseEnding.setText("N/A"); // temporary like this
+        else {
+
+            businessName.setText(MainActivity.businessDetails.name);
+            if (MainActivity.businessDetails.phase == 1) {
+                currentFundRequired = Math.round(Integer.parseInt(MainActivity.businessDetails.valuation) * 0.08);
+            } else if (MainActivity.businessDetails.phase == 2) {
+                currentFundRequired = Math.round(Integer.parseInt(MainActivity.businessDetails.valuation) * 0.3);
+            }
+            fundingReceived.setText(("RM" + MainActivity.businessDetails.shareBought + " / " + currentFundRequired));
+            progressFinalValue = Math.round((float) (Integer.parseInt(MainActivity.businessDetails.shareBought) / currentFundRequired));
+            personalBusinessProgress.setProgress(progressFinalValue, false);
+
+            phaseNum.setText(String.format(Locale.getDefault(), "%d", MainActivity.businessDetails.phase));
+            phaseEnding.setText("N/A"); // temporary like this
+        }
     }
 
     private void onViewPersonalBusinessClicked() {

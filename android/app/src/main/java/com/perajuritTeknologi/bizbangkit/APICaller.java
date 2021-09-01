@@ -6,10 +6,12 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.perajuritTeknologi.bizbangkit.event.BusinessOwnerEvent;
+import com.perajuritTeknologi.bizbangkit.event.ChangeWalletBalance;
 import com.perajuritTeknologi.bizbangkit.event.GetBusinessDetails;
 import com.perajuritTeknologi.bizbangkit.event.GetBusinessListEvent;
 import com.perajuritTeknologi.bizbangkit.event.GetInvestors;
 import com.perajuritTeknologi.bizbangkit.event.GetPersonalBusinessDetails;
+import com.perajuritTeknologi.bizbangkit.event.GetWalletBalance;
 import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.perajuritTeknologi.bizbangkit.event.InvestEvent;
 import com.perajuritTeknologi.bizbangkit.event.LogInEvent;
@@ -503,8 +505,83 @@ public class APICaller {
     public static void getWalletBalance(String userID) {
         Request request =
                 new Request.Builder()
-                        .url(baseUrl + "business/info/user/" + userID)
+                        .url(baseUrl + "wallet/balance/" + userID)
                         .build();
-        new GetPersonalBusinessTask().execute(request);
+        new GetWalletBalanceTask().execute(request);
+    }
+
+    private static class GetWalletBalanceTask extends AsyncTask<Request, Integer, DataStructure.EWalletBalance> {
+        @Override
+        protected DataStructure.EWalletBalance doInBackground(Request... requests) {
+            DataStructure.EWalletBalance balance = new DataStructure.EWalletBalance();
+            try (Response response = client.newCall(requests[0]).execute()) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    balance.balance = String.format(Locale.getDefault(), "%.2f", (double)jsonObject.getInt("balance"));
+                    return balance;
+                } catch (JSONException e) {
+                    Log.d("RuiJun", "JSON parsing error", e);
+                    balance.balance = "ERROR";
+                    return balance;
+                }
+            } catch (IOException e) {
+                Log.e("RuiJun", "Request to server problem", e);
+                balance.balance = "ERROR";
+                return balance;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(DataStructure.EWalletBalance result) {
+            EventBus.getDefault().post(new GetWalletBalance(result));
+        }
+    }
+
+    public static void changeWalletBalance(String userID, String userToken, String amount, String action) {
+        RequestBody requestBody
+                = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("user_id", userID)
+                .addFormDataPart("amount", amount)
+                .addFormDataPart("action", action)
+                .build();
+
+        Request request =
+                new Request.Builder()
+                .url(baseUrl + "wallet/" + userToken)
+                .post(requestBody)
+                .build();
+        new ChangeWalletBalanceTask().execute(request);
+    }
+
+    private static class ChangeWalletBalanceTask extends AsyncTask<Request, Integer, DataStructure.EWalletBalance> {
+        @Override
+        protected DataStructure.EWalletBalance doInBackground(Request... requests) {
+            DataStructure.EWalletBalance balance = new DataStructure.EWalletBalance();
+            balance.balance = "-1";
+            try (Response response = client.newCall(requests[0]).execute()) {
+                try {
+                    Log.d("RuiJun", "response done");
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+
+                    int responseCode = jsonObject.getInt("response");
+                    if (responseCode == 200) {
+                        balance.balance = String.format(Locale.getDefault(), "%.2f", (double)jsonObject.getInt("balance"));
+                    }
+                    return balance;
+                } catch (JSONException e) {
+                    Log.d("RuiJun", "JSON parsing error", e);
+                    return balance;
+                }
+
+            } catch (IOException e) {
+                Log.d("RuiJun", "Server connection issue", e);
+                return balance;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(DataStructure.EWalletBalance eWalletBalance) {
+            EventBus.getDefault().post(new ChangeWalletBalance(eWalletBalance));
+        }
     }
 }

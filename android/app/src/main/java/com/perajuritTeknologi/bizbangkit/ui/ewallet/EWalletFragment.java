@@ -13,10 +13,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import com.google.android.material.button.MaterialButton;
+import com.perajuritTeknologi.bizbangkit.MainActivity;
 import com.perajuritTeknologi.bizbangkit.R;
 import com.perajuritTeknologi.bizbangkit.Utils;
+import com.perajuritTeknologi.bizbangkit.event.ChangeWalletBalance;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class EWalletFragment extends Fragment {
     private View root;
@@ -33,7 +36,7 @@ public class EWalletFragment extends Fragment {
         return root;
     }
 
-    /*
+
     @Override
     public void onStart() {
         super.onStart();
@@ -45,7 +48,7 @@ public class EWalletFragment extends Fragment {
         EventBus.getDefault().unregister(this);
         super.onStop();
     }
-    */
+
 
     private void setUpFragmentManager() {
         fragmentManager = getParentFragmentManager();
@@ -56,10 +59,13 @@ public class EWalletFragment extends Fragment {
         fragmentTransaction.replace(R.id.eWalletFragmentContainer, new EWalletBalanceFragment()).commit();
     }
 
-    public void changeToLoadingScreen() {
-        fragmentTransaction.replace(R.id.eWalletFragmentContainer, new Utils.LoadingPage()).commit();
+    @Subscribe
+    public void onChangeWalletBalance(ChangeWalletBalance details) {
+        MainActivity.eWalletBalance.balance = details.details.balance;
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                .replace(R.id.eWalletFragmentContainer, new EWalletBalanceFragment()).commit();
     }
-
-
 
 }

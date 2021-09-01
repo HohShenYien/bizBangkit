@@ -25,6 +25,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.perajuritTeknologi.bizbangkit.event.GetPersonalBusinessDetails;
+import com.perajuritTeknologi.bizbangkit.event.GetWalletBalance;
 import com.perajuritTeknologi.bizbangkit.event.GoToBusinessPage;
 import com.perajuritTeknologi.bizbangkit.event.ImageEvent;
 import com.perajuritTeknologi.bizbangkit.event.ProfileEvent;
@@ -42,6 +43,8 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     public DataStructure.UserProfileDetails userProfile;
+    public static DataStructure.EWalletBalance eWalletBalance;
+    public static DataStructure.BusinessProfileDetails businessDetails;
     public Bitmap userImg;
     private AppBarConfiguration mAppBarConfiguration;
     private View sideNavHeader;
@@ -51,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
     // 1 for being at base page before exiting app, if more than 1 means added fragment onto pages, so pressing back closes fragment instead of the whole app
     public static int basePage = 1;
-    public static DataStructure.BusinessProfileDetails businessDetails = new DataStructure.BusinessProfileDetails();
-
-    public static DataStructure.EWalletBalance eWalletBalance = new DataStructure.EWalletBalance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
     private void getDetails() {
         getUserDetails();
         getBusinessDetails();
+        getWalletBalance();
     }
 
     public void getUserDetails() {
@@ -143,8 +144,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getBusinessDetails() {
-        businessDetails.name = "LOADING_BUSINESS"; // temporary name
         APICaller.getPersonalBusinessDetails(LocalStorage.getID());
+    }
+
+    public void getWalletBalance() {
+        APICaller.getWalletBalance(LocalStorage.getID());
     }
 
     public void changeFragment(Fragment newFragment) {
@@ -202,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startHomePage() {
         // start HomePage when everything is loaded
-        if (loading >= 2) {
+        if (loading >= 3) {
             homeFragment.setDefaultFragment();
             toolbar.setVisibility(View.VISIBLE);
         }
@@ -255,13 +259,22 @@ public class MainActivity extends AppCompatActivity {
     public void onGetPersonalBusinessDetails(GetPersonalBusinessDetails details) {
         businessDetails = details.details;
         loading++;
+        Log.d("RuiJun", "Business details loaded");
         startHomePage();
     }
 
     @Subscribe
     public void onGoToBusinessPage(GoToBusinessPage event) {
         changeFragment(new BusinessPage());
-        toolbar.setTitle("Business");
+        toolbar.setTitle(R.string.bot_nav_business);
         homeFragment.bottomNavBar.setSelectedItemId(R.id.bot_nav_business);
+    }
+
+    @Subscribe
+    public void onGetWalletBalance(GetWalletBalance details) {
+        eWalletBalance = details.details;
+        loading++;
+        Log.d("RuiJun", "Wallet balance loaded");
+        startHomePage();
     }
 }

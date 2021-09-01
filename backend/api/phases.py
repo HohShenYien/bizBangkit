@@ -55,7 +55,7 @@ def get_balance(user_id):
 # Wallet Process for transaction purposes
 @phases_bp.route('/wallet/<user_authkey>', methods=['POST'])
 def wallet(user_authkey):
-    wal = request.form
+    wal = request.json
     ''' request needs 
     'user_id' : user id 
     'amount'  : withdrawal or deposit amount
@@ -77,7 +77,7 @@ def wallet(user_authkey):
 
         if bankAccount != 0:  # it will show the bank account number
 
-            addToWallet = int(wal['amount'])
+            changeToWallet = int(wal['amount'])
 
             cur.execute("SELECT wallet_available_cash FROM USER_WALLET_T "
                         "WHERE user_id = ?", (check1,))
@@ -86,22 +86,22 @@ def wallet(user_authkey):
 
             # P2: Reload to USER_WALLET_T from bank account
             if wal['action'] == 'reload':
-                wal_avail_cash = currentBalance + addToWallet
+                wal_avail_cash = currentBalance + changeToWallet
 
                 cur.execute("UPDATE	USER_WALLET_T SET wallet_available_cash = ?, "
                             "wallet_total_deposit = wallet_total_deposit + ? WHERE user_id = ?",
-                            (wal_avail_cash, addToWallet, check1,))
+                            (wal_avail_cash, changeToWallet, check1,))
                 con.commit()
 
                 return jsonify({'response': 200, 'balance': wal_avail_cash})
 
             # P3: withdraw from USER_WALLET_T and into bank account
             elif wal['action'] == 'withdraw':
-                if currentBalance >= addToBankAcc:  # should have more than withdrawal amount in eWallet
-                    wal_avail_cash = currentBalance - addToBankAcc  # will be 0
+                if currentBalance >= changeToWallet:  # should have more than withdrawal amount in eWallet
+                    wal_avail_cash = currentBalance - changeToWallet  # will be 0
                     cur.execute("UPDATE	USER_WALLET_T SET wallet_available_cash = ?, "
                                 "wallet_total_withdraw = wallet_total_withdraw + ? WHERE user_id = ?",
-                                (wal_avail_cash, addToBankAcc, check1,))
+                                (wal_avail_cash, changeToWallet, check1,))
                     con.commit()
 
                     return jsonify({'response': 200, 'balance': wal_avail_cash})
