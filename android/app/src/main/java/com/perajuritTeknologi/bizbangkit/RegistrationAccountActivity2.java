@@ -365,7 +365,8 @@ public class RegistrationAccountActivity2 extends AppCompatActivity {
                 .addFormDataPart("dob", userDetails.dob)
                 .addFormDataPart("phone_num", userDetails.phoneNumber)
                 .addFormDataPart("email", userDetails.email)
-                .addFormDataPart("gender", userDetails.gender);
+                .addFormDataPart("gender", userDetails.gender)
+                .addFormDataPart("user_bank_acc_no", "333333333");
 
         if (userDetails.profilePicture != null) {
             Log.d("Ruijunnnnnnnnnnnnnnnnnn", "profile_pic" + userDetails.profilePictureType);

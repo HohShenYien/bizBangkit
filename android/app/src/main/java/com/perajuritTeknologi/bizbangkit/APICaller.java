@@ -417,5 +417,58 @@ public class APICaller {
         return profile;
     }
 
+    public static void getWalletBalance(String userID) {
+        Request request =
+                new Request.Builder()
+                        .url(baseUrl + "business/info/user/" + userID)
+                        .build();
+        new GetPersonalBusinessTask().execute(request);
+    }
 
+    private static class GetPersonalBusinessTask extends AsyncTask<Request, Integer, DataStructure.BusinessProfileDetails> {
+        @Override
+        protected DataStructure.BusinessProfileDetails doInBackground(Request... requests) {
+            DataStructure.BusinessProfileDetails profileDetails = new DataStructure.BusinessProfileDetails();
+            try (Response response = client.newCall(requests[0]).execute()) {
+                return parsePersonalBusinessDetails(response.body().string());
+            } catch (IOException e) {
+                Log.e("RuiJun", "Request to server problem", e);
+                profileDetails.name = "ServerFailedUs";
+                return profileDetails;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(DataStructure.BusinessProfileDetails result) {
+            EventBus.getDefault().post(new GetPersonalBusinessDetails(result));
+        }
+    }
+
+    private static DataStructure.BusinessProfileDetails parsePersonalBusinessDetails(String details) {
+        DataStructure.BusinessProfileDetails profileDetails = new DataStructure.BusinessProfileDetails();
+        try {
+            JSONObject jsonObject = new JSONObject(details);
+            try {
+                String noBusiness = jsonObject.get("Error").toString();
+                Log.d("RuiJun","No business exists");
+                profileDetails.name = "NO_EXISTING_BUSINESS";
+                return profileDetails;
+            } catch (JSONException e) {
+                Log.d("RuiJun","Business does exists for this user");
+                profileDetails.type = jsonObject.get("bus_lic_no").toString();
+                profileDetails.name = jsonObject.get("bus_name").toString();
+                profileDetails.phase = jsonObject.getInt("bus_phase");
+                profileDetails.valuation = jsonObject.get("bus_valuation").toString();
+                profileDetails.commencementDate = jsonObject.get("bus_start_date").toString();  // this is actually the proposed date, put into commencement date as data holder only
+                profileDetails.shareBought = String.format(Locale.getDefault(),"%d",Math.round(Float.parseFloat(profileDetails.valuation)
+                        * jsonObject.getInt("share_bought")/100f));
+                Log.d("RuiJun share bought", profileDetails.shareBought);
+                return profileDetails;
+            }
+
+        } catch (JSONException e) {
+            Log.d("RuiJun", "JSON parsing error", e);
+            return null;
+        }
+    }
 }

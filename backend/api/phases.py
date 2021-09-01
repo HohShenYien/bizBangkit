@@ -43,6 +43,15 @@ def upload_image():
     return path
 
 
+# Get wallet balance
+@phases_bp.route('/wallet/balance/<user_id>', methods=['GET'])
+def get_balance(user_id):
+    cur.execute("SELECT wallet_available_cash FROM USER_WALLET_T WHERE user_id = ?", (user_id, ))
+    balance = cur.fetchone()
+
+    return jsonify({'response': 200, 'balance': balance})
+
+
 # Wallet Process for transaction purposes
 @phases_bp.route('/wallet/<user_authkey>', methods=['POST'])
 def wallet(user_authkey):
