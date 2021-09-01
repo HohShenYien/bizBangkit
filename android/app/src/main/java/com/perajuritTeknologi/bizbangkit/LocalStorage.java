@@ -22,6 +22,16 @@ public class LocalStorage {
                 Context.MODE_PRIVATE);
     }
 
+    public static boolean firstTime() {
+        if ( sharedPreferences.contains("First Time") ) {
+            return false;
+        }
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("First Time", "No");
+        editor.commit();
+        return true;
+    }
+
     public static boolean isLoggedIn() {
         return sharedPreferences.contains(LOGIN_TOKEN) &&
                 sharedPreferences.contains(ID_TOKEN);

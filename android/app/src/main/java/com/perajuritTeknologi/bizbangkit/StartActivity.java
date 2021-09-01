@@ -23,10 +23,14 @@ public class StartActivity extends AppCompatActivity {
 
     private void redirect() {
         Intent intent;
-        if (LocalStorage.isLoggedIn()) {
-            intent = new Intent(getApplicationContext(), MainActivity.class);
+        if (LocalStorage.firstTime()) {
+            intent = new Intent(getApplicationContext(), FirstTimeActivity.class);
         } else {
-            intent = new Intent(getApplicationContext(), LoginActivity.class);
+            if (LocalStorage.isLoggedIn()) {
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+            } else {
+                intent = new Intent(getApplicationContext(), LoginActivity.class);
+            }
         }
         startActivity(intent);
     }
