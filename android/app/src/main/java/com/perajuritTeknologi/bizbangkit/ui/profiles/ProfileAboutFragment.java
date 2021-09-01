@@ -89,6 +89,6 @@ public class ProfileAboutFragment extends Fragment {
     }
 
     public static String parsePhone(String phone) {
-        return "+60" + phone;
+        return "+60" + phone.substring(0, 2) + " - " + phone.substring(2);
     }
 }

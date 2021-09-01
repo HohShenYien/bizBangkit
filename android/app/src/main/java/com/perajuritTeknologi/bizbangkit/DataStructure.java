@@ -58,18 +58,33 @@ public class DataStructure {
         public int phase;
     }
 
+    public static class Investor {
+        public int userId;
+        public int sharePercent;
+        public String userGender;
+        public String username;
+        public String userPicPath;
+        public Bitmap userPic;
+    }
+
     public static class ImageAndId {
         public Bitmap image;
         public String image_id; // for you to set which id is it for
     }
 
     public static class SimpleForumPost {
-        public String postId;
+        public int postId;
         public String postTitle;
         public String postContent;
         public String postDate;
         public int postViewCount;
         public int postVoteCount;
+    }
+
+    public static class SimpleForumReply {
+        public int replyId;
+        public String replyContent;
+        public String replyDate;
     }
 
     public static class EWalletBalance {

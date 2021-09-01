@@ -37,7 +37,6 @@ public class HomeFragment extends Fragment {
         setUpBottomNavBar();
         setUpFragmentManager();
         setUpFragmentSwitch();
-        setDefaultFragment();
         setUpSelfInMainActivitiy();
         return root;
     }
@@ -54,13 +53,15 @@ public class HomeFragment extends Fragment {
     private void setUpBottomNavBar() {
         bottomNavBar = root.findViewById(R.id.bottom_navigation);
         bottomNavBar.setSelectedItemId(R.id.bot_nav_home);
+        bottomNavBar.setVisibility(View.GONE);
     }
 
-    private void setDefaultFragment() {
+    public void setDefaultFragment() {
         Fragment homePage = new HomePage();
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container,
                 homePage).commit();
+        bottomNavBar.setVisibility(View.VISIBLE);
     }
 
     private void setUpFragmentSwitch() {

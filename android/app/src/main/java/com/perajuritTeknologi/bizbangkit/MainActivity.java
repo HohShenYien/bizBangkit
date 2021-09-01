@@ -31,7 +31,6 @@ import com.perajuritTeknologi.bizbangkit.event.ProfileEvent;
 import com.perajuritTeknologi.bizbangkit.event.SaveProfileResponse;
 import com.perajuritTeknologi.bizbangkit.event.TabChanged;
 import com.perajuritTeknologi.bizbangkit.page.BusinessPage;
-import com.perajuritTeknologi.bizbangkit.page.HomePage;
 import com.perajuritTeknologi.bizbangkit.page.ProfilePage;
 import com.perajuritTeknologi.bizbangkit.ui.home.HomeFragment;
 
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private View sideNavHeader;
     private Toolbar toolbar;
     private HomeFragment homeFragment;
+    private int loading; // once loaded 2 information only enter homepage
 
     // 1 for being at base page before exiting app, if more than 1 means added fragment onto pages, so pressing back closes fragment instead of the whole app
     public static int basePage = 1;
@@ -60,12 +60,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        changeFragment(new Utils.LoadingPage());
         setUpToolBar();
         setUpNavigation();
-        getUserDetails();
-        getBusinessDetails();
-
+        getDetails();
+        homeFragment.changeFragment(new Utils.LoadingPage(), false);
     }
 
     @Override
@@ -96,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpToolBar() {
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.GONE);
         setSupportActionBar(toolbar);
     }
 
@@ -134,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void getDetails() {
+        getUserDetails();
+        getBusinessDetails();
+    }
+
     public void getUserDetails() {
         APICaller.getProfile(LocalStorage.getID());
     }
@@ -145,10 +149,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void changeFragment(Fragment newFragment) {
         homeFragment.changeFragment(newFragment, false);
-    }
-
-    public void changeFragment(Fragment newFragment, boolean allowBack) {
-        homeFragment.changeFragment(newFragment, allowBack);
     }
 
     public void setHomeFragment(HomeFragment homeFragment) {
@@ -200,6 +200,14 @@ public class MainActivity extends AppCompatActivity {
         }, 1000); // delayed 1.5s so that the app can retrieve new details from server
     }
 
+    private void startHomePage() {
+        // start HomePage when everything is loaded
+        if (loading >= 2) {
+            homeFragment.setDefaultFragment();
+            toolbar.setVisibility(View.VISIBLE);
+        }
+    }
+
     // events
     @Subscribe
     public void onMessageEvent(TabChanged event) {
@@ -223,26 +231,31 @@ public class MainActivity extends AppCompatActivity {
         this.userProfile = event.profile;
         if (userProfile.picturePath.compareTo("./pictures/default.png") == 0) {
             userImg = null;
+            loading++;
         } else {
             APICaller.getImg(userProfile.picturePath, "user", "main-activity");
         }
-        this.userImg = null;
+        userImg = null;
         setUpUserImg();
         setUserDetail();
+        startHomePage();
     }
 
     @Subscribe
     public void onUserImageEvent(ImageEvent event) {
         if (event.event_id.compareTo("main-activity") == 0) {
             this.userImg = event.image.image;
+            loading++;
             setUpUserImg();
+            startHomePage();
         }
     }
 
     @Subscribe
     public void onGetPersonalBusinessDetails(GetPersonalBusinessDetails details) {
         businessDetails = details.details;
-        changeFragment(new HomePage());
+        loading++;
+        startHomePage();
     }
 
     @Subscribe

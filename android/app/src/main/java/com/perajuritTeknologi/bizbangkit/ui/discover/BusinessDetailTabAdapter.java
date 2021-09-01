@@ -1,15 +1,26 @@
 package com.perajuritTeknologi.bizbangkit.ui.discover;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.perajuritTeknologi.bizbangkit.DataStructure;
 import com.perajuritTeknologi.bizbangkit.ui.profiles.ProfileAboutFragment;
 import com.perajuritTeknologi.bizbangkit.ui.profiles.ProfileDetailsFragment;
 
+import java.util.ArrayList;
+
 public class BusinessDetailTabAdapter extends FragmentStateAdapter {
-    public BusinessDetailTabAdapter(@NonNull Fragment fragment) {
+    private DataStructure.BusinessProfileDetails details;
+    private ArrayList<DataStructure.Investor> investors;
+
+    public BusinessDetailTabAdapter(@NonNull Fragment fragment, DataStructure.BusinessProfileDetails details,
+                                    ArrayList<DataStructure.Investor> investors) {
         super(fragment);
+        this.details = details;
+        this.investors = investors;
     }
 
     @NonNull
@@ -18,16 +29,16 @@ public class BusinessDetailTabAdapter extends FragmentStateAdapter {
         Fragment fragment;
         switch (position) {
             case 0:
-                fragment = new BusinessDetailAbout();
+                fragment = new BusinessDetailAbout(details);
                 break;
             case 1:
                 fragment = new BusinessDetailFinance();
                 break;
             case 2:
-                fragment = new BusinessDetailInvestors();
+                fragment = new BusinessDetailInvestors(investors, details);
                 break;
             default:
-                fragment = new BusinessDetailAbout();
+                fragment = new BusinessDetailAbout(details);
         }
 
         return fragment;
