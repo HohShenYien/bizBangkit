@@ -1,6 +1,7 @@
 package com.perajuritTeknologi.bizbangkit.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,14 @@ public class HomeFragment extends Fragment {
         setUpFragmentManager();
         setUpFragmentSwitch();
         setUpSelfInMainActivitiy();
+
+        if (((MainActivity)getActivity()).userProfile != null &&
+                MainActivity.businessDetails != null &&
+                MainActivity.eWalletBalance != null
+        ) {
+            setDefaultFragment();
+        }
+
         return root;
     }
 

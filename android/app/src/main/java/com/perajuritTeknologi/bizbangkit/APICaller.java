@@ -338,13 +338,13 @@ public class APICaller {
         return investors;
     }
 
-    public static void invest(int userId, int busId, int phase) {
+    public static void invest(String userId, int busId, int phase) {
         MultipartBody.Builder builder
                 = new MultipartBody.Builder().setType(MultipartBody.FORM).
-                addFormDataPart("user_id", Integer.toString(userId));
+                addFormDataPart("user_id", userId);
         RequestBody requestBody = builder.build();
         Request request = new Request.Builder().
-                url(baseUrl + "business/investors/" + busId)
+                url(baseUrl + "phase" + phase + "/buy/" + busId)
                 .post(requestBody).build();
         new InvestTask().execute(request);
     }
@@ -355,14 +355,16 @@ public class APICaller {
             try (Response response = client.newCall(requests[0]).execute()) {
                 try {
                     JSONObject object = new JSONObject(response.body().string());
-                    if (object.getString("Error") != null) {
+                    if (object.has("Error")) {
                         return false;
                     }
                     return true;
                 } catch (JSONException e) {
+                    Log.e("ShenYien", e.toString());
                     return false;
                 }
             } catch (IOException e) {
+                Log.e("ShenYien", e.toString());
                 return true;
             }
         }

@@ -1,6 +1,7 @@
 package com.perajuritTeknologi.bizbangkit.page;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.perajuritTeknologi.bizbangkit.MainActivity;
@@ -27,7 +27,7 @@ public class HomePage extends Fragment {
     private long currentFundRequired;
     private int progressFinalValue;
     private TextView username, myBusinessText, businessName, fundingReceived, phaseNum, phaseEnding;
-    private MaterialButton viewPersonalBusiness;
+    private MaterialButton viewPersonalBusiness, viewInvested;
     private RelativeLayout personalBusinessLayout;
     private ImageView personalBusinessImage;
     private LinearProgressIndicator personalBusinessProgress;
@@ -38,10 +38,13 @@ public class HomePage extends Fragment {
 
         setUpComponents();
         if (((MainActivity)getActivity()).userProfile != null &&
-                MainActivity.businessDetails.valuation != null) {
+                MainActivity.businessDetails != null &&
+                MainActivity.eWalletBalance != null
+        ) {
             setUpPageDetails();
         }
 
+        setUpInvestedButton();
         onViewPersonalBusinessClicked();
         onPersonalBusinessLayoutClicked();
         return root;
@@ -58,6 +61,7 @@ public class HomePage extends Fragment {
         viewPersonalBusiness = root.findViewById(R.id.homeViewPersonalBusiness);
         personalBusinessImage = root.findViewById(R.id.homePersonalBusinessImage);
         personalBusinessProgress = root.findViewById(R.id.homePersonalBusinessProgress);
+        viewInvested = root.findViewById(R.id.homeViewAllInvestments);
     }
 
     private void setUpPageDetails() {
@@ -95,6 +99,12 @@ public class HomePage extends Fragment {
     private void onPersonalBusinessLayoutClicked() {
         personalBusinessLayout.setOnClickListener(view -> {
             EventBus.getDefault().post(new GoToBusinessPage());
+        });
+    }
+
+    private void setUpInvestedButton() {
+        viewInvested.setOnClickListener(v-> {
+            ((MainActivity)getActivity()).changeFragment(new ProfilePage(1));
         });
     }
 }

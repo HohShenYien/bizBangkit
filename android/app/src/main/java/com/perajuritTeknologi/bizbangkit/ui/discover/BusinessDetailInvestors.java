@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -28,6 +29,7 @@ public class BusinessDetailInvestors extends Fragment {
     private ArrayList<DataStructure.Investor> investors;
     private InvestorAdapter adapter;
     private int imgId; // id of the investor images
+    private TextView info;
 
     public BusinessDetailInvestors (ArrayList<DataStructure.Investor> investors,
                                     DataStructure.BusinessProfileDetails business) {
@@ -50,10 +52,16 @@ public class BusinessDetailInvestors extends Fragment {
 
     private void getComponents() {
         investorList = root.findViewById(R.id.discover_details_investor_list);
+        info = root.findViewById(R.id.discover_business_details_info);
     }
 
     private void setUpList() {
         investorList.setAdapter(adapter);
+        if (investors.size() == 0) {
+            info.setText("No investor yet...");
+        } else {
+            info.setVisibility(View.GONE);
+        }
     }
 
     private void setUpAdapter() {

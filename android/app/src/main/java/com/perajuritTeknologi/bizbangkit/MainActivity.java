@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startHomePage() {
         // start HomePage when everything is loaded
-        if (loading >= 3) {
+        if (loading == 3) {
             homeFragment.setDefaultFragment();
             toolbar.setVisibility(View.VISIBLE);
         }
